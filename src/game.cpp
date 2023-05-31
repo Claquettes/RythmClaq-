@@ -124,7 +124,7 @@ int Game::render(){
 
     //we render the judgement zone
     SDL_SetRenderDrawColor(renderer, 92, 191, 55, 255);
-    SDL_Rect judgementZoneRect = {40, 185, 75, 75}; //x, y, width, height
+    SDL_Rect judgementZoneRect = {19, 185, 75, 75}; //x, y, width, height
     SDL_RenderFillRect(renderer, &judgementZoneRect);
 
 
