@@ -7,6 +7,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+//TODO NEXT: SPRITES FOR THE NOTES, AND THE HITS
+
 Game::Game()
 {
     std::cout << "Game constructor called!" << std::endl;
