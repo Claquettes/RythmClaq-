@@ -35,8 +35,8 @@ void Note::update (double delta)
     note_rect.y += (speed * delta) / 100;
 }
 
-void Note::moveNote()
+void Note::moveNote(int multiplier)
 {
     //we move the note
-    note_rect.x -= speed;
+    note_rect.x -= speed*multiplier;
 }

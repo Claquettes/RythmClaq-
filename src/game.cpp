@@ -144,7 +144,7 @@ void Game::update()
 {   
     std::cout << "Update tick" << std::endl;
     //we update the notes, by sliding them to the left by 1 pixel
-    int multiplier = SDL_GetTicks() / 1000;
+    int multiplier = SDL_GetTicks() / 1700;
     for (int i = 0; i < notes.size(); i++)
     {
         //we call the moveNote method on every note

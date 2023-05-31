@@ -28,7 +28,7 @@ class Note {
 
         // methods
         void spawnNote();
-        void moveNote();
+        void moveNote(int multiplier);
         void update(double delta);
 
         SDL_Rect getNoteRect() const; //we add the const keyword to the method, because we don't want to modify the note_rect
