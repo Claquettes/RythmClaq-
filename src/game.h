@@ -48,7 +48,9 @@ class Game {
 
         double startTime = 0;
         double DELAY_BETWEEN_FRAMES = 10;
-        double speed = 1;
+        double speed = 2;
+        double score = 0;
+        double combo = 0;
         int nextNoteToHit = 0;
         // the window we'll be rendering to
         SDL_Window* window;
