@@ -26,9 +26,6 @@ class JudgementLine {
     private:
         //we create a rect to represent the judgement line
         SDL_Rect judgement_line_rect;
-        
-        
-        
 };
 
 #endif // JUDGEMENTLINE_H

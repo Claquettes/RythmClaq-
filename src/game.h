@@ -38,6 +38,12 @@ class Game {
         // we create the notes
         Note note1;
 
+        double timer = 0;
+        double delta = 0;
+
+        void update();
+
+
 };
 
 #endif // GAME_H

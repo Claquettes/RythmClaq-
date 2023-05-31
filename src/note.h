@@ -29,12 +29,13 @@ class Note {
         // methods
         void spawnNote();
         void moveNote();
+        void update(double delta);
 
         SDL_Rect getNoteRect() const; //we add the const keyword to the method, because we don't want to modify the note_rect
     private:
         int x = 0;
         int y = 0;
-        int speed = 10;
+        const int speed = 1;
         //we create a rect to represent the note
         SDL_Rect note_rect;
         //we create the getNoteRect method

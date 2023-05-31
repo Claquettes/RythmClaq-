@@ -31,7 +31,9 @@ Game::~Game()
 }
 
 int Game::init()
-{
+{   //we need to reset the RANDOM SEED
+    srand(time(NULL)); 
+
     // we initialize the SDL library
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -59,15 +61,15 @@ int Game::init()
     
     // we set the readyToStart flag to true
     readyToStart = true;
+    //we start the timer
+    timer = 0;
+    
 
     return 0;
 }
 
 int Game::gameLoop()
 {
-    //we need to reset the RANDOM SEED
-    srand(time(NULL)); 
-
     // main loop flag
     bool quit = false;
 
@@ -101,6 +103,19 @@ int Game::gameLoop()
             }
         }
         render();
+        //we cout the timer value
+        std::cout << "Timer value: " << timer << std::endl;
+        //if the timer is greater than 100, we reset it and we update the notes
+        if (timer > 200)
+        {
+            timer = 0;
+            update();
+        }
+        else
+        {
+            timer++;
+        }
+        
     }
     //we call the destructor
     Game::~Game();
@@ -129,14 +144,21 @@ int Game::render(){
     SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
     SDL_RenderFillRect(renderer, &judgementLineRect);
 
-    //we cout the coordinates of the judgement line
-    std::cout << "Judgement line coordinates: " << judgementLineRect.x << ", " << judgementLineRect.y << std::endl;
-    //we cout the height of the judgement line, and the width
-    std::cout << "Judgement line height: " << judgementLineRect.h << std::endl;
-    std::cout << "Judgement line width: " << judgementLineRect.w << std::endl;
-    
-
     //we render the changes above
     SDL_RenderPresent(renderer);
     return 0;
+}
+
+void Game::update()
+{   
+    std::cout << "Update tick" << std::endl;
+    delta ++;
+    //we update the notes, by sliding them to the left by 1 pixel
+    for (int i = 0; i < notes.size(); i++)
+    {
+        //we call the moveNote method on every note
+        notes[i].moveNote();
+        //we cout the x position of the note
+        std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
+    }
 }
