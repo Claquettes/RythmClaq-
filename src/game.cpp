@@ -156,8 +156,22 @@ void Game::update()
         std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
     }
 
+    //we MAYBE spawn a new note every BEAT
+    if (SDL_GetTicks() % BEAT < 10)
+    {
+        if (rand() % 100 < 90)
+        {
+            //we create a new note
+            Note newNote;
+            newNote.placeNote(700);
+            //we add it to the array
+            notes.push_back(newNote);
+            //we cout the size of the array
+            std::cout << "Size of the array: " << notes.size() << std::endl;
+        }
+    }
 
-    //to maitain rythm, we can only spawn a new note every 1/8 of a BEAT (for now a beat is 1000ms)
+    //to maitain rythm, we can only spawn a new note every 1/8 of a BEAT -lowest precision(for now a beat is 1000ms)
     //we MAYBE spawn a new note every 1/8 of a beat
     if (SDL_GetTicks() % EIGHTH_BEAT < 10)
     {
