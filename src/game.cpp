@@ -61,8 +61,7 @@ int Game::init()
     
     // we set the readyToStart flag to true
     readyToStart = true;
-    //we start the timer
-    timer = 0;
+    startTime = SDL_GetTicks();
     
 
     return 0;
@@ -102,19 +101,11 @@ int Game::gameLoop()
                 quit = true;
             }
         }
+        if (SDL_GetTicks() - startTime > DELAY_BETWEEN_FRAMES) { //sdlticks returns the number of milliseconds since the SDL library was initialized
+                startTime = SDL_GetTicks(); // reset the starting time to the current time
+                update();
+            }
         render();
-        //we cout the timer value
-        std::cout << "Timer value: " << timer << std::endl;
-        //if the timer is greater than 100, we reset it and we update the notes
-        if (timer > 200)
-        {
-            timer = 0;
-            update();
-        }
-        else
-        {
-            timer++;
-        }
         
     }
     //we call the destructor
@@ -152,12 +143,12 @@ int Game::render(){
 void Game::update()
 {   
     std::cout << "Update tick" << std::endl;
-    delta ++;
     //we update the notes, by sliding them to the left by 1 pixel
+    int multiplier = SDL_GetTicks() / 1000;
     for (int i = 0; i < notes.size(); i++)
     {
         //we call the moveNote method on every note
-        notes[i].moveNote();
+        notes[i].moveNote(multiplier);
         //we cout the x position of the note
         std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
     }

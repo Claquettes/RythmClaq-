@@ -38,8 +38,8 @@ class Game {
         // we create the notes
         Note note1;
 
-        double timer = 0;
-        double delta = 0;
+        double startTime = 0;
+        double DELAY_BETWEEN_FRAMES = 10;
 
         void update();
 
