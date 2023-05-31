@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "note.h"
+#include "judgementLine.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -26,6 +27,9 @@ class Game {
 
         //we define the array of notes
         std::vector<Note> notes;
+
+        //we define the judgement line
+        JudgementLine judgementLine;
     private:
         bool readyToStart = false;
         // the window we'll be rendering to

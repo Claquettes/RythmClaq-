@@ -1,5 +1,6 @@
 #include "game.h"
 #include "note.h"
+#include "judgementLine.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -53,7 +54,9 @@ int Game::init()
     }
     // we set the color of the renderer to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
+    //we place the judgement line
+    
+    
     // we set the readyToStart flag to true
     readyToStart = true;
 
@@ -65,7 +68,6 @@ int Game::gameLoop()
     //we need to reset the RANDOM SEED
     srand(time(NULL)); 
 
-
     // main loop flag
     bool quit = false;
 
@@ -74,7 +76,6 @@ int Game::gameLoop()
     Note note2;
     Note note3;
     Note note4;
-
 
     //we add the notes to the array
     notes.push_back(note1);
@@ -116,13 +117,17 @@ int Game::render(){
 
     //we render the notes present in the array
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    
-    for (int i = 0; i < notes.size(); i++)
+    for (int i = 0; i < notes.size(); i++) 
     {
         //we use the getNoteRect method to get the SDL_Rect of the note
         SDL_Rect noteRect = notes[i].getNoteRect();
         SDL_RenderFillRect(renderer, &noteRect);
     }
+
+    //we render the judgement line
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
+    SDL_RenderFillRect(renderer, &judgementLineRect);
 
 
     //we render the changes above
