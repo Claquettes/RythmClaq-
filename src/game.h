@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-
+#include "note.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,11 +22,14 @@ class Game {
         // methods
         int init();
         int gameLoop();
+        int render();
     private:
         bool readyToStart = false;
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
+        // we create the notes
+        Note note1;
 
 };
 

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "note.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,28 +19,45 @@ Game::Game()
     gameLoop();
 }
 
-Game::~Game() {
+Game::~Game()
+{
     // destructor implementation
-    std::cout<< "Game destructor called!" << std::endl;
+    std::cout << "Game destructor called!" << std::endl;
 }
 
-int Game::init(){ 
+int Game::init()
+{
     // we initialize the SDL library
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         std::cout << "SDL could not be initialized! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
     }
-    //we create the window
+    // we create the window
     window = SDL_CreateWindow("SDL2 Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-    //we create the renderer
+    if (window == nullptr)
+    {
+        std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    // we create the renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    //we set the color of the renderer to white
+    if (renderer == nullptr)
+    {
+        std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    // we set the color of the renderer to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    // we set the readyToStart flag to true
     readyToStart = true;
+
     return 0;
 }
 
-int Game::gameLoop(){
+int Game::gameLoop()
+{
     // main loop flag
     bool quit = false;
     // event handler
@@ -58,6 +76,13 @@ int Game::gameLoop(){
         }
         // clear the screen
         SDL_RenderClear(renderer);
+
+       //we get the note rect
+         SDL_Rect note_rect = note1.getNoteRect();
+        // we render the note
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &note_rect);
+
         // update the screen
         SDL_RenderPresent(renderer);
     }
