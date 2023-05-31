@@ -145,14 +145,33 @@ void Game::update()
     std::cout << "Update tick" << std::endl;
 
     //we update the speed of the notes
-    speed = speed + SDL_GetTicks() / 4000;
+    speed = speed + SDL_GetTicks() / 40000;
 
     //we update the notes, by sliding them to the left by 1 pixel
     for (int i = 0; i < notes.size(); i++)
-    {
+    {   
         //we call the moveNote method on every note
         notes[i].moveNote(speed);
         //we cout the x position of the note
         std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
     }
+
+
+    //to maitain rythm, we can only spawn a new note every 1/8 of a BEAT (for now a beat is 1000ms)
+    //we MAYBE spawn a new note every 1/8 of a beat
+    if (SDL_GetTicks() % EIGHTH_BEAT < 10)
+    {
+        if (rand() % 100 < 10)
+        {
+            //we create a new note
+            Note newNote;
+            newNote.placeNote(700);
+            //we add it to the array
+            notes.push_back(newNote);
+            //we cout the size of the array
+            std::cout << "Size of the array: " << notes.size() << std::endl;
+        }
+    }
+
+
 }

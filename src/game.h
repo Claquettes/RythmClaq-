@@ -32,17 +32,19 @@ class Game {
         JudgementLine judgementLine;
     private:
         bool readyToStart = false;
+        const int BEAT = 1000;
+        const int HALF_BEAT = BEAT / 2;
+        const int QUARTER_BEAT = BEAT / 4;
+        const int EIGHTH_BEAT = BEAT / 8;
+        double startTime = 0;
+        double DELAY_BETWEEN_FRAMES = 10;
+        double speed = 1;
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
-        // we create the notes
+        // we create the first note
         Note note1;
-
-        double startTime = 0;
-        double DELAY_BETWEEN_FRAMES = 10;
-
-        double speed = 1;
-
+        
         void update();
 
 

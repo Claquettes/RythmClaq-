@@ -34,3 +34,10 @@ void Note::moveNote(int speed)
     //we move the note
     note_rect.x -= speed;
 }
+
+void Note::placeNote(double xpos)
+{
+    //we place the note
+    note_rect.x = xpos;
+    note_rect.y = 200;
+}
