@@ -54,10 +54,6 @@ int Game::init()
         std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-    // we set the color of the renderer to white
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //we place the judgement line
-    
     
     // we set the readyToStart flag to true
     readyToStart = true;
@@ -120,6 +116,11 @@ int Game::render(){
     //we render the background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, NULL);
+
+    //we render the container 
+    SDL_SetRenderDrawColor(renderer, 114, 167, 214, 255);
+    SDL_Rect containerRect = {50, 150, 700, 150}; //x, y, width, height
+    SDL_RenderFillRect(renderer, &containerRect);
 
 
     for (int i = 0; i < notes.size(); i++) 

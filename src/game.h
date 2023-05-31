@@ -12,7 +12,7 @@ class Game {
     public:
         // size of the window
         const int WINDOW_WIDTH = 640;
-        const int WINDOW_HEIGHT = 480;
+        const int WINDOW_HEIGHT = 450;
 
         // constructor
         Game();
@@ -53,6 +53,8 @@ class Game {
         SDL_Renderer* renderer;
         // we create the first note
         Note note1;
+
+        
 
         void update();
 
