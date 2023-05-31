@@ -18,8 +18,7 @@ class Note {
         // size of the note
 
         int value = 0;
-        const int note_size = 50;
-
+    
         // constructor
         Note();
 
@@ -39,6 +38,7 @@ class Note {
     private:
         int x = 0;
         int y = 0;
+        bool hitable = true;
         //we create a rect to represent the note
         SDL_Rect note_rect;
         

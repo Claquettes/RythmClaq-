@@ -15,14 +15,13 @@ Note::Note()
     // we create a rect for the note, with random int values between 0 and 300
     note_rect.x = 500;
     note_rect.y = 200;
-    note_rect.w = note_size;
-    note_rect.h = note_size;
+    note_rect.w = 50;
+    note_rect.h = 50;
 }
 
 Note::~Note()
 {
-    // destructor implementation
-    std::cout << "Note destructor called!" << std::endl;
+    
 }
 
 SDL_Rect Note::getNoteRect() const
@@ -50,6 +49,10 @@ int Note::getValue() const
 
 int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
 {
+    if(!hitable)
+    {
+        return 0;
+    }
     //we check if the event is a keydown event, and if it's the correct key, a value of 1 == the key d needs to be pressed, a value of 2 == the key k needs to be pressed
     if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d && value == 1)
     {
@@ -107,3 +110,4 @@ int Note::getX() const
 {
     return note_rect.x;
 }
+

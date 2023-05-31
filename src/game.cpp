@@ -90,10 +90,13 @@ int Game::gameLoop()
             //if the user presses the D or K key,  D = red, K = green
             if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
             {
+
                 //we call the calculateNoteValue method of the first note, passing the input as a parameter
                 int hit_value = notes[0].calculateNoteValue(e, true);
                 //we print the value of the note in the console:
-                std::cout << "Note value: " << hit_value << std::endl;
+                std::cout << "Note value: " << hit_value << std::endl; 
+                //we remove the note from the array
+                notes.erase(notes.begin() + 0);
             }
         }
         if (SDL_GetTicks() - startTime > DELAY_BETWEEN_FRAMES) { //sdlticks returns the number of milliseconds since the SDL library was initialized
@@ -160,10 +163,14 @@ int Game::render(){
 
 void Game::update()
 {   
-    //we check if the first note is out of the screen; IE has a x value of less than 0
-    if (notes[0].getX() < 0)
+    if (notes.size() > 3)
     {
-        std::cout << "Note out of screen!" << std::endl;
+        //we check if the first note is out of the screen , and if it is, we delete it
+        if (notes[0].getNoteRect().x < 0)
+        {
+            std::cout << "Deleted " << std::endl;
+            notes.erase(notes.begin() + 0); //the +0 is to convert the iterator to an integer
+        }
     }
 
     //we update the speed of the notes
@@ -184,7 +191,7 @@ void Game::update()
             //we create a new note
             Note newNote;
             newNote.placeNote(WINDOW_WIDTH);
-            //we add it to the array
+            //we add it to the array, at the start of the vector, and not at the end
             notes.push_back(newNote);
         }
     }
@@ -227,6 +234,5 @@ void Game::update()
             notes.push_back(newNote);
         }
     }
-
-
 }
+

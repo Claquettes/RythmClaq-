@@ -27,6 +27,7 @@ class Game {
 
         //we define the array of notes
         std::vector<Note> notes;
+        void removeNote();
 
         //we define the judgement line
         JudgementLine judgementLine;
@@ -48,6 +49,7 @@ class Game {
         double startTime = 0;
         double DELAY_BETWEEN_FRAMES = 10;
         double speed = 1;
+        int nextNoteToHit = 0;
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
