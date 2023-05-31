@@ -129,6 +129,12 @@ int Game::render(){
     SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
     SDL_RenderFillRect(renderer, &judgementLineRect);
 
+    //we cout the coordinates of the judgement line
+    std::cout << "Judgement line coordinates: " << judgementLineRect.x << ", " << judgementLineRect.y << std::endl;
+    //we cout the height of the judgement line, and the width
+    std::cout << "Judgement line height: " << judgementLineRect.h << std::endl;
+    std::cout << "Judgement line width: " << judgementLineRect.w << std::endl;
+    
 
     //we render the changes above
     SDL_RenderPresent(renderer);

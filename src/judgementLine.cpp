@@ -7,6 +7,12 @@
 
 JudgementLine::JudgementLine(){
     std::cout << "JudgementLine constructor called!" << std::endl;
+
+    //we initialize the judgement line rect
+    judgement_line_rect.x = x;
+    judgement_line_rect.y = y;
+    judgement_line_rect.w = width;
+    judgement_line_rect.h = height;
 }
 
 JudgementLine::~JudgementLine(){
