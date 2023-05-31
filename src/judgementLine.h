@@ -16,11 +16,11 @@ class JudgementLine {
 
         //public properties
         const int width = 10;
-        const int height = 100;
+        const int height = 640;
 
         //position of the judgement line
         const int x = 50;
-        const int y = 200;
+        const int y = 0;
 
         SDL_Rect getJudgementLineRect() const; //we add the const keyword to the method, because we don't want to modify the judgement_line_rect
     private:
