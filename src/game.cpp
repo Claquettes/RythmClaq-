@@ -143,12 +143,15 @@ int Game::render(){
 void Game::update()
 {   
     std::cout << "Update tick" << std::endl;
+
+    //we update the speed of the notes
+    speed = speed + SDL_GetTicks() / 1000;
+
     //we update the notes, by sliding them to the left by 1 pixel
-    int multiplier = SDL_GetTicks() / 1700;
     for (int i = 0; i < notes.size(); i++)
     {
         //we call the moveNote method on every note
-        notes[i].moveNote(multiplier);
+        notes[i].moveNote(speed);
         //we cout the x position of the note
         std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
     }

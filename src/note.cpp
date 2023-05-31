@@ -29,14 +29,8 @@ SDL_Rect Note::getNoteRect() const
     return note_rect;
 }
 
-void Note::update (double delta)
+void Note::moveNote(int speed)
 {
     //we move the note
-    note_rect.y += (speed * delta) / 100;
-}
-
-void Note::moveNote(int multiplier)
-{
-    //we move the note
-    note_rect.x -= speed*multiplier;
+    note_rect.x -= speed;
 }

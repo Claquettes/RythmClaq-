@@ -41,6 +41,8 @@ class Game {
         double startTime = 0;
         double DELAY_BETWEEN_FRAMES = 10;
 
+        double speed = 1;
+
         void update();
 
 
