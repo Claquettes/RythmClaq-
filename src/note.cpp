@@ -11,8 +11,8 @@ Note::Note()
 {
     // constructor implementation
     std::cout << "Note constructor called!" << std::endl;
-    // we create a rect for the note
-    note_rect.x = 0;
+    // we create a rect for the note, with random int values between 0 and 300
+    note_rect.x = rand() % 300;
     note_rect.y = 200;
     note_rect.w = note_size;
     note_rect.h = note_size;

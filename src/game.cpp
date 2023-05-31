@@ -68,10 +68,15 @@ int Game::gameLoop()
     //we create the notes
     Note note1;
     Note note2;
+    Note note3;
+    Note note4;
+
 
     //we add the notes to the array
     notes.push_back(note1);
     notes.push_back(note2);
+    notes.push_back(note3);
+    notes.push_back(note4);
 
     //for testing purposes, we print the size of the array
     std::cout << "Size of the array: " << notes.size() << std::endl;
