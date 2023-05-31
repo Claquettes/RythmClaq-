@@ -184,7 +184,36 @@ void Game::update()
         }
     }
 
-    //to maitain rythm, we can only spawn a new note every 1/8 of a BEAT -lowest precision(for now a beat is 1000ms)
+    //we MAYBE spawn a new note every 1/2 of a beat
+    if (SDL_GetTicks() % HALF_BEAT < precisionToSpawn)
+    {
+        if (rand() % 100 < (probHalfBeat * 100))
+        {
+            //we create a new note
+            Note newNote;
+            newNote.placeNote(700);
+            //we add it to the array
+            notes.push_back(newNote);
+            //we cout the size of the array
+            std::cout << "Size of the array: " << notes.size() << std::endl;
+        }
+    }
+
+    //we MAYBE spawn a new note every 1/4 of a beat
+    if (SDL_GetTicks() % QUARTER_BEAT < precisionToSpawn)
+    {
+        if (rand() % 100 < (probQuarterBeat * 100))
+        {
+            //we create a new note
+            Note newNote;
+            newNote.placeNote(700);
+            //we add it to the array
+            notes.push_back(newNote);
+            //we cout the size of the array
+            std::cout << "Size of the array: " << notes.size() << std::endl;
+        }
+    }
+    
     //we MAYBE spawn a new note every 1/8 of a beat
     if (SDL_GetTicks() % EIGHTH_BEAT < precisionToSpawn)
     {
