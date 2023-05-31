@@ -145,7 +145,7 @@ void Game::update()
     std::cout << "Update tick" << std::endl;
 
     //we update the speed of the notes
-    speed = speed + SDL_GetTicks() / 1000;
+    speed = speed + SDL_GetTicks() / 4000;
 
     //we update the notes, by sliding them to the left by 1 pixel
     for (int i = 0; i < notes.size(); i++)
