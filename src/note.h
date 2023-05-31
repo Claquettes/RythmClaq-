@@ -32,6 +32,7 @@ class Note {
         void placeNote(double xpos);
         int calculateNoteValue(SDL_Event event, bool isCorrect);
         int getValue() const;
+        int getX() const;
 
 
         SDL_Rect getNoteRect() const; //we add the const keyword to the method, because we don't want to modify the note_rect

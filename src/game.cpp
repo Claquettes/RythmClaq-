@@ -160,6 +160,12 @@ int Game::render(){
 
 void Game::update()
 {   
+    //we check if the first note is out of the screen; IE has a x value of less than 0
+    if (notes[0].getX() < 0)
+    {
+        std::cout << "Note out of screen!" << std::endl;
+    }
+
     //we update the speed of the notes
     speed = speed + SDL_GetTicks() / 20000;
 

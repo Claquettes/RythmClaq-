@@ -102,3 +102,8 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
         return 0;
     }
 }
+
+int Note::getX() const
+{
+    return note_rect.x;
+}
