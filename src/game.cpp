@@ -88,13 +88,16 @@ int Game::gameLoop()
 int Game::render(){
     //we clear the screen
     SDL_RenderClear(renderer);
+    
     //we render the background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, NULL);
+
     //we render the note
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_Rect note_rect = note1.getNoteRect();
     SDL_RenderFillRect(renderer, &note_rect);
+
     //we render the changes above
     SDL_RenderPresent(renderer);
     return 0;
