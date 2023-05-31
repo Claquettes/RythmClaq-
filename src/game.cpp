@@ -92,14 +92,22 @@ int Game::gameLoop()
             //if the user presses the D or K key,  D = red, K = green
             if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
             {
-                //we call the calculateNoteValue method of the first note, passing the input as a parameter
-                int hit_value = notes[0].calculateNoteValue(e, true);
-                //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
-                score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
-                //we remove the note from the array
-                notes.erase(notes.begin() + 0);
-                //we cout the score
-                std::cout << "Score: " << score << std::endl;
+
+                //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
+                int distancePos = notes[0].getX() - 60;
+                if (distancePos > 100)
+                {
+                    std::cout << "To early to count" << std::endl;
+                }else {
+                    //we call the calculateNoteValue method of the first note, passing the input as a parameter
+                    int hit_value = notes[0].calculateNoteValue(e, true);
+                    //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
+                    score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
+                    //we remove the note from the array
+                    notes.erase(notes.begin() + 0);
+                    //we cout the score
+                    std::cout << "Score: " << score << std::endl;
+                }
             }
         }
         if (SDL_GetTicks() - startTime > DELAY_BETWEEN_FRAMES) { //sdlticks returns the number of milliseconds since the SDL library was initialized

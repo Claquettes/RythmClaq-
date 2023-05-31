@@ -110,4 +110,3 @@ int Note::getX() const
 {
     return note_rect.x;
 }
-
