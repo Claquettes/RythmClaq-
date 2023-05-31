@@ -62,6 +62,10 @@ int Game::init()
 
 int Game::gameLoop()
 {
+    //we need to reset the RANDOM SEED
+    srand(time(NULL)); 
+
+
     // main loop flag
     bool quit = false;
 
