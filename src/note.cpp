@@ -13,7 +13,7 @@ Note::Note()
     value = rand() % 2 + 1;
     
     // we create a rect for the note, with random int values between 0 and 300
-    note_rect.x = rand() % 300;
+    note_rect.x = 500;
     note_rect.y = 200;
     note_rect.w = note_size;
     note_rect.h = note_size;
@@ -46,4 +46,59 @@ void Note::placeNote(double xpos)
 int Note::getValue() const
 {
     return value;
+}
+
+int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
+{
+    //we check if the event is a keydown event, and if it's the correct key, a value of 1 == the key d needs to be pressed, a value of 2 == the key k needs to be pressed
+    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d && value == 1)
+    {
+        isCorrect = true;
+    }
+    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_k && value == 2)
+    {
+        isCorrect = true;
+    }
+    else
+    {
+        isCorrect = false;
+        return 0;
+    }
+    
+    //now we calculate the score, based on the position of the note
+    //we get the position of the note
+    int note_position = note_rect.x;
+    //we calculate the difference between the note position and the application point
+    int difference = abs(note_position - 60);
+
+    std::cout << "difference: " << difference << std::endl;
+    //we calculate the score
+    if (difference <= 10 && isCorrect)
+    {
+        return 100;
+    }
+    else if (difference <= 20 && isCorrect)
+    {
+        return 50;
+    }
+    else if (difference <= 30 && isCorrect)
+    {
+        return 25;
+    }
+    else if (difference <= 40 && isCorrect)
+    {
+        return 10;
+    }
+    else if (difference <= 50 && isCorrect)
+    {
+        return 5;
+    }
+    else if (difference <= 60 && isCorrect)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }

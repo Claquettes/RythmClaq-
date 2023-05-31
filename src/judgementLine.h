@@ -22,6 +22,8 @@ class JudgementLine {
         const int x = 50;
         const int y = 0;
 
+        const int applicationPoint = 60;
+
         SDL_Rect getJudgementLineRect() const; //we add the const keyword to the method, because we don't want to modify the judgement_line_rect
     private:
         //we create a rect to represent the judgement line

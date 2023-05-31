@@ -70,18 +70,9 @@ int Game::gameLoop()
 
     //we create the notes
     Note note1;
-    Note note2;
-    Note note3;
-    Note note4;
-
+    
     //we add the notes to the array
     notes.push_back(note1);
-    notes.push_back(note2);
-    notes.push_back(note3);
-    notes.push_back(note4);
-
-    //for testing purposes, we print the size of the array
-    std::cout << "Size of the array: " << notes.size() << std::endl;
 
     // event handler
     SDL_Event e;
@@ -95,6 +86,14 @@ int Game::gameLoop()
             if (e.type == SDL_QUIT)
             {
                 quit = true;
+            }
+            //if the user presses the D or K key,  D = red, K = green
+            if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
+            {
+                //we call the calculateNoteValue method of the first note, passing the input as a parameter
+                int hit_value = notes[0].calculateNoteValue(e, true);
+                //we print the value of the note in the console:
+                std::cout << "Note value: " << hit_value << std::endl;
             }
         }
         if (SDL_GetTicks() - startTime > DELAY_BETWEEN_FRAMES) { //sdlticks returns the number of milliseconds since the SDL library was initialized
@@ -161,8 +160,6 @@ int Game::render(){
 
 void Game::update()
 {   
-    std::cout << "Update tick" << std::endl;
-
     //we update the speed of the notes
     speed = speed + SDL_GetTicks() / 20000;
 
@@ -171,8 +168,6 @@ void Game::update()
     {   
         //we call the moveNote method on every note
         notes[i].moveNote(speed);
-        //we cout the x position of the note
-        std::cout << "Note " << i << " x position: " << notes[i].getNoteRect().x << std::endl;
     }
 
     //we MAYBE spawn a new note every BEAT
@@ -185,8 +180,6 @@ void Game::update()
             newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
-            //we cout the size of the array
-            std::cout << "Size of the array: " << notes.size() << std::endl;
         }
     }
 
@@ -200,8 +193,6 @@ void Game::update()
             newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
-            //we cout the size of the array
-            std::cout << "Size of the array: " << notes.size() << std::endl;
         }
     }
 
@@ -215,8 +206,6 @@ void Game::update()
             newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
-            //we cout the size of the array
-            std::cout << "Size of the array: " << notes.size() << std::endl;
         }
     }
     
@@ -230,8 +219,6 @@ void Game::update()
             newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
-            //we cout the size of the array
-            std::cout << "Size of the array: " << notes.size() << std::endl;
         }
     }
 
