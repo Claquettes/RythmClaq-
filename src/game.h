@@ -10,8 +10,8 @@
 
 class Game {
     public:
-        // size of the window
-        const int WINDOW_WIDTH = 640;
+        // size of the window (16:9)
+        const int WINDOW_WIDTH = 800; 
         const int WINDOW_HEIGHT = 450;
 
         // constructor
