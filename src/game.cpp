@@ -119,7 +119,7 @@ int Game::render(){
 
     //we render the container 
     SDL_SetRenderDrawColor(renderer, 114, 167, 214, 255);
-    SDL_Rect containerRect = {50, 150, 700, 150}; //x, y, width, height
+    SDL_Rect containerRect = {50, 150, 750, 150}; //x, y, width, height
     SDL_RenderFillRect(renderer, &containerRect);
 
     //we render the judgement zone
@@ -164,7 +164,7 @@ void Game::update()
     std::cout << "Update tick" << std::endl;
 
     //we update the speed of the notes
-    speed = speed + SDL_GetTicks() / 40000;
+    speed = speed + SDL_GetTicks() / 20000;
 
     //we update the notes, by sliding them to the left by 1 pixel
     for (int i = 0; i < notes.size(); i++)
@@ -182,7 +182,7 @@ void Game::update()
         {
             //we create a new note
             Note newNote;
-            newNote.placeNote(700);
+            newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
             //we cout the size of the array
@@ -197,7 +197,7 @@ void Game::update()
         {
             //we create a new note
             Note newNote;
-            newNote.placeNote(700);
+            newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
             //we cout the size of the array
@@ -212,7 +212,7 @@ void Game::update()
         {
             //we create a new note
             Note newNote;
-            newNote.placeNote(700);
+            newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
             //we cout the size of the array
@@ -227,7 +227,7 @@ void Game::update()
         {
             //we create a new note
             Note newNote;
-            newNote.placeNote(700);
+            newNote.placeNote(WINDOW_WIDTH);
             //we add it to the array
             notes.push_back(newNote);
             //we cout the size of the array
