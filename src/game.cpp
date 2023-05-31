@@ -264,28 +264,45 @@ void Game::update()
 void Game::highscoreManagement(double score)
 {
     FILE* fichierHighscore = NULL;
+    FILE* fichierHighscore2 = NULL;
     //we open the highscore file in write mode
-    fichierHighscore = fopen("highscore.txt", "w");
+    fichierHighscore = fopen("highscore.txt", "r+");
     //we check if the file was opened correctly
     if (fichierHighscore != NULL)
     {
-       //we get the highscore from the file
-        char previousHighscore[10];
-        fgets(previousHighscore, 10, fichierHighscore);
-        //we check if the score is higher than the highscore
-        std::cout << "Previous highscore: " << previousHighscore << std::endl;
-        if (score > atof(previousHighscore))
-        {
-            //we write the new highscore in the file using the fputs function
-            fputs(std::to_string(score).c_str(), fichierHighscore);
-            std::cout << "New highscore: " << score << std::endl;
 
-        }
-        else
+        //If the file is empty, we write the score in it
+        fseek(fichierHighscore, 0, SEEK_END);
+        if (ftell(fichierHighscore) == 0)
         {
-            std::cout << "No new highscore" << std::endl;
+            //we open the file in write mode
+            fichierHighscore2 = fopen("highscore.txt", "w");
+            //we write the new highscore in the file using the fputs function
+            fputs(std::to_string(score).c_str(), fichierHighscore2);
+            std::cout << "New highscore: " << score << std::endl;
         }
-            
+        else{
+            //we get the highscore from the file
+            char previousHighscore[10];
+            fgets(previousHighscore, 10, fichierHighscore);
+            //we check if the score is higher than the highscore
+            std::cout << "Previous highscore: " << previousHighscore << std::endl;
+            //we close the file
+            fclose(fichierHighscore);
+            if (score > atof(previousHighscore))
+            {   
+                //we open the file in write mode
+                fichierHighscore2 = fopen("highscore.txt", "w");
+                //we write the new highscore in the file using the fputs function
+                fputs(std::to_string(score).c_str(), fichierHighscore2);
+                std::cout << "New highscore: " << score << std::endl;
+
+            }
+            else
+            {
+                std::cout << "No new highscore" << std::endl;
+            }
+        }            
     }
     else
     {
