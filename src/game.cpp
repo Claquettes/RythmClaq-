@@ -64,6 +64,18 @@ int Game::gameLoop()
 {
     // main loop flag
     bool quit = false;
+
+    //we create the notes
+    Note note1;
+    Note note2;
+
+    //we add the notes to the array
+    notes.push_back(note1);
+    notes.push_back(note2);
+
+    //for testing purposes, we print the size of the array
+    std::cout << "Size of the array: " << notes.size() << std::endl;
+
     // event handler
     SDL_Event e;
     // main loop
@@ -93,10 +105,16 @@ int Game::render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, NULL);
 
-    //we render the note
+    //we render the notes present in the array
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_Rect note_rect = note1.getNoteRect();
-    SDL_RenderFillRect(renderer, &note_rect);
+    
+    for (int i = 0; i < notes.size(); i++)
+    {
+        //we use the getNoteRect method to get the SDL_Rect of the note
+        SDL_Rect noteRect = notes[i].getNoteRect();
+        SDL_RenderFillRect(renderer, &noteRect);
+    }
+
 
     //we render the changes above
     SDL_RenderPresent(renderer);

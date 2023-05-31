@@ -23,6 +23,9 @@ class Game {
         int init();
         int gameLoop();
         int render();
+
+        //we define the array of notes
+        std::vector<Note> notes;
     private:
         bool readyToStart = false;
         // the window we'll be rendering to
