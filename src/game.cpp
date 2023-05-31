@@ -157,9 +157,9 @@ void Game::update()
     }
 
     //we MAYBE spawn a new note every BEAT
-    if (SDL_GetTicks() % BEAT < 10)
+    if (SDL_GetTicks() % BEAT < precisionToSpawn)
     {
-        if (rand() % 100 < 90)
+        if (rand() % 100 < (probBeat * 100))
         {
             //we create a new note
             Note newNote;
@@ -173,9 +173,9 @@ void Game::update()
 
     //to maitain rythm, we can only spawn a new note every 1/8 of a BEAT -lowest precision(for now a beat is 1000ms)
     //we MAYBE spawn a new note every 1/8 of a beat
-    if (SDL_GetTicks() % EIGHTH_BEAT < 10)
+    if (SDL_GetTicks() % EIGHTH_BEAT < precisionToSpawn)
     {
-        if (rand() % 100 < 10)
+        if (rand() % 100 < (probEighthBeat * 100))
         {
             //we create a new note
             Note newNote;
