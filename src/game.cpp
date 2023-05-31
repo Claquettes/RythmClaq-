@@ -121,12 +121,25 @@ int Game::render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, NULL);
 
-    //we render the notes present in the array
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
     for (int i = 0; i < notes.size(); i++) 
     {
         //we use the getNoteRect method to get the SDL_Rect of the note
         SDL_Rect noteRect = notes[i].getNoteRect();
+        //we check the value, to see if it is 1 or 2, and so change the color of the note
+        if (notes[i].getValue() == 1)
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        }
+        else if (notes[i].getValue() == 2)
+        {
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        }
+        else 
+        {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        }
+        
         SDL_RenderFillRect(renderer, &noteRect);
     }
 

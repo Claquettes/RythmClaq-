@@ -9,8 +9,9 @@
 // Note.cpp
 Note::Note()
 {
-    // constructor implementation
-    std::cout << "Note constructor called!" << std::endl;
+    //we add a value to the note, either 1 or 2
+    value = rand() % 2 + 1;
+    
     // we create a rect for the note, with random int values between 0 and 300
     note_rect.x = rand() % 300;
     note_rect.y = 200;
@@ -40,4 +41,9 @@ void Note::placeNote(double xpos)
     //we place the note
     note_rect.x = xpos;
     note_rect.y = 200;
+}
+
+int Note::getValue() const
+{
+    return value;
 }
