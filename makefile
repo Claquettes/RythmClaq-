@@ -10,6 +10,7 @@ all: dir bin/main
 dir:
 	mkdir -p bin
 	mkdir -p $(OBJDIR)
+	touch highscore.txt
 
 bin/main: $(OBJS)
 	$(cc) $(CFLAGS) $(OBJS) -o main $(LIBS)

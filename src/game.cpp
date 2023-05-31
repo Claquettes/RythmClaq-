@@ -79,7 +79,7 @@ int Game::gameLoop()
     // event handler
     SDL_Event e;
     // main loop
-    while (!quit)
+    while (numberOfMisses < 5)
     {
         // event handling
         while (SDL_PollEvent(&e) != 0)
@@ -101,6 +101,14 @@ int Game::gameLoop()
                 }else {
                     //we call the calculateNoteValue method of the first note, passing the input as a parameter
                     int hit_value = notes[0].calculateNoteValue(e, true);
+                    if (hit_value == 0)
+                    {
+                        std::cout << "Missed!" << std::endl;
+                        //we reset the combo
+                        combo = 0;
+                        //we add 1 to the miss counter
+                        numberOfMisses++;
+                    }
                     //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
                     score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
                     //we remove the note from the array
@@ -117,6 +125,12 @@ int Game::gameLoop()
         render();
         
     }
+    std::cout << "Game over!" << std::endl;
+    std::cout << "Your score is: " << score << std::endl;
+
+    highscoreManagement(score);
+
+
     //we call the destructor
     Game::~Game();
     return 0;
@@ -247,3 +261,34 @@ void Game::update()
     }
 }
 
+void Game::highscoreManagement(double score)
+{
+    FILE* fichierHighscore = NULL;
+    //we open the highscore file in write mode
+    fichierHighscore = fopen("highscore.txt", "w");
+    //we check if the file was opened correctly
+    if (fichierHighscore != NULL)
+    {
+       //we get the highscore from the file
+        char previousHighscore[10];
+        fgets(previousHighscore, 10, fichierHighscore);
+        //we check if the score is higher than the highscore
+        std::cout << "Previous highscore: " << previousHighscore << std::endl;
+        if (score > atof(previousHighscore))
+        {
+            //we write the new highscore in the file using the fputs function
+            fputs(std::to_string(score).c_str(), fichierHighscore);
+            std::cout << "New highscore: " << score << std::endl;
+
+        }
+        else
+        {
+            std::cout << "No new highscore" << std::endl;
+        }
+            
+    }
+    else
+    {
+        std::cout << "Error while opening the highscore file" << std::endl;
+    }   
+}
