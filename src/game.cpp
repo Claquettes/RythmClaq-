@@ -23,6 +23,10 @@ Game::~Game()
 {
     // destructor implementation
     std::cout << "Game destructor called!" << std::endl;
+    // free resources
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
 
 int Game::init()
@@ -74,7 +78,15 @@ int Game::gameLoop()
                 quit = true;
             }
         }
-        // clear the screen
+        render();
+    }
+    //we call the destructor
+    Game::~Game();
+    return 0;
+}
+
+int Game::render(){
+    // clear the screen
         SDL_RenderClear(renderer);
 
        //we get the note rect
@@ -85,10 +97,4 @@ int Game::gameLoop()
 
         // update the screen
         SDL_RenderPresent(renderer);
-    }
-    // free resources
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    return 0;
 }
