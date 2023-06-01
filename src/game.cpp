@@ -36,6 +36,9 @@ Game::~Game()
     SDL_DestroyTexture(note1Texture);
     SDL_DestroyTexture(note2Texture);
 
+    //we close the font
+    TTF_CloseFont(font);
+
     // free resources
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
