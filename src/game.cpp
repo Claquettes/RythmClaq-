@@ -270,6 +270,12 @@ void Game::highscoreManagement(double score) {
         double highscore;
         file >> highscore; // Read the highscore from the file
 
+        //we check if the file is empty, ie highscore is null
+        if (highscore == NULL)
+        {
+            highscore = 0;
+        }
+
         if (score > highscore) {
             std::ofstream outfile("highscore.txt"); // Open the file for writing
             if (outfile.is_open()) {
