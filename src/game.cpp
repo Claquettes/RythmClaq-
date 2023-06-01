@@ -27,6 +27,14 @@ Game::~Game()
 {
     // destructor implementation
     std::cout << "Game destructor called!" << std::endl;
+
+    //we free the memory allocated for the textures and surfaces
+    SDL_FreeSurface(note1Surface);
+    SDL_FreeSurface(note2Surface);
+
+    SDL_DestroyTexture(note1Texture);
+    SDL_DestroyTexture(note2Texture);
+
     // free resources
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -57,6 +65,16 @@ int Game::init()
         std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+    //we initialize SDL_image
+    IMG_Init(IMG_INIT_PNG);
+
+    //We create the surface and texture for the two notes
+    note1Surface = IMG_Load("assets/skin/note1.png");
+    note2Surface = IMG_Load("assets/skin/note2.png");
+
+    note1Texture = SDL_CreateTextureFromSurface(renderer, note1Surface);
+    note2Texture = SDL_CreateTextureFromSurface(renderer, note2Surface);
+
     
     // we set the readyToStart flag to true
     readyToStart = true;
@@ -164,18 +182,18 @@ int Game::render(){
         //we check the value, to see if it is 1 or 2, and so change the color of the note
         if (notes[i].getValue() == 1)
         {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+           //we render the note
+            SDL_RenderCopy(renderer, note1Texture, NULL, &noteRect);
         }
         else if (notes[i].getValue() == 2)
         {
-            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+            SDL_RenderCopy(renderer, note2Texture, NULL, &noteRect);
         }
         else 
         {
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            std::cout << "Error: Note value is not 1 or 2" << std::endl;
         }
-        
-        SDL_RenderFillRect(renderer, &noteRect);
     }
 
     //we render the judgement line

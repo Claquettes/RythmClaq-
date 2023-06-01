@@ -56,6 +56,14 @@ class Game {
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
+
+        //we create the surfaces and textures of the notes
+        SDL_Surface* note1Surface;
+        SDL_Surface* note2Surface;
+
+        SDL_Texture* note1Texture;
+        SDL_Texture* note2Texture;
+
         // we create the first note
         Note note1;
 
