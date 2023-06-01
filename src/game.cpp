@@ -6,6 +6,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <fstream>
 
 //TODO NEXT: SPRITES FOR THE NOTES, AND THE HITS
 
@@ -128,7 +129,8 @@ int Game::gameLoop()
     std::cout << "Game over!" << std::endl;
     std::cout << "Your score is: " << score << std::endl;
 
-    highscoreManagement(score);
+    //we call the highscoreManagement method, passing the score as a parameter
+    highscoreManagement(score); 
 
 
     //we call the destructor
@@ -261,51 +263,28 @@ void Game::update()
     }
 }
 
-void Game::highscoreManagement(double score)
-{
-    FILE* fichierHighscore = NULL;
-    FILE* fichierHighscore2 = NULL;
-    //we open the highscore file in write mode
-    fichierHighscore = fopen("highscore.txt", "r+");
-    //we check if the file was opened correctly
-    if (fichierHighscore != NULL)
-    {
+//check if the score is higher than the highscore, and if so update the highscore
+void Game::highscoreManagement(double score) { 
+    std::ifstream file("highscore.txt"); //we open the file for reading
+    if (file.is_open()) {
+        double highscore;
+        file >> highscore; // Read the highscore from the file
 
-        //If the file is empty, we write the score in it
-        fseek(fichierHighscore, 0, SEEK_END);
-        if (ftell(fichierHighscore) == 0)
-        {
-            //we open the file in write mode
-            fichierHighscore2 = fopen("highscore.txt", "w");
-            //we write the new highscore in the file using the fputs function
-            fputs(std::to_string(score).c_str(), fichierHighscore2);
-            std::cout << "New highscore: " << score << std::endl;
+        if (score > highscore) {
+            std::ofstream outfile("highscore.txt"); // Open the file for writing
+            if (outfile.is_open()) {
+                outfile << score; // Write the new highscore to the file
+                outfile.close(); // Close the file
+                std::cout << "New highscore achieved!" << std::endl;
+            } else {
+                std::cout << "Unable to update highscore file." << std::endl;
+            }
+        } else {
+            std::cout << "No new highscore achieved." << std::endl;
         }
-        else{
-            //we get the highscore from the file
-            char previousHighscore[10];
-            fgets(previousHighscore, 10, fichierHighscore);
-            //we check if the score is higher than the highscore
-            std::cout << "Previous highscore: " << previousHighscore << std::endl;
-            //we close the file
-            fclose(fichierHighscore);
-            if (score > atof(previousHighscore))
-            {   
-                //we open the file in write mode
-                fichierHighscore2 = fopen("highscore.txt", "w");
-                //we write the new highscore in the file using the fputs function
-                fputs(std::to_string(score).c_str(), fichierHighscore2);
-                std::cout << "New highscore: " << score << std::endl;
 
-            }
-            else
-            {
-                std::cout << "No new highscore" << std::endl;
-            }
-        }            
+        file.close(); // Close the file
+    } else {
+        std::cout << "Unable to open highscore file." << std::endl;
     }
-    else
-    {
-        std::cout << "Error while opening the highscore file" << std::endl;
-    }   
 }
