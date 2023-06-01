@@ -76,29 +76,17 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
 
     std::cout << "difference: " << difference << std::endl;
     //we calculate the score
-    if (difference <= 10 && isCorrect)
+    if (difference <= 25 && isCorrect)
+    {
+        return 300;
+    }
+    else if (difference <= 55 && isCorrect)
     {
         return 100;
     }
-    else if (difference <= 20 && isCorrect)
+    else if (difference <= 80 && isCorrect)
     {
         return 50;
-    }
-    else if (difference <= 30 && isCorrect)
-    {
-        return 25;
-    }
-    else if (difference <= 40 && isCorrect)
-    {
-        return 10;
-    }
-    else if (difference <= 50 && isCorrect)
-    {
-        return 5;
-    }
-    else if (difference <= 60 && isCorrect)
-    {
-        return 1;
     }
     else
     {

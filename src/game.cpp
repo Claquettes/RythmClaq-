@@ -86,7 +86,26 @@ int Game::init()
     font = nullptr;
     font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
-    
+
+    //We set the hit rect, defined in game.h
+    hit_rect.x = 30;
+    hit_rect.y = 100;
+    hit_rect.w = 60;
+    hit_rect.h = 60;
+
+    //we init the textures and surfaces for the hits
+    hit300Surface = IMG_Load("assets/skin/hit300.png");
+    hit300Texture = SDL_CreateTextureFromSurface(renderer, hit300Surface);
+
+    hit100Surface = IMG_Load("assets/skin/hit100.png");
+    hit100Texture = SDL_CreateTextureFromSurface(renderer, hit100Surface);
+
+    hit50Surface = IMG_Load("assets/skin/hit50.png");
+    hit50Texture = SDL_CreateTextureFromSurface(renderer, hit50Surface);
+
+    missSurface = IMG_Load("assets/skin/hit0.png");
+    missTexture = SDL_CreateTextureFromSurface(renderer, missSurface);
+
     // we set the readyToStart flag to true
     std::cout << "Game initialized!, Launching the gameLoop" << std::endl;
     readyToStart = true;
@@ -132,12 +151,29 @@ int Game::gameLoop()
                     int hit_value = notes[0].calculateNoteValue(e, true);
                     if (hit_value == 0)
                     {
+                        //WE render the miss object
                         std::cout << "Missed!" << std::endl;
                         //we reset the combo
                         combo = 0;
                         //we add 1 to the miss counter
                         numberOfMisses++;
+                        //we render the miss in the hit rect
+                        SDL_RenderCopy(renderer, missTexture, NULL, &hit_rect);
                     }
+                    else if(hit_value==100)
+                    {
+                        SDL_RenderCopy(renderer, hit100Texture, NULL, &hit_rect);
+                    }
+                    else if(hit_value==50)
+                    {
+                        SDL_RenderCopy(renderer, hit50Texture, NULL, &hit_rect);
+                    }
+                    else if(hit_value==300)
+                    {
+                        SDL_RenderCopy(renderer, hit300Texture, NULL, &hit_rect);
+                    }
+
+
                     //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
                     score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
                     //we remove the note from the array

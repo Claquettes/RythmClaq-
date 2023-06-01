@@ -70,6 +70,24 @@ class Game {
 
         SDL_Surface* scoreSurface;
         SDL_Texture* scoreTexture;
+
+        SDL_Surface* hit300Surface;
+        SDL_Texture* hit300Texture;
+
+        SDL_Surface* hit100Surface;
+        SDL_Texture* hit100Texture;
+
+        SDL_Surface* hit50Surface;
+        SDL_Texture* hit50Texture;
+
+        SDL_Surface* missSurface;
+        SDL_Texture* missTexture;
+
+        // we create the rect of the hit 
+        SDL_Rect hit_rect;
+        
+
+
         // we create the first note
         Note note1;
 
