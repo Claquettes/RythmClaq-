@@ -69,8 +69,8 @@ int Game::init()
     IMG_Init(IMG_INIT_PNG);
 
     //We create the surface and texture for the two notes
-    note1Surface = IMG_Load("assets/skin/note1.png");
-    note2Surface = IMG_Load("assets/skin/note2.png");
+    note1Surface = IMG_Load("assets/skin/1-note.png");
+    note2Surface = IMG_Load("assets/skin/2-note.png");
 
     note1Texture = SDL_CreateTextureFromSurface(renderer, note1Surface);
     note2Texture = SDL_CreateTextureFromSurface(renderer, note2Surface);
