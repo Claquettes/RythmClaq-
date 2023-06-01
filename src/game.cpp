@@ -158,22 +158,10 @@ int Game::gameLoop()
                         //we add 1 to the miss counter
                         numberOfMisses++;
                         //we render the miss in the hit rect
-                        SDL_RenderCopy(renderer, missTexture, NULL, &hit_rect);
                     }
-                    else if(hit_value==100)
-                    {
-                        SDL_RenderCopy(renderer, hit100Texture, NULL, &hit_rect);
-                    }
-                    else if(hit_value==50)
-                    {
-                        SDL_RenderCopy(renderer, hit50Texture, NULL, &hit_rect);
-                    }
-                    else if(hit_value==300)
-                    {
-                        SDL_RenderCopy(renderer, hit300Texture, NULL, &hit_rect);
-                    }
-
-
+                    //we call the renderHitNotes method, passing the hit value as a parameter
+                    renderHitNote(hit_value);
+                    
                     //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
                     score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
                     //we remove the note from the array
@@ -396,4 +384,46 @@ void Game::renderScore(int y, double score){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderFillRect(renderer, &scoreRect);
     SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+}
+
+void Game::renderHitNote(short hitValue)
+{
+    //we will show the hit note for 1/4 of a second, so we need to know when to stop showing it
+    double timeToStopShowingHitNote = SDL_GetTicks() + 250;
+
+    //we create a SDL_Rect for the hit note
+    SDL_Rect *hit_rect2 = new SDL_Rect;
+    hit_rect2->x = 60;
+    hit_rect2->y = 200;
+    hit_rect2->w = 70;
+    hit_rect2->h = 70;
+
+
+
+    //we render the hit note until the time to stop showing it is reached
+    while (SDL_GetTicks() < timeToStopShowingHitNote)
+    {
+        switch (hitValue)
+        {
+            case 0:
+                //we render the miss note
+                SDL_RenderCopy(renderer, missTexture, NULL, hit_rect2);
+                break;
+            case 50:
+                //we render the 50 note
+                SDL_RenderCopy(renderer, hit50Texture, NULL, hit_rect2);
+                break;
+            case 100:
+                //we render the 100 note
+                SDL_RenderCopy(renderer, hit100Texture, NULL, hit_rect2);
+                break;
+            case 300:
+                //we render the 300 note
+                SDL_RenderCopy(renderer, hit300Texture, NULL, hit_rect2);
+                break;
+            default:
+                break;
+        }
+        SDL_RenderPresent(renderer);
+    }
 }

@@ -85,7 +85,7 @@ class Game {
 
         // we create the rect of the hit 
         SDL_Rect hit_rect;
-        
+
 
 
         // we create the first note
@@ -95,6 +95,7 @@ class Game {
 
         void update();
         void highscoreManagement(double score);
+        void renderHitNote(short hitValue);
 
 
 };
