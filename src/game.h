@@ -29,6 +29,8 @@ class Game {
         std::vector<Note> notes;
         void removeNote();
 
+        TTF_Font* font;
+
         //we define the judgement line
         JudgementLine judgementLine;
     private:

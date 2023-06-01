@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <fstream>
+#include <SDL2/SDL_ttf.h>
 
 //TODO NEXT: SPRITES FOR THE NOTES, AND THE HITS
 
@@ -76,11 +77,16 @@ int Game::init()
     note2Texture = SDL_CreateTextureFromSurface(renderer, note2Surface);
 
     
+    //we initialize SDL_ttf
+    TTF_Init();
+    //we load the font
+    font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
+    std::cout << "Font loaded!" << std::endl;
+    
     // we set the readyToStart flag to true
+    std::cout << "Game initialized!, Launching the gameLoop" << std::endl;
     readyToStart = true;
     startTime = SDL_GetTicks();
-    
-
     return 0;
 }
 
