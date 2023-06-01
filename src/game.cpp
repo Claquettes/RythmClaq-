@@ -83,6 +83,7 @@ int Game::init()
     //we initialize SDL_ttf
     TTF_Init();
     //we load the font
+    font = nullptr;
     font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
     
@@ -209,6 +210,8 @@ int Game::render(){
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
     SDL_RenderFillRect(renderer, &judgementLineRect);
+    //we render the score
+    renderScore(200, score);
 
     //we render the changes above
     SDL_RenderPresent(renderer);
@@ -320,4 +323,32 @@ void Game::highscoreManagement(double score) {
     } else {
         std::cout << "Unable to open highscore file." << std::endl;
     }
+}
+
+void Game::renderScore(int y, double score){
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+    //we create a font
+    TTF_Font* fontScore = TTF_OpenFont("data/font/1up.ttf", 24);
+    y = 0;
+    //we create an int called numberDigits, which is the number of digits in the score
+    int numberDigits = 1;
+    int scoreCopy = score;
+    while (scoreCopy > 10)
+    {
+        scoreCopy = scoreCopy / 10;
+        numberDigits++;
+    }
+    //we create a char array, which is the same size as the number of digits in the score
+    char char_score[numberDigits];
+    //we convert the score to a char array
+    sprintf(char_score, "%f", score);
+
+    SDL_Color white = {255, 255, 255};
+    scoreSurface = TTF_RenderText_Solid(fontScore, char_score, white);
+    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+    SDL_Rect scoreRect = {(WINDOW_WIDTH / 2) - 200, y, 200, 50};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderFillRect(renderer, &scoreRect);
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
 }

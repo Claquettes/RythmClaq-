@@ -7,7 +7,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include <SDL2/SDL_ttf.h>
 class Game {
     public:
         // size of the window (16:9)
@@ -28,7 +28,9 @@ class Game {
         //we define the array of notes
         std::vector<Note> notes;
         void removeNote();
+        void renderScore(int y, double score);
 
+        //we create the font
         TTF_Font* font;
 
         //we define the judgement line
@@ -66,6 +68,8 @@ class Game {
         SDL_Texture* note1Texture;
         SDL_Texture* note2Texture;
 
+        SDL_Surface* scoreSurface;
+        SDL_Texture* scoreTexture;
         // we create the first note
         Note note1;
 
