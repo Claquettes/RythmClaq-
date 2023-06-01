@@ -220,6 +220,12 @@ int Game::render(){
 
 void Game::update()
 {   
+    if(numberOfMisses == 5){
+        return;
+        //WE NEED TO CALL THE ÉNDGAME METHOD HERE
+        SDL_Quit();
+    }
+
     if (notes.size() > 2)
     {
         //we check if the first note is out of the screen , and if it is, we delete it
@@ -227,6 +233,9 @@ void Game::update()
         {
             std::cout << "Deleted " << std::endl;
             notes.erase(notes.begin() + 0); //the +0 is to convert the iterator to an integer
+            //we reset the combo and add 1 to the miss counter
+            combo = 0;
+            numberOfMisses++;
         }
     }
 
