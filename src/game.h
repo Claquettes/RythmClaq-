@@ -28,7 +28,7 @@ class Game {
         //we define the array of notes
         std::vector<Note> notes;
         void removeNote();
-        void renderScore(int y, double score, double combo);
+        void renderScore(int y, double score, short combo);
 
         //we create the font
         TTF_Font* font;
@@ -54,7 +54,7 @@ class Game {
         double DELAY_BETWEEN_FRAMES = 10;
         double speed = 3;
         double score = 0;
-        double combo = 0;
+        short combo = 0;
         short numberOfMisses = 0;
         int nextNoteToHit = 0;
         // the window we'll be rendering to

@@ -383,7 +383,7 @@ void Game::highscoreManagement(double score) {
     }
 }
 
-void Game::renderScore(int y, double score, double combo){
+void Game::renderScore(int y, double score, short combo){
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     //we create a font
@@ -401,7 +401,7 @@ void Game::renderScore(int y, double score, double combo){
     char char_score[numberDigits];
     //we convert the score to a char array
     sprintf(char_score, "%f", score);
-
+    
     SDL_Color white = {255, 255, 255};
     scoreSurface = TTF_RenderText_Solid(fontScore, char_score, white);
     scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
@@ -412,6 +412,17 @@ void Game::renderScore(int y, double score, double combo){
 
     //we render the combo in the comboRect
     SDL_Rect comboRect = {(WINDOW_WIDTH / 2) - 300, y + 50, 200, 50};
-    std::cout << "Combo: " << combo << std::endl;
+    char char_combo[10];
+    sprintf(char_combo, "%f", combo);
+    SDL_Color red = {255, 0, 0};
+    comboSurface = TTF_RenderText_Solid(fontScore, char_combo, red);
+    comboTexture = SDL_CreateTextureFromSurface(renderer, comboSurface);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderFillRect(renderer, &comboRect);
+    SDL_RenderCopy(renderer, comboTexture, NULL, &comboRect);
+    
+    
+
+
 
 }
