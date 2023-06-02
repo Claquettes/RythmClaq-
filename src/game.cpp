@@ -158,12 +158,10 @@ int Game::gameLoop()
                     }
                     else{combo++;}
                     
-                    //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
-                    score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
+                    //we add the hit value to the score, multiplying it by the (funny number, and we floor it
+                    score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
                     //we remove the note from the array
                     notes.erase(notes.begin() + 0);
-                    //we cout the score
-                    std::cout << "Score: " << score << std::endl;
                 }
             }
         }
@@ -412,7 +410,6 @@ void Game::renderScore(int y, double score, short combo){
 
     //we render the combo in the comboRect
     SDL_Rect comboRect = {(WINDOW_WIDTH / 2) - 300, y + 50, 200, 50};
-    std::cout << "Combo : " << combo << std::endl;
     //we need to transform the combo into a char array, and we add "combo :"
     char char_combo[10];
     sprintf(char_combo, "Combo : %d", combo);
