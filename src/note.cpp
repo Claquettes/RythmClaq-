@@ -32,7 +32,7 @@ SDL_Rect Note::getNoteRect() const
 void Note::moveNote(int speed)
 {
     //we move the note
-    note_rect.x -= speed;
+    note_rect.x -= speed *2;
 }
 
 void Note::placeNote(double xpos)
@@ -72,7 +72,7 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
     //we get the position of the note
     int note_position = note_rect.x;
     //we calculate the difference between the note position and the application point
-    int difference = abs(note_position - 60);
+    int difference = abs(note_position - 50 + 4);
 
     std::cout << "difference: " << difference << std::endl;
     //we calculate the score
@@ -80,11 +80,11 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
     {
         return 300;
     }
-    else if (difference <= 75 && isCorrect)
+    else if (difference <= 85 && isCorrect)
     {
         return 100;
     }
-    else if (difference <= 150 && isCorrect)
+    else if (difference <= 199 && isCorrect)
     {
         return 50;
     }

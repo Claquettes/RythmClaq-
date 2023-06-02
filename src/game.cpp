@@ -141,8 +141,8 @@ int Game::gameLoop()
             {
                 callHit = true;
                 //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
-                int distancePos = notes[0].getX() - 60;
-                if (distancePos > 120)
+                int distancePos = notes[0].getX() - 90;
+                if (distancePos > 200) //safe distance 
                 {
                     std::cout << "To early to count" << std::endl;
                 }else {
@@ -156,16 +156,14 @@ int Game::gameLoop()
                         combo = 0;
                         //we add 1 to the miss counter
                         numberOfMisses++;
-                        //we remove the note from the array
-                        notes.erase(notes.begin() + 0);
                     }
                     else{
                         //we add the hit value to the score, multiplying it by the (funny number, and we floor it
                         score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
                         combo++;
-                        //we remove the note from the array
-                        notes.erase(notes.begin() + 0);
                     }
+                    //we remove the note from the array
+                    notes.erase(notes.begin() + 0);
                 }
             }
         }
@@ -215,7 +213,7 @@ int Game::render(bool hit, short hitValue)
 
     //we render the judgement zone
     SDL_SetRenderDrawColor(renderer, 92, 191, 55, 255);
-    SDL_Rect judgementZoneRect = {19, 185, 75, 75}; //x, y, width, height
+    SDL_Rect judgementZoneRect = {49, 185, 75, 75}; //x, y, width, height
     SDL_RenderFillRect(renderer, &judgementZoneRect);
 
     //we create a SDL_Rect for the hit note

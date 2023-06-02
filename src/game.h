@@ -40,17 +40,17 @@ class Game {
 
         const short precisionToSpawn = 10;
         
-        const int BEAT = 1000;
+        const int BEAT = 700;
         const int HALF_BEAT = BEAT / 2;
         const int QUARTER_BEAT = BEAT / 4;
         const int EIGHTH_BEAT = BEAT / 8;
 
-        const float probBeat = 0.99;
-        const float probHalfBeat = 0.7;
-        const float probQuarterBeat = 0.3;
+        const float probBeat = 1;
+        const float probHalfBeat = 0.4;
+        const float probQuarterBeat = 0.2;
 
         double startTime = 0;
-        double speed = 5;
+        double speed = 3;
         double score = 0;
         short combo = 0;
         short numberOfMisses = 0;
