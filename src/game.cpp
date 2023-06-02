@@ -156,6 +156,7 @@ int Game::gameLoop()
                         numberOfMisses++;
                         //we render the miss in the hit rect
                     }
+                    else{combo++;}
                     
                     //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
                     score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
@@ -258,7 +259,7 @@ int Game::render(bool hit, short hitValue)
 
     
     //we render the score
-    renderScore(200, score);
+    renderScore(200, score, combo);
 
     //we render the changes above
     SDL_RenderPresent(renderer);
@@ -288,7 +289,7 @@ void Game::update()
     }
 
     //we update the speed of the notes
-    speed = speed + SDL_GetTicks() / 50000;
+    speed = speed + 0.0001;
 
     //we update the notes, by sliding them to the left by 1 pixel
     for (int i = 0; i < notes.size(); i++)
@@ -382,7 +383,7 @@ void Game::highscoreManagement(double score) {
     }
 }
 
-void Game::renderScore(int y, double score){
+void Game::renderScore(int y, double score, double combo){
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     //we create a font
@@ -408,4 +409,9 @@ void Game::renderScore(int y, double score){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderFillRect(renderer, &scoreRect);
     SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+
+    //we render the combo in the comboRect
+    SDL_Rect comboRect = {(WINDOW_WIDTH / 2) - 300, y + 50, 200, 50};
+    std::cout << "Combo: " << combo << std::endl;
+
 }

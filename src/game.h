@@ -28,7 +28,7 @@ class Game {
         //we define the array of notes
         std::vector<Note> notes;
         void removeNote();
-        void renderScore(int y, double score);
+        void renderScore(int y, double score, double combo);
 
         //we create the font
         TTF_Font* font;
@@ -70,6 +70,12 @@ class Game {
 
         SDL_Surface* scoreSurface;
         SDL_Texture* scoreTexture;
+
+        SDL_Surface* comboSurface;
+        SDL_Texture* comboTexture;
+
+        SDL_Surface* missNumberSurface;
+        SDL_Texture* missNumberTexture;
 
         SDL_Surface* hit300Surface;
         SDL_Texture* hit300Texture;
