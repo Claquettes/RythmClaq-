@@ -115,6 +115,9 @@ int Game::gameLoop()
     bool callHit = false;
     int hit_value = 0;
 
+    Uint32 startTime = SDL_GetTicks();
+    int frameTime = 0;
+
     //we create the notes
     Note note1;
     
@@ -126,6 +129,7 @@ int Game::gameLoop()
     // main loop
     while (numberOfMisses < 5)
     {
+        frameStart = SDL_GetTicks();
         // event handling
         while (SDL_PollEvent(&e) != 0)
         {
@@ -165,11 +169,18 @@ int Game::gameLoop()
                 }
             }
         }
-        if (SDL_GetTicks() - startTime > DELAY_BETWEEN_FRAMES) { //sdlticks returns the number of milliseconds since the SDL library was initialized
-                startTime = SDL_GetTicks(); // reset the starting time to the current time
-                update();
-            }
+        //we call the update method 
+        update();
+        //we call the render method
         render(callHit, hit_value);
+
+    //logic for the frame rate
+    frameTime = SDL_GetTicks() - frameStart;
+        if (frameTime < FRAME_DELAY) {
+            SDL_Delay(FRAME_DELAY - frameTime);
+        }
+    
+        
         
     }
     std::cout << "Game over!" << std::endl;

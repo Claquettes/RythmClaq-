@@ -51,12 +51,18 @@ class Game {
         const float probEighthBeat = 0.05;
 
         double startTime = 0;
-        double DELAY_BETWEEN_FRAMES = 1000; //seems to not do anything at all for now
         double speed = 5;
         double score = 0;
         short combo = 0;
         short numberOfMisses = 0;
         int nextNoteToHit = 0;
+
+
+        const int FPS = 60;
+        const int FRAME_DELAY = 1000 / FPS;
+
+        int frameTime = 0;
+        Uint32 frameStart = 0;
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
