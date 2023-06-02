@@ -45,10 +45,9 @@ class Game {
         const int QUARTER_BEAT = BEAT / 4;
         const int EIGHTH_BEAT = BEAT / 8;
 
-        const float probBeat = 0.9;
-        const float probHalfBeat = 0.3;
-        const float probQuarterBeat = 0.1;
-        const float probEighthBeat = 0.05;
+        const float probBeat = 0.99;
+        const float probHalfBeat = 0.7;
+        const float probQuarterBeat = 0.3;
 
         double startTime = 0;
         double speed = 5;
@@ -56,7 +55,6 @@ class Game {
         short combo = 0;
         short numberOfMisses = 0;
         int nextNoteToHit = 0;
-
 
         const int FPS = 60;
         const int FRAME_DELAY = 1000 / FPS;

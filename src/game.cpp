@@ -9,8 +9,6 @@
 #include <fstream>
 #include <SDL2/SDL_ttf.h>
 
-//TODO NEXT: SPRITES FOR THE NOTES, AND THE HITS
-
 Game::Game()
 {
     std::cout << "Game constructor called!" << std::endl;
@@ -144,7 +142,7 @@ int Game::gameLoop()
                 callHit = true;
                 //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
                 int distancePos = notes[0].getX() - 60;
-                if (distancePos > 100)
+                if (distancePos > 120)
                 {
                     std::cout << "To early to count" << std::endl;
                 }else {
@@ -158,30 +156,28 @@ int Game::gameLoop()
                         combo = 0;
                         //we add 1 to the miss counter
                         numberOfMisses++;
-                        //we render the miss in the hit rect
+                        //we remove the note from the array
+                        notes.erase(notes.begin() + 0);
                     }
-                    else{combo++;}
-                    
-                    //we add the hit value to the score, multiplying it by the (funny number, and we floor it
-                    score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
-                    //we remove the note from the array
-                    notes.erase(notes.begin() + 0);
+                    else{
+                        //we add the hit value to the score, multiplying it by the (funny number, and we floor it
+                        score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
+                        combo++;
+                        //we remove the note from the array
+                        notes.erase(notes.begin() + 0);
+                    }
                 }
             }
         }
-        //we call the update method 
-        update();
-        //we call the render method
-        render(callHit, hit_value);
+       
 
     //logic for the frame rate
     frameTime = SDL_GetTicks() - frameStart;
         if (frameTime < FRAME_DELAY) {
             SDL_Delay(FRAME_DELAY - frameTime);
+            update();
+            render(callHit, hit_value);
         }
-    
-        
-        
     }
     std::cout << "Game over!" << std::endl;
     std::cout << "Your score is: " << score << std::endl;
@@ -345,19 +341,6 @@ void Game::update()
             notes.push_back(newNote);
         }
     }
-    
-    //we MAYBE spawn a new note every 1/8 of a beat
-    if (SDL_GetTicks() % EIGHTH_BEAT < precisionToSpawn)
-    {
-        if (rand() % 100 < (probEighthBeat * 100))
-        {
-            //we create a new note
-            Note newNote;
-            newNote.placeNote(WINDOW_WIDTH);
-            //we add it to the array
-            notes.push_back(newNote);
-        }
-    }
 }
 
 //check if the score is higher than the highscore, and if so update the highscore
@@ -431,9 +414,4 @@ void Game::renderScore(int y, double score, short combo){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderFillRect(renderer, &comboRect);
     SDL_RenderCopy(renderer, comboTexture, NULL, &comboRect);
-
-    
-
-
-
 }
