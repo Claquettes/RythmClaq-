@@ -412,9 +412,11 @@ void Game::renderScore(int y, double score, short combo){
 
     //we render the combo in the comboRect
     SDL_Rect comboRect = {(WINDOW_WIDTH / 2) - 300, y + 50, 200, 50};
-    char char_combo[10];
-    sprintf(char_combo, "%f", combo);
     std::cout << "Combo : " << combo << std::endl;
+    //we need to transform the combo into a char array, and we add "combo :"
+    char char_combo[10];
+    sprintf(char_combo, "Combo : %d", combo);
+
     SDL_Color red = {255, 0, 0};
     comboSurface = TTF_RenderText_Solid(fontScore, char_combo, red);
     comboTexture = SDL_CreateTextureFromSurface(renderer, comboSurface);
