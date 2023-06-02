@@ -87,11 +87,6 @@ int Game::init()
     font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
 
-    //We set the hit rect, defined in game.h
-    hit_rect.x = 30;
-    hit_rect.y = 100;
-    hit_rect.w = 60;
-    hit_rect.h = 60;
 
     //we init the textures and surfaces for the hits
     hit300Surface = IMG_Load("assets/skin/hit300.png");
@@ -117,6 +112,8 @@ int Game::gameLoop()
 {
     // main loop flag
     bool quit = false;
+    bool callHit = false;
+    int hit_value = 0;
 
     //we create the notes
     Note note1;
@@ -140,7 +137,7 @@ int Game::gameLoop()
             //if the user presses the D or K key,  D = red, K = green
             if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
             {
-
+                callHit = true;
                 //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
                 int distancePos = notes[0].getX() - 60;
                 if (distancePos > 100)
@@ -148,7 +145,7 @@ int Game::gameLoop()
                     std::cout << "To early to count" << std::endl;
                 }else {
                     //we call the calculateNoteValue method of the first note, passing the input as a parameter
-                    int hit_value = notes[0].calculateNoteValue(e, true);
+                    hit_value = notes[0].calculateNoteValue(e, true);
                     if (hit_value == 0)
                     {
                         //WE render the miss object
@@ -159,8 +156,6 @@ int Game::gameLoop()
                         numberOfMisses++;
                         //we render the miss in the hit rect
                     }
-                    //we call the renderHitNotes method, passing the hit value as a parameter
-                    renderHitNote(hit_value);
                     
                     //we add the hit value to the score, multiplying it by the (combo/100 + speed)/2
                     score += hit_value * (combo/100 + speed)/2; //always sum the score, even if the note is missed
@@ -175,7 +170,7 @@ int Game::gameLoop()
                 startTime = SDL_GetTicks(); // reset the starting time to the current time
                 update();
             }
-        render();
+        render(callHit, hit_value);
         
     }
     std::cout << "Game over!" << std::endl;
@@ -190,13 +185,22 @@ int Game::gameLoop()
     return 0;
 }
 
-int Game::render(){
-    //we clear the screen
+int Game::render(bool hit, short hitValue)
+{
+    //we create a SDL_Rect for the hit note
+    
+
+    //we clear the renderer
     SDL_RenderClear(renderer);
     
     //we render the background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, NULL);
+
+    //we render the judgement line
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
+    SDL_RenderFillRect(renderer, &judgementLineRect);
 
     //we render the container 
     SDL_SetRenderDrawColor(renderer, 114, 167, 214, 255);
@@ -207,6 +211,28 @@ int Game::render(){
     SDL_SetRenderDrawColor(renderer, 92, 191, 55, 255);
     SDL_Rect judgementZoneRect = {19, 185, 75, 75}; //x, y, width, height
     SDL_RenderFillRect(renderer, &judgementZoneRect);
+
+    //we create a SDL_Rect for the hit note
+    
+    SDL_Rect hitRect = {19, 120, 80, 80}; //x, y, width, height
+
+    switch (hitValue)
+    {
+        case 0:
+            SDL_RenderCopy(renderer, missTexture, NULL, &hitRect);
+            break;
+        case 50:
+            SDL_RenderCopy(renderer, hit50Texture, NULL, &hitRect);
+            break;
+        case 100:
+            SDL_RenderCopy(renderer, hit100Texture, NULL, &hitRect);
+            break;
+        case 300:
+            SDL_RenderCopy(renderer, hit300Texture, NULL, &hitRect);
+            break;
+        default:
+            break;
+    }
 
 
     for (int i = 0; i < notes.size(); i++) 
@@ -230,10 +256,7 @@ int Game::render(){
         }
     }
 
-    //we render the judgement line
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect judgementLineRect = judgementLine.getJudgementLineRect();
-    SDL_RenderFillRect(renderer, &judgementLineRect);
+    
     //we render the score
     renderScore(200, score);
 
@@ -241,6 +264,7 @@ int Game::render(){
     SDL_RenderPresent(renderer);
     return 0;
 }
+
 
 void Game::update()
 {   
@@ -384,46 +408,4 @@ void Game::renderScore(int y, double score){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderFillRect(renderer, &scoreRect);
     SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
-}
-
-void Game::renderHitNote(short hitValue)
-{
-    //we will show the hit note for 1/4 of a second, so we need to know when to stop showing it
-    double timeToStopShowingHitNote = SDL_GetTicks() + 250;
-
-    //we create a SDL_Rect for the hit note
-    SDL_Rect *hit_rect2 = new SDL_Rect;
-    hit_rect2->x = 60;
-    hit_rect2->y = 200;
-    hit_rect2->w = 70;
-    hit_rect2->h = 70;
-
-
-
-    //we render the hit note until the time to stop showing it is reached
-    while (SDL_GetTicks() < timeToStopShowingHitNote)
-    {
-        switch (hitValue)
-        {
-            case 0:
-                //we render the miss note
-                SDL_RenderCopy(renderer, missTexture, NULL, hit_rect2);
-                break;
-            case 50:
-                //we render the 50 note
-                SDL_RenderCopy(renderer, hit50Texture, NULL, hit_rect2);
-                break;
-            case 100:
-                //we render the 100 note
-                SDL_RenderCopy(renderer, hit100Texture, NULL, hit_rect2);
-                break;
-            case 300:
-                //we render the 300 note
-                SDL_RenderCopy(renderer, hit300Texture, NULL, hit_rect2);
-                break;
-            default:
-                break;
-        }
-        SDL_RenderPresent(renderer);
-    }
 }

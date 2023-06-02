@@ -23,7 +23,7 @@ class Game {
         // methods
         int init();
         int gameLoop();
-        int render();
+        int render(bool hit, short hitValue);
 
         //we define the array of notes
         std::vector<Note> notes;
@@ -84,7 +84,8 @@ class Game {
         SDL_Texture* missTexture;
 
         // we create the rect of the hit 
-        SDL_Rect hit_rect;
+        SDL_Rect hit_rect2;
+
 
 
 
@@ -97,6 +98,7 @@ class Game {
         void highscoreManagement(double score);
         void renderHitNote(short hitValue);
 
+        
 
 };
 
