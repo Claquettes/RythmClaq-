@@ -51,8 +51,8 @@ class Game {
         const float probEighthBeat = 0.05;
 
         double startTime = 0;
-        double DELAY_BETWEEN_FRAMES = 10;
-        double speed = 3;
+        double DELAY_BETWEEN_FRAMES = 1000; //seems to not do anything at all for now
+        double speed = 5;
         double score = 0;
         short combo = 0;
         short numberOfMisses = 0;
