@@ -142,7 +142,7 @@ int Game::gameLoop()
                 callHit = true;
                 //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
                 int distancePos = notes[0].getX() - 90;
-                if (distancePos > 200) //safe distance 
+                if (distancePos > 250) //safe distance 
                 {
                     std::cout << "To early to count" << std::endl;
                 }else {
