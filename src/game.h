@@ -37,10 +37,10 @@ class Game {
         JudgementLine judgementLine;
     private:
         bool readyToStart = false;
-
-        const short precisionToSpawn = 10;
+        //the greater the precision, the less notes will spawn
+        const short precisionToSpawn = 15;
         
-        const int BEAT = 700;
+        const int BEAT = 1000;
         const int HALF_BEAT = BEAT / 2;
         const int QUARTER_BEAT = BEAT / 4;
         const int EIGHTH_BEAT = BEAT / 8;

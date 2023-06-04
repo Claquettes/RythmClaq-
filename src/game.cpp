@@ -273,7 +273,6 @@ void Game::update()
         //WE NEED TO CALL THE ÉNDGAME METHOD HERE
         SDL_Quit();
     }
-
         //we check if the first note is out of the screen , and if it is, we delete it
         if (notes[0].getNoteRect().x < 0)
         {
@@ -283,8 +282,6 @@ void Game::update()
             combo = 0;
             numberOfMisses++;
         }
-        
-
     //we update the speed of the notes
     speed = speed + 0.0001;
 
