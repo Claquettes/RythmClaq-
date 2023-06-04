@@ -139,11 +139,13 @@ int Game::gameLoop()
             //if the user presses the D or K key,  D = red, K = green
             if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
             {
+                std::cout << "Key pressed!" << std::endl;
                 callHit = true;
                 //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
                 int distancePos = notes[0].getX() - 90;
                     //we call the calculateNoteValue method of the first note, passing the input as a parameter
                     hit_value = notes[0].calculateNoteValue(e, true);
+                    
                     if (hit_value == 0) //miss
                     {
                         //WE render the miss object
@@ -157,10 +159,9 @@ int Game::gameLoop()
                         //we add the hit value to the score, multiplying it by the (funny number, and we floor it
                         score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
                         combo++;
+                        //we remove the note from the array
                     }
-                    //we remove the note from the array
                     notes.erase(notes.begin() + 0);
-                
             }
         }
        
@@ -173,6 +174,7 @@ int Game::gameLoop()
             render(callHit, hit_value);
         }
     }
+
     std::cout << "Game over!" << std::endl;
     std::cout << "Your score is: " << score << std::endl;
 
@@ -274,7 +276,7 @@ void Game::update()
         SDL_Quit();
     }
         //we check if the first note is out of the screen , and if it is, we delete it
-        if (notes[0].getNoteRect().x < 0)
+        if (notes[0].getNoteRect().x < -10)
         {
             std::cout << "Deleted " << std::endl;
             notes.erase(notes.begin() + 0); //the +0 is to convert the iterator to an integer

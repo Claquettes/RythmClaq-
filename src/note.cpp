@@ -14,9 +14,9 @@ Note::Note()
     
     // we create a rect for the note, with random int values between 0 and 300
     note_rect.x = 500;
-    note_rect.y = 200;
-    note_rect.w = 50;
-    note_rect.h = 50;
+    note_rect.y = 170;
+    note_rect.w = 80;
+    note_rect.h = 80;
 }
 
 Note::~Note()
@@ -39,7 +39,7 @@ void Note::placeNote(double xpos)
 {
     //we place the note
     note_rect.x = xpos;
-    note_rect.y = 200;
+    note_rect.y = 170;
 }
 
 int Note::getValue() const
@@ -84,13 +84,9 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
     {
         return 100;
     }
-    else if (difference <= 300 && isCorrect)
-    {
-        return 50;
-    }
     else
     {
-        return 0;
+        return 50;
     }
 }
 
