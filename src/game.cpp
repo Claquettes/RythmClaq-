@@ -144,7 +144,7 @@ int Game::gameLoop()
                 int distancePos = notes[0].getX() - 90;
                     //we call the calculateNoteValue method of the first note, passing the input as a parameter
                     hit_value = notes[0].calculateNoteValue(e, true);
-                    if (hit_value == 0)
+                    if (hit_value == 0) //miss
                     {
                         //WE render the miss object
                         std::cout << "Missed!" << std::endl;
@@ -153,7 +153,7 @@ int Game::gameLoop()
                         //we add 1 to the miss counter
                         numberOfMisses++;
                     }
-                    else{
+                    else{ //NOT MISS
                         //we add the hit value to the score, multiplying it by the (funny number, and we floor it
                         score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
                         combo++;
@@ -274,8 +274,6 @@ void Game::update()
         SDL_Quit();
     }
 
-    if (notes.size() > 2)
-    {
         //we check if the first note is out of the screen , and if it is, we delete it
         if (notes[0].getNoteRect().x < 0)
         {
@@ -285,7 +283,7 @@ void Game::update()
             combo = 0;
             numberOfMisses++;
         }
-    }
+        
 
     //we update the speed of the notes
     speed = speed + 0.0001;
