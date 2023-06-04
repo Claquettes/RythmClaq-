@@ -72,19 +72,19 @@ int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
     //we get the position of the note
     int note_position = note_rect.x;
     //we calculate the difference between the note position and the application point
-    int difference = abs(note_position - 50 + 4);
+    int difference = abs(note_position - 70 + 4);
 
     std::cout << "difference: " << difference << std::endl;
     //we calculate the score
-    if (difference <= 55 && isCorrect)
+    if (difference <= 70 && isCorrect)
     {
         return 300;
     }
-    else if (difference <= 100 && isCorrect)
+    else if (difference <= 150 && isCorrect)
     {
         return 100;
     }
-    else if (difference <= 259 && isCorrect)
+    else if (difference <= 300 && isCorrect)
     {
         return 50;
     }
