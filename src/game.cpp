@@ -106,6 +106,32 @@ int Game::init()
     return 0;
 }
 
+int Game::handleInput()
+{
+    int hit_value = 0;
+    int distancePos = notes[0].getX() - 90;
+     //we call the calculateNoteValue method of the first note, passing the input as a parameter
+    hit_value = notes[0].calculateNoteValue(distancePos);
+                    
+    if (hit_value == 0) //miss
+    {
+    //WE render the miss object
+    std::cout << "Missed!" << std::endl;
+
+    //we reset the combo
+    combo = 0;
+    //we add 1 to the miss counter
+    numberOfMisses++;
+    }
+    else{ //NOT MISS
+    //we add the hit value to the score, multiplying it by the (funny number, and we floor it
+    score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
+    combo++;
+    }
+                  
+    
+}
+
 int Game::gameLoop()
 {
     // main loop flag
@@ -136,52 +162,52 @@ int Game::gameLoop()
             {
                 quit = true;
             }
-            //if the user presses the D or K key,  D = red, K = green
-            if (e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_k))
-            {
+            //if the user presses the any key on the keyboard
+            if (e.type == SDL_KEYDOWN)
+            {   //we get the length of the array of notes
+                int length = notes.size();
+                std::cout << "Length of the array: " << length << std::endl;
                 std::cout << "Key pressed!" << std::endl;
-                callHit = true;
-                //we calculate the distance from the judgement line, if it's more than 100, we don't hit the note
-                int distancePos = notes[0].getX() - 90;
-                    //we call the calculateNoteValue method of the first note, passing the input as a parameter
-                    hit_value = notes[0].calculateNoteValue(e, true);
-                    
-                    if (hit_value == 0) //miss
-                    {
-                        //WE render the miss object
-                        std::cout << "Missed!" << std::endl;
-                        //we reset the combo
-                        combo = 0;
-                        //we add 1 to the miss counter
-                        numberOfMisses++;
-                    }
-                    else{ //NOT MISS
-                        //we add the hit value to the score, multiplying it by the (funny number, and we floor it
-                        score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
-                        combo++;
-                        //we remove the note from the array
-                    }
-                    notes.erase(notes.begin() + 0);
+                //we call the handleInput method
+                handleInput();
+                //we remove the first note from the array
+                notes.erase(notes.begin());
+                std::cout << "removing note from array" << "the length of the array is now" << notes.size() << std::endl;
             }
         }
-       
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
 
-    //logic for the frame rate
-    frameTime = SDL_GetTicks() - frameStart;
-        if (frameTime < FRAME_DELAY) {
-            SDL_Delay(FRAME_DELAY - frameTime);
-            update();
-            render(callHit, hit_value);
+        if (frameCount % spawnInterval == 0)
+        {
+            spawnNotes();
+            std::cout << "Spawning note on frame: " << frameCount << std::endl;
         }
-    }
+        if(frameCount % spawnInterval == 10){
+            spawnNotes();
+            std::cout << "Spawning note on frame: " << frameCount << std::endl;
+        }
+      
+
+        frameCount++;
+
+        render(callHit, hit_value);
+
+        // Calculate frame time and delay if needed
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime)
+        {
+            SDL_Delay(frameDelay - frameTime);
+        }
+        update();
+    }   
+    
 
     std::cout << "Game over!" << std::endl;
     std::cout << "Your score is: " << score << std::endl;
 
     //we call the highscoreManagement method, passing the score as a parameter
     highscoreManagement(score); 
-
-
     //we call the destructor
     Game::~Game();
     return 0;
@@ -189,9 +215,6 @@ int Game::gameLoop()
 
 int Game::render(bool hit, short hitValue)
 {
-    //we create a SDL_Rect for the hit note
-    
-
     //we clear the renderer
     SDL_RenderClear(renderer);
     
@@ -235,36 +258,44 @@ int Game::render(bool hit, short hitValue)
         default:
             break;
     }
+    //logic for the notes
+    //we check the value of the note (1 = red, 2 = green)
+    for (int i = 0; i < notes.size(); i++)
+    {   
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-
-    for (int i = 0; i < notes.size(); i++) 
-    {
-        //we use the getNoteRect method to get the SDL_Rect of the note
+        //we render the note
         SDL_Rect noteRect = notes[i].getNoteRect();
-        //we check the value, to see if it is 1 or 2, and so change the color of the note
-        if (notes[i].getValue() == 1)
-        {
-           //we render the note
-            SDL_RenderCopy(renderer, note1Texture, NULL, &noteRect);
-        }
-        else if (notes[i].getValue() == 2)
-        {
-            SDL_RenderCopy(renderer, note2Texture, NULL, &noteRect);
-        }
-        else 
-        {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            std::cout << "Error: Note value is not 1 or 2" << std::endl;
-        }
+        SDL_RenderFillRect(renderer, &noteRect);
     }
-
-    
     //we render the score
     renderScore(200, score, combo);
-
     //we render the changes above
     SDL_RenderPresent(renderer);
     return 0;
+}
+
+void Game::spawnNotes()
+{
+
+    Note newNote;
+    newNote.placeNote(WINDOW_WIDTH);
+    //we add it to the array, at the start of the vector, and not at the end
+    notes.push_back(newNote);
+}
+
+void Game::checkDelete()
+{
+    //we check if the first note is out of the screen , and if it is, we delete it
+    if (notes[0].getNoteRect().x < -30)
+    {
+        std::cout << "Deleted " << std::endl;
+        notes.erase(notes.begin() + 0); //the +0 is to convert the iterator to an integer
+        //we reset the combo and add 1 to the miss counter
+        combo = 0;
+        numberOfMisses++;
+        return;
+    }
 }
 
 
@@ -275,15 +306,6 @@ void Game::update()
         //WE NEED TO CALL THE ÉNDGAME METHOD HERE
         SDL_Quit();
     }
-        //we check if the first note is out of the screen , and if it is, we delete it
-        if (notes[0].getNoteRect().x < -10)
-        {
-            std::cout << "Deleted " << std::endl;
-            notes.erase(notes.begin() + 0); //the +0 is to convert the iterator to an integer
-            //we reset the combo and add 1 to the miss counter
-            combo = 0;
-            numberOfMisses++;
-        }
     //we update the speed of the notes
     speed = speed + 0.0001;
 
@@ -293,44 +315,9 @@ void Game::update()
         //we call the moveNote method on every note
         notes[i].moveNote(speed);
     }
-
-    //we MAYBE spawn a new note every BEAT
-    if (SDL_GetTicks() % BEAT < precisionToSpawn)
+    if (notes.size() > 0)
     {
-        if (rand() % 100 < (probBeat * 100))
-        {
-            //we create a new note
-            Note newNote;
-            newNote.placeNote(WINDOW_WIDTH);
-            //we add it to the array, at the start of the vector, and not at the end
-            notes.push_back(newNote);
-        }
-    }
-
-    //we MAYBE spawn a new note every 1/2 of a beat
-    if (SDL_GetTicks() % HALF_BEAT < precisionToSpawn)
-    {
-        if (rand() % 100 < (probHalfBeat * 100))
-        {
-            //we create a new note
-            Note newNote;
-            newNote.placeNote(WINDOW_WIDTH);
-            //we add it to the array
-            notes.push_back(newNote);
-        }
-    }
-
-    //we MAYBE spawn a new note every 1/4 of a beat
-    if (SDL_GetTicks() % QUARTER_BEAT < precisionToSpawn)
-    {
-        if (rand() % 100 < (probQuarterBeat * 100))
-        {
-            //we create a new note
-            Note newNote;
-            newNote.placeNote(WINDOW_WIDTH);
-            //we add it to the array
-            notes.push_back(newNote);
-        }
+        checkDelete();
     }
 }
 

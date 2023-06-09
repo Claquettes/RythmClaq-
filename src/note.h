@@ -29,7 +29,7 @@ class Note {
         void spawnNote();
         void moveNote(int speed);
         void placeNote(double xpos);
-        int calculateNoteValue(SDL_Event event, bool isCorrect);
+        int calculateNoteValue(int distance);
         int getValue() const;
         int getX() const;
 

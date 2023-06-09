@@ -40,27 +40,32 @@ class Game {
         //the greater the precision, the less notes will spawn
         const short precisionToSpawn = 15;
         
-        const int BEAT = 1000;
+        const int BEAT = 900;
         const int HALF_BEAT = BEAT / 2;
         const int QUARTER_BEAT = BEAT / 4;
         const int EIGHTH_BEAT = BEAT / 8;
 
-        const float probBeat = 1;
+        const float probBeat = 0.9;
         const float probHalfBeat = 0.4;
         const float probQuarterBeat = 0.2;
 
         double startTime = 0;
-        double speed = 3;
+        double speed = 5;
         double score = 0;
         short combo = 0;
         short numberOfMisses = 0;
         int nextNoteToHit = 0;
 
-        const int FPS = 60;
-        const int FRAME_DELAY = 1000 / FPS;
+        // Variables for regulating frames per second
+    const int targetFPS = 60;
+    const int frameDelay = 1000 / targetFPS;
+    Uint32 frameStart;
+    int frameTime;
 
-        int frameTime = 0;
-        Uint32 frameStart = 0;
+    // Variables for tracking frame count
+    int frameCount = 0;
+    int spawnInterval = 50;
+
         // the window we'll be rendering to
         SDL_Window* window;
         SDL_Renderer* renderer;
@@ -107,6 +112,9 @@ class Game {
         void update();
         void highscoreManagement(double score);
         void renderHitNote(short hitValue);
+        void spawnNotes();
+        void checkDelete();
+        int handleInput();
 
         
 

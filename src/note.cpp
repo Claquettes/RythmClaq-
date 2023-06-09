@@ -9,9 +9,8 @@
 // Note.cpp
 Note::Note()
 {
-    //we add a value to the note, either 1 or 2
-    value = rand() % 2 + 1;
     
+
     // we create a rect for the note, with random int values between 0 and 300
     note_rect.x = 500;
     note_rect.y = 170;
@@ -47,45 +46,22 @@ int Note::getValue() const
     return value;
 }
 
-int Note::calculateNoteValue(SDL_Event event, bool isCorrect)
+int Note::calculateNoteValue(int distance)
 {
-    if(!hitable)
-    {
-        return 0;
-    }
-    //we check if the event is a keydown event, and if it's the correct key, a value of 1 == the key d needs to be pressed, a value of 2 == the key k needs to be pressed
-    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d && value == 1)
-    {
-        isCorrect = true;
-    }
-    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_k && value == 2)
-    {
-        isCorrect = true;
-    }
-    else
-    {
-        isCorrect = false;
-        return 0;
-    }
-    
-    //now we calculate the score, based on the position of the note
-    //we get the position of the note
-    int note_position = note_rect.x;
-    //we calculate the difference between the note position and the application point
-    int difference = abs(note_position - 70 + 4);
 
-    std::cout << "difference: " << difference << std::endl;
     //we calculate the score
-    if (difference <= 70 && isCorrect)
+    if (distance <= 70)
     {
+        std::cout << "the note returns 300 points" << std::endl;
         return 300;
     }
-    else if (difference <= 150 && isCorrect)
+    else if (distance <= 100)
     {
+        std::cout << "the note returns 100 points" << std::endl;
         return 100;
     }
     else
-    {
+    {   std::cout << "the note returns 50 points" << std::endl;
         return 50;
     }
 }
