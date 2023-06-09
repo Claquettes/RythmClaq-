@@ -122,6 +122,7 @@ int Game::handleInput()
     combo = 0;
     //we add 1 to the miss counter
     numberOfMisses++;
+    render(false, hit_value);
     }
     else{ //NOT MISS
     //we add the hit value to the score, multiplying it by the (funny number, and we floor it
@@ -207,9 +208,6 @@ int Game::gameLoop()
 
         //we update the frame count
         frameCount++;
-
-        render(callHit, hit_value);
-
         // Calculate frame time and delay if needed
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)
@@ -217,7 +215,7 @@ int Game::gameLoop()
             SDL_Delay(frameDelay - frameTime);
         }
         update();
-
+        render(callHit, hit_value);
     }   
     
 
@@ -233,6 +231,12 @@ int Game::gameLoop()
 
 int Game::render(bool hit, short hitValue)
 {
+    //if the hitvalue is not 0, we store the hit value in the lastHitValue variable
+    if (hitValue != 0)
+    {
+        int lastHitValue = hitValue;
+    }
+
     //we clear the renderer
     SDL_RenderClear(renderer);
     
@@ -261,9 +265,6 @@ int Game::render(bool hit, short hitValue)
 
     switch (hitValue)
     {
-        case 0:
-            SDL_RenderCopy(renderer, missTexture, NULL, &hitRect);
-            break;
         case 50:
             SDL_RenderCopy(renderer, hit50Texture, NULL, &hitRect);
             break;
@@ -276,18 +277,20 @@ int Game::render(bool hit, short hitValue)
         default:
             break;
     }
-    //logic for the notes
-    //we check the value of the note (1 = red, 2 = green)
-    for (int i = 0; i < notes.size(); i++)
-    {   
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-        //we render the note
+    for (int i = 0; i < notes.size(); i++) 
+    {
+        //we use the getNoteRect method to get the SDL_Rect of the note
         SDL_Rect noteRect = notes[i].getNoteRect();
+        //we render the note in red
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &noteRect);
     }
+
+    
     //we render the score
     renderScore(200, score, combo);
+
     //we render the changes above
     SDL_RenderPresent(renderer);
     return 0;
