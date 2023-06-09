@@ -103,6 +103,7 @@ int Game::init()
     std::cout << "Game initialized!, Launching the gameLoop" << std::endl;
     readyToStart = true;
     startTime = SDL_GetTicks();
+    spawnManagementSystem();
     return 0;
 }
 
@@ -131,7 +132,34 @@ int Game::handleInput()
                   
     
 }
+//this function is called when the game is initialized. It will check every 60/8 frames if a note should be spawned, by reading the .claq file
+void Game::spawnManagementSystem()
+{
+    //we empty the vector
+    notes.clear();
+    //we reset the frame counter
+    long frameCounter = 0;
+    // we open the file
+    std::ifstream file("assets/songs/1.claq");
+    std::string line;
+    // we read the file line by line and we push the values into the vector
+    while (std::getline(file, line))
+    {
+        //we create the note
+        Note note;
+        //we convert the string to an double
+        double notePos = std::stod(line);
+        notePos = notePos * 10 + WINDOW_WIDTH;
+        std::cout << "Note position: " << notePos << std::endl;
+        //we set the x coordinate of the note
+        note.placeNote(notePos);
+        //we add the note to the array
+        notes.push_back(note);
+    }
 
+   
+    
+}
 int Game::gameLoop()
 {
     // main loop flag
@@ -142,11 +170,6 @@ int Game::gameLoop()
     Uint32 startTime = SDL_GetTicks();
     int frameTime = 0;
 
-    //we create the notes
-    Note note1;
-    
-    //we add the notes to the array
-    notes.push_back(note1);
 
     // event handler
     SDL_Event e;
@@ -157,11 +180,6 @@ int Game::gameLoop()
         // event handling
         while (SDL_PollEvent(&e) != 0)
         {
-            // user requests quit
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
             //if the user presses the any key on the keyboard
             if (e.type == SDL_KEYDOWN)
             {   //we get the length of the array of notes
@@ -170,25 +188,25 @@ int Game::gameLoop()
                 std::cout << "Key pressed!" << std::endl;
                 //we call the handleInput method
                 handleInput();
-                //we remove the first note from the array
-                notes.erase(notes.begin());
+                //we remove the first note from the array if the length is greater than 0
+                if (length > 0)
+                {
+                    notes.erase(notes.begin());
+                }
+                else
+                {
+                    std::cout << "The array is empty!" << std::endl;
+                    //we close the game
+                    quit = true;
+                    SDL_Quit();
+                }
                 std::cout << "removing note from array" << "the length of the array is now" << notes.size() << std::endl;
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        if (frameCount % spawnInterval == 0)
-        {
-            spawnNotes();
-            std::cout << "Spawning note on frame: " << frameCount << std::endl;
-        }
-        if(frameCount % spawnInterval == 10){
-            spawnNotes();
-            std::cout << "Spawning note on frame: " << frameCount << std::endl;
-        }
-      
-
+        //we update the frame count
         frameCount++;
 
         render(callHit, hit_value);
@@ -200,6 +218,7 @@ int Game::gameLoop()
             SDL_Delay(frameDelay - frameTime);
         }
         update();
+
     }   
     
 

@@ -50,7 +50,7 @@ class Game {
         const float probQuarterBeat = 0.2;
 
         double startTime = 0;
-        double speed = 5;
+        double speed = 3;
         double score = 0;
         short combo = 0;
         short numberOfMisses = 0;
@@ -115,6 +115,8 @@ class Game {
         void spawnNotes();
         void checkDelete();
         int handleInput();
+        void spawnManagementSystem();
+
 
         
 
