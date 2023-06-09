@@ -60,9 +60,13 @@ int Note::calculateNoteValue(int distance)
         std::cout << "the note returns 100 points" << std::endl;
         return 100;
     }
-    else
+    else if(distance <= 150)
     {   std::cout << "the note returns 50 points" << std::endl;
         return 50;
+    }
+    else
+    {   std::cout << "the note returns 0 points" << std::endl;
+        return 0;
     }
 }
 

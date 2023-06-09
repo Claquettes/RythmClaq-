@@ -118,7 +118,6 @@ int Game::handleInput()
     {
     //WE render the miss object
     std::cout << "Missed!" << std::endl;
-
     //we reset the combo
     combo = 0;
     //we add 1 to the miss counter
@@ -129,8 +128,7 @@ int Game::handleInput()
     score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
     combo++;
     }
-                  
-    
+    //the function to remove the first element of the vector is now called when the event is handled
 }
 //this function is called when the game is initialized. It will check every 60/8 frames if a note should be spawned, by reading the .claq file
 void Game::spawnManagementSystem()
