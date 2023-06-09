@@ -127,7 +127,9 @@ int Game::handleInput()
     //we add the hit value to the score, multiplying it by the (funny number, and we floor it
     score += floor(hit_value * (combo/100.69 + speed*1.444)/2.727);
     combo++;
+    render(true, hit_value);
     }
+    
     //the function to remove the first element of the vector is now called when the event is handled
 }
 //this function is called when the game is initialized. It will check every 60/8 frames if a note should be spawned, by reading the .claq file
@@ -182,7 +184,6 @@ int Game::gameLoop()
             if (e.type == SDL_KEYDOWN)
             {   //we get the length of the array of notes
                 int length = notes.size();
-                std::cout << "Length of the array: " << length << std::endl;
                 std::cout << "Key pressed!" << std::endl;
                 //we call the handleInput method
                 handleInput();
