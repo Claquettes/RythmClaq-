@@ -116,19 +116,31 @@ void Song_selection_menu::song_selection_menuLoop(){
 int Song_selection_menu::refreshMapList() {
     DIR *dir;
     struct dirent *ent;
-    std::vector<std::string> fileContents;
+    std::vector<Map> mapVector; // Store the Map objects
 
     if ((dir = opendir("maps")) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
             if (ent->d_type == DT_DIR && std::string(ent->d_name) != "." && std::string(ent->d_name) != "..") {
                 std::string folderPath = std::string("maps/") + ent->d_name;
-                std::ifstream file((folderPath + "/infos.txt").c_str()); // Open the file using c_str()
+                std::ifstream file((folderPath + "/infos.txt").c_str());
 
                 if (file.is_open()) {
+                    Map mapObject; // Create a Map object for each directory
                     std::string line;
-                    while (std::getline(file, line)) {
-                        fileContents.push_back(line);
+
+                    // Read the first line as the name
+                    if (std::getline(file, line)) {
+                        mapObject.name = line;
                     }
+
+                    // Read the second line as the creator
+                    if (std::getline(file, line)) {
+                        mapObject.creator = line;
+                    }
+
+                    // Add the map object to the vector
+                    mapVector.push_back(mapObject);
+
                     file.close();
                 } else {
                     std::cerr << "Failed to open " << folderPath << "/infos.txt" << std::endl;
@@ -141,9 +153,12 @@ int Song_selection_menu::refreshMapList() {
         return EXIT_FAILURE;
     }
 
-    //WE SHOW THE CONTENTS OF THE VECTOR HERE FOR DEBUGGING PURPOSES
-    for (int i = 0; i < fileContents.size(); i++) {
-        std::cout << fileContents[i] << std::endl;
+    // Process the mapVector vector as needed
+    std::cout << "Number of maps: " << mapVector.size() << std::endl;
+    std::cout << "List of maps loaded:" << std::endl;
+    for (const Map& map : mapVector) {
+        // Do something with each Map object
+        std::cout << "Name: " << map.name << ", Creator: " << map.creator << std::endl;
     }
 
     return EXIT_SUCCESS;
