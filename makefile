@@ -1,7 +1,7 @@
 cc = g++
 CFLAGS = -g -Wall -std=c++11
 OBJDIR = obj
-OBJS = $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/note.o $(OBJDIR)/judgementLine.o $(OBJDIR)/main_menu.o $(OBJDIR)/editor.o
+OBJS = $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/note.o $(OBJDIR)/judgementLine.o $(OBJDIR)/main_menu.o $(OBJDIR)/editor.o $(OBJDIR)/song_selection_menu.o
 LIBS = -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2
 Include = -I/usr/include/SDL2
 
@@ -21,11 +21,14 @@ $(OBJDIR)/game.o: src/game.cpp  src/note.h src/judgementLine.h
 $(OBJDIR)/main.o: main.cpp src/game.h src/main_menu.h
 	$(cc) $(CFLAGS) -c main.cpp -o $(OBJDIR)/main.o $(Include)
 
-$(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/game.h src/editor.h
+$(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/editor.h
 	$(cc) $(CFLAGS) -c src/main_menu.cpp -o $(OBJDIR)/main_menu.o $(Include)
 
 $(OBJDIR)/editor.o: src/editor.cpp src/editor.h 
 	$(cc) $(CFLAGS) -c src/editor.cpp -o $(OBJDIR)/editor.o $(Include)
+
+$(OBJDIR)/song_selection_menu.o: src/song_selection_menu.cpp src/song_selection_menu.h src/game.h
+	$(cc) $(CFLAGS) -c src/song_selection_menu.cpp -o $(OBJDIR)/song_selection_menu.o $(Include)
 
 $(OBJDIR)/note.o: src/note.cpp src/note.h
 	$(cc) $(CFLAGS) -c src/note.cpp -o $(OBJDIR)/note.o $(Include)

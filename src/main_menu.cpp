@@ -1,5 +1,5 @@
 #include "main_menu.h"
-#include "game.h"
+#include "song_selection_menu.h"
 #include "editor.h"
 #include <iostream>
 #include <string>
@@ -134,11 +134,11 @@ int Main_menu::menuLoop(){
             {
                 // we quit the menu
                 quit = true;
-                // we launch the game
-                std::cout << "Launching the game." << std::endl;
+                // we launch the Song_selection_menu
+                std::cout << "Launching the Song_selection_menu." << std::endl;
+                Song_selection_menu song_selection_menu;
                 //we destroy the menu
                 Main_menu::~Main_menu();
-                Game game;
             }
         }
         // we clear the renderer
