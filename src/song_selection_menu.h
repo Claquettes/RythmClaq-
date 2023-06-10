@@ -7,6 +7,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 class Song_selection_menu {
 
@@ -24,16 +25,22 @@ class Song_selection_menu {
     //we create a window for the ssm
     SDL_Window* window_song_selection_menu = NULL;
 
+    //we create a vector of Map objects
+    std::vector<Map> mapVector; // Store the Map objects
+
+    TTF_Font* font;
     private:
+    
+    //function that scans the maps folder and adds the maps to the vector
     int refreshMapList();
 
- 
     int init();
     //textures
     SDL_Texture* background_texture = NULL;
+    //we create a function to loop the ssm
     void song_selection_menuLoop();
-
-
+    //we create a function to draw the vector of maps
+    void drawMapList();
 };
 
 #endif // SONG_SELECTION_MENU_H
