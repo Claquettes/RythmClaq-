@@ -1,5 +1,6 @@
 #include "main_menu.h"
 #include "game.h"
+#include "editor.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -125,7 +126,8 @@ int Main_menu::menuLoop(){
                 quit = true;
                 // we launch the editor
                 std::cout << "Launching the editor." << std::endl;
-                return 1;
+                Editor editor;
+                Main_menu::~Main_menu();
             }
             // if the user clicks on the button to open the game
             if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= open_game_rect.x && e.button.x <= open_game_rect.x + open_game_rect.w && e.button.y >= open_game_rect.y && e.button.y <= open_game_rect.y + open_game_rect.h)
