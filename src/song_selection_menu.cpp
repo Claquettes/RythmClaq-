@@ -64,6 +64,12 @@ int Song_selection_menu::init(){
         std::cout << "Background could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+    
+    TTF_Init();
+    //we load the font
+    font = nullptr;
+    font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
+    std::cout << "Font loaded!" << std::endl;
 
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling Song_selection_menuLoop." << std::endl;
@@ -91,6 +97,7 @@ void Song_selection_menu::song_selection_menuLoop(){
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
     SDL_RenderFillRect(renderer_song_selection_menu, &test_rect);
+    drawMapList(); 
     SDL_RenderPresent(renderer_song_selection_menu);
 
     //we listen to events, and we close the menu if the user clicks on the test button
@@ -110,7 +117,8 @@ void Song_selection_menu::song_selection_menuLoop(){
                 quit = true;
             }
         }
-    }    
+    }   
+    
 }
 
 int Song_selection_menu::refreshMapList() {
@@ -162,4 +170,22 @@ int Song_selection_menu::refreshMapList() {
     }
 
     return EXIT_SUCCESS;
+}
+
+void Song_selection_menu::drawMapList() {
+    // for each map in the mapVector vector, we first create a rect, then we draw the name and the creator
+    short number_of_maps = mapVector.size();
+    short i = 0;
+    for (const Map& map : mapVector) {
+        i++;
+        // we create a rect
+        SDL_Rect map_rect;
+        map_rect.x = 100;
+        map_rect.y = 100 + 100 * i;
+        map_rect.w = 100;
+        map_rect.h = 100;
+        // we draw the rect
+        SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
+        SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
+    }
 }
