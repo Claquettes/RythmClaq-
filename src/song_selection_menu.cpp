@@ -1,10 +1,12 @@
 #include "song_selection_menu.h"
 #include "game.h"
+#include "map.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <dirent.h>
 
 //constructor
 Song_selection_menu::Song_selection_menu(){
@@ -50,12 +52,11 @@ int Song_selection_menu::init(){
     //we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     // we load the background image
-    background_texture = IMG_LoadTexture(renderer_song_selection_menu, "assets/menu/song.png");
+    background_texture = IMG_LoadTexture(renderer_song_selection_menu, "assets/menu/song_selection_menu/song.png");
     // we render the background
     SDL_RenderCopy(renderer_song_selection_menu, background_texture, NULL, NULL);
     // we update the screen
     SDL_RenderPresent(renderer_song_selection_menu);
-    
 
     if (background_texture  == nullptr)
     {
@@ -65,6 +66,7 @@ int Song_selection_menu::init(){
 
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling Song_selection_menuLoop." << std::endl;
+    //
     song_selection_menuLoop();
     return 0;
 }
@@ -81,7 +83,10 @@ void Song_selection_menu::song_selection_menuLoop(){
     test_rect.y = 800;
     test_rect.w = 100;
     test_rect.h = 100;
-
+    
+    //we call the refreshMapList function
+    refreshMapList();
+    
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
     SDL_RenderFillRect(renderer_song_selection_menu, &test_rect);
@@ -104,7 +109,22 @@ void Song_selection_menu::song_selection_menuLoop(){
                 quit = true;
             }
         }
+    }    
+}
+
+int Song_selection_menu::refreshMapList(){
+    //we open the map folder
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ("maps")) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            std::cout << ent->d_name << std::endl;
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
+        return EXIT_FAILURE;
     }
-      
-           
 }

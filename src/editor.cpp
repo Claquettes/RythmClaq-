@@ -49,7 +49,7 @@ int Editor::init(){
     //we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     // we load the background image
-    background_texture = IMG_LoadTexture(renderer_editor, "assets/menu/editor.png");
+    background_texture = IMG_LoadTexture(renderer_editor, "assets/menu/editor/editor.png");
     // we render the background
     SDL_RenderCopy(renderer_editor, background_texture, NULL, NULL);
     // we update the screen
