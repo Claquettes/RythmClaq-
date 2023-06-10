@@ -9,13 +9,11 @@
 // Note.cpp
 Note::Note()
 {
-    
-
     // we create a rect for the note, with random int values between 0 and 300
     note_rect.x = 500;
     note_rect.y = 170;
-    note_rect.w = 80;
-    note_rect.h = 80;
+    note_rect.w = 60;
+    note_rect.h = 60;
 }
 
 Note::~Note()
@@ -50,17 +48,17 @@ int Note::calculateNoteValue(int distance)
 {
 
     //we calculate the score
-    if (distance <= 70)
+    if (distance <= 40)
     {
         std::cout << "the note returns 300 points" << std::endl;
         return 300;
     }
-    else if (distance <= 100)
+    else if (distance <= 70)
     {
         std::cout << "the note returns 100 points" << std::endl;
         return 100;
     }
-    else if(distance <= 150)
+    else if(distance <= 100)
     {   std::cout << "the note returns 50 points" << std::endl;
         return 50;
     }

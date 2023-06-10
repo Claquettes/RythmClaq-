@@ -28,7 +28,6 @@ Main_menu::~Main_menu()
     SDL_DestroyWindow(window_menu);
     //we quit SDL
     SDL_Quit();
-
 }
 
 int Main_menu::init(){

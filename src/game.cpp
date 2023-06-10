@@ -282,9 +282,8 @@ int Game::render(bool hit, short hitValue)
     {
         //we use the getNoteRect method to get the SDL_Rect of the note
         SDL_Rect noteRect = notes[i].getNoteRect();
-        //we render the note in red
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &noteRect);
+        //we RENDER THE Note1 on the noteRect
+        SDL_RenderCopy(renderer, note1Texture, NULL, &noteRect);
     }
 
     
