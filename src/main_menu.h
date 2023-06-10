@@ -25,7 +25,7 @@ class Main_menu {
     //we define the size of the button
     int BUTTON_WIDTH = 200;
     int BUTTON_HEIGHT = 100;
-    
+
 
 
 
@@ -45,9 +45,15 @@ class Main_menu {
     //method to initialize the menu
     int init();
     //method that will loop until the user closes the menu, handling events
-    void menuLoop();
+    int menuLoop();
     //textures
     SDL_Texture* background_texture = NULL;
+    SDL_Texture* open_editor_texture = NULL;
+    SDL_Texture* open_game_texture = NULL;
+    //surfaces
+    SDL_Surface* open_editor_surface = NULL;
+    SDL_Surface* open_game_surface = NULL;
+    
 
 };
 

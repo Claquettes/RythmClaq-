@@ -1,4 +1,5 @@
 #include "main_menu.h"
+#include "game.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,7 +15,20 @@ Main_menu::Main_menu()
 Main_menu::~Main_menu()
 {
     std::cout << "Main_menu destructor called!" << std::endl;
-    //Main_menu::quit(); //a implémenter
+    //we free all of the textures and surfaces
+    SDL_DestroyTexture(background_texture);
+    SDL_DestroyTexture(open_editor_texture);
+    SDL_DestroyTexture(open_game_texture);
+
+    SDL_FreeSurface(open_game_surface);
+    SDL_FreeSurface(open_editor_surface);
+
+    //we close the menu window
+    SDL_DestroyRenderer(renderer_menu);
+    SDL_DestroyWindow(window_menu);
+    //we quit SDL
+    SDL_Quit();
+
 }
 
 int Main_menu::init(){
@@ -42,10 +56,28 @@ int Main_menu::init(){
     //we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     // we load the background image
-    background_texture = IMG_LoadTexture(renderer_menu, "assets/menu/bdanse.png");
-    if (background_texture == nullptr)
+    background_texture = IMG_LoadTexture(renderer_menu, "assets/menu/chatsalade.jpg");
+
+    //we create the surface for the buttons
+    open_editor_surface = IMG_Load("assets/menu/EDITORTEXTURE.png");
+    open_game_surface = IMG_Load("assets/menu/PLAYTEXTURE.png");
+    //we create the texture for the buttons
+    open_editor_texture = SDL_CreateTextureFromSurface(renderer_menu, open_editor_surface);
+    open_game_texture = SDL_CreateTextureFromSurface(renderer_menu, open_game_surface);
+
+    if (background_texture  == nullptr)
     {
         std::cout << "Background could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    if(open_editor_texture == nullptr)
+    {
+        std::cout << "open_editor_texture could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    if(open_game_texture == nullptr)
+    {
+        std::cout << "open_game_texture could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
@@ -61,24 +93,13 @@ int Main_menu::init(){
     open_game_rect.w = BUTTON_WIDTH;
     open_game_rect.h = BUTTON_HEIGHT;
 
-    //we render the background
-    SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
-
-    //we render the button to open the editor
-    SDL_SetRenderDrawColor(renderer_menu, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderFillRect(renderer_menu, &open_editor_rect);
-    
-    //we render the button to open the game
-    SDL_SetRenderDrawColor(renderer_menu, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderFillRect(renderer_menu, &open_game_rect);
-
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling menuLoop." << std::endl;
     menuLoop();
     return 0;
 }
 
-void Main_menu::menuLoop(){
+int Main_menu::menuLoop(){
     std::cout << "Main_menu menuLoop called!" << std::endl;
     // we create a boolean that will be true until the user closes the menu
     bool quit = false;
@@ -105,6 +126,7 @@ void Main_menu::menuLoop(){
                 quit = true;
                 // we launch the editor
                 std::cout << "Launching the editor." << std::endl;
+                return 1;
             }
             // if the user clicks on the button to open the game
             if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= open_game_rect.x && e.button.x <= open_game_rect.x + open_game_rect.w && e.button.y >= open_game_rect.y && e.button.y <= open_game_rect.y + open_game_rect.h)
@@ -113,19 +135,21 @@ void Main_menu::menuLoop(){
                 quit = true;
                 // we launch the game
                 std::cout << "Launching the game." << std::endl;
+                //we destroy the menu
+                Main_menu::~Main_menu();
+                Game game;
             }
         }
         // we clear the renderer
         SDL_RenderClear(renderer_menu);
         // we render the background
         SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
-        // we render the button to open the editor
-        SDL_SetRenderDrawColor(renderer_menu, 0, 0, 0, 0);
-        SDL_RenderFillRect(renderer_menu, &open_editor_rect);
-        // we render the button to open the game
-        SDL_SetRenderDrawColor(renderer_menu, 0, 0, 0, 0);
-        SDL_RenderFillRect(renderer_menu, &open_game_rect);
-        // we update the renderer
+        ///we render the background
+        SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
+        //we render the buttons
+        SDL_RenderCopy(renderer_menu, open_editor_texture, NULL, &open_editor_rect);
+        SDL_RenderCopy(renderer_menu, open_game_texture, NULL, &open_game_rect);
+        //we update the screen
         SDL_RenderPresent(renderer_menu);
     }
 }
