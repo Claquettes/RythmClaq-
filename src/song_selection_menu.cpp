@@ -2,6 +2,7 @@
 #include "game.h"
 #include "map.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <SDL2/SDL.h>
@@ -112,19 +113,38 @@ void Song_selection_menu::song_selection_menuLoop(){
     }    
 }
 
-int Song_selection_menu::refreshMapList(){
-    //we open the map folder
+int Song_selection_menu::refreshMapList() {
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("maps")) != NULL) {
-        /* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != NULL) {
-            std::cout << ent->d_name << std::endl;
+    std::vector<std::string> fileContents;
+
+    if ((dir = opendir("maps")) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+            if (ent->d_type == DT_DIR && std::string(ent->d_name) != "." && std::string(ent->d_name) != "..") {
+                std::string folderPath = std::string("maps/") + ent->d_name;
+                std::ifstream file((folderPath + "/infos.txt").c_str()); // Open the file using c_str()
+
+                if (file.is_open()) {
+                    std::string line;
+                    while (std::getline(file, line)) {
+                        fileContents.push_back(line);
+                    }
+                    file.close();
+                } else {
+                    std::cerr << "Failed to open " << folderPath << "/infos.txt" << std::endl;
+                }
+            }
         }
-        closedir (dir);
+        closedir(dir);
     } else {
-        /* could not open directory */
-        perror ("");
+        perror("");
         return EXIT_FAILURE;
     }
+
+    //WE SHOW THE CONTENTS OF THE VECTOR HERE FOR DEBUGGING PURPOSES
+    for (int i = 0; i < fileContents.size(); i++) {
+        std::cout << fileContents[i] << std::endl;
+    }
+
+    return EXIT_SUCCESS;
 }
