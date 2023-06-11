@@ -16,7 +16,7 @@ Main_menu::Main_menu()
 Main_menu::~Main_menu()
 {
     std::cout << "Main_menu destructor called!" << std::endl;
-    //we free all of the textures and surfaces
+    // we free all of the textures and surfaces
     SDL_DestroyTexture(background_texture);
     SDL_DestroyTexture(open_editor_texture);
     SDL_DestroyTexture(open_game_texture);
@@ -24,14 +24,15 @@ Main_menu::~Main_menu()
     SDL_FreeSurface(open_game_surface);
     SDL_FreeSurface(open_editor_surface);
 
-    //we close the menu window
+    // we close the menu window
     SDL_DestroyRenderer(renderer_menu);
     SDL_DestroyWindow(window_menu);
-    //we quit SDL
+    // we quit SDL
     SDL_Quit();
 }
 
-int Main_menu::init(){
+int Main_menu::init()
+{
     std::cout << "Main_menu init called!" << std::endl;
     // we initialize the SDL library
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -53,44 +54,44 @@ int Main_menu::init(){
         std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-    //we initialize SDL_image
+    // we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     // we load the background image
-    background_texture = IMG_LoadTexture(renderer_menu, "assets/menu/chatsalade.jpg");
+    background_texture = IMG_LoadTexture(renderer_menu, "assets/menu/howl.png"); // static for now, will be dynamic later
 
-    //we create the surface for the buttons
+    // we create the surface for the buttons
     open_editor_surface = IMG_Load("assets/menu/EDITORTEXTURE.png");
     open_game_surface = IMG_Load("assets/menu/PLAYTEXTURE.png");
-    //we create the texture for the buttons
+    // we create the texture for the buttons
     open_editor_texture = SDL_CreateTextureFromSurface(renderer_menu, open_editor_surface);
     open_game_texture = SDL_CreateTextureFromSurface(renderer_menu, open_game_surface);
 
-    if (background_texture  == nullptr)
+    if (background_texture == nullptr)
     {
         std::cout << "Background could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-    if(open_editor_texture == nullptr)
+    if (open_editor_texture == nullptr)
     {
         std::cout << "open_editor_texture could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-    if(open_game_texture == nullptr)
+    if (open_game_texture == nullptr)
     {
         std::cout << "open_game_texture could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
-    //we place the button to open the editor
-    open_editor_rect.x = WINDOW_WIDTH/2 - BUTTON_WIDTH/2;
-    open_editor_rect.y = WINDOW_HEIGHT/2 - BUTTON_HEIGHT/2;
-    open_editor_rect.w = BUTTON_WIDTH;
+    // we place the button to open the editor
+    open_editor_rect.x = WINDOW_WIDTH / 2 - BUTTON_WIDTH / 2;
+    open_editor_rect.y = WINDOW_HEIGHT / 2 - BUTTON_HEIGHT / 2;
+    open_editor_rect.w = 0; // Initially set the width to 0
     open_editor_rect.h = BUTTON_HEIGHT;
 
-    //we place the button to open the game
-    open_game_rect.x = WINDOW_WIDTH/2 - BUTTON_WIDTH/2;
-    open_game_rect.y = WINDOW_HEIGHT/2 - BUTTON_HEIGHT/2 + 150;
-    open_game_rect.w = BUTTON_WIDTH;
+    // we place the button to open the game
+    open_game_rect.x = WINDOW_WIDTH / 2 - BUTTON_WIDTH / 2;
+    open_game_rect.y = WINDOW_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 150;
+    open_game_rect.w = 0; // Initially set the width to 0
     open_game_rect.h = BUTTON_HEIGHT;
 
     // if everything is ok, we return 0 and we launch the menuLoop
@@ -99,15 +100,19 @@ int Main_menu::init(){
     return 0;
 }
 
-int Main_menu::menuLoop(){
+int Main_menu::menuLoop()
+{
     std::cout << "Main_menu menuLoop called!" << std::endl;
     // we create a boolean that will be true until the user closes the menu
     bool quit = false;
     // we create an event handler
     SDL_Event e;
-    // we create a rect that will act as a button to open the editor
-    
-    //we listen to events until the user closes the menu
+
+    const int ANIMATION_DURATION = 500; // Duration of the reveal animation in milliseconds
+    int animationStartTime = 0;         // Start time of the animation
+    bool buttonsVisible = false;        // Flag to track whether the buttons should be visible or hidden
+
+    // we listen to events until the user closes the menu
     while (!quit)
     {
         // we poll the events
@@ -137,20 +142,58 @@ int Main_menu::menuLoop(){
                 // we launch the Song_selection_menu
                 std::cout << "Launching the Song_selection_menu." << std::endl;
                 Song_selection_menu song_selection_menu;
-                //we destroy the menu
+                // we destroy the menu
                 Main_menu::~Main_menu();
             }
+            // if the user clicks on the white square in the middle
+            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= WINDOW_WIDTH / 2 - WHITE_SQUARE_SIZE / 2 && e.button.x <= WINDOW_WIDTH / 2 + WHITE_SQUARE_SIZE / 2 && e.button.y >= WINDOW_HEIGHT / 2 - WHITE_SQUARE_SIZE / 2 && e.button.y <= WINDOW_HEIGHT / 2 + WHITE_SQUARE_SIZE / 2)
+            {
+                // Start the animation to reveal the buttons
+                if (!buttonsVisible)
+                {
+                    buttonsVisible = true;
+                    animationStartTime = SDL_GetTicks();
+                }
+            }
         }
+
         // we clear the renderer
         SDL_RenderClear(renderer_menu);
         // we render the background
         SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
-        ///we render the background
-        SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
-        //we render the buttons
+
+        if (buttonsVisible)
+        {
+            // Calculate the current width of the buttons based on the animation progress
+            int currentTime = SDL_GetTicks();
+            int elapsedTime = currentTime - animationStartTime;
+            float animationProgress = (float)elapsedTime / ANIMATION_DURATION;
+            int buttonWidth = static_cast<int>(BUTTON_WIDTH * animationProgress);
+
+            // Limit the button width to the maximum width
+            if (buttonWidth > BUTTON_WIDTH)
+                buttonWidth = BUTTON_WIDTH;
+
+            // Update the button widths
+            open_editor_rect.w = buttonWidth;
+            open_game_rect.w = buttonWidth;
+        }
+        else
+        {
+            //we render the white square in the middle
+            SDL_SetRenderDrawColor(renderer_menu, 255, 255, 255, 255);
+            SDL_Rect white_square_rect;
+            white_square_rect.x = WINDOW_WIDTH / 2 - WHITE_SQUARE_SIZE / 2;
+            white_square_rect.y = WINDOW_HEIGHT / 2 - WHITE_SQUARE_SIZE / 2;
+            white_square_rect.w = WHITE_SQUARE_SIZE;
+            white_square_rect.h = WHITE_SQUARE_SIZE;
+            SDL_RenderFillRect(renderer_menu, &white_square_rect);
+        }
+
+        // we render the buttons
         SDL_RenderCopy(renderer_menu, open_editor_texture, NULL, &open_editor_rect);
         SDL_RenderCopy(renderer_menu, open_game_texture, NULL, &open_game_rect);
-        //we update the screen
+        // we update the screen
         SDL_RenderPresent(renderer_menu);
     }
 }
