@@ -26,19 +26,14 @@ class Main_menu {
     int BUTTON_WIDTH = 200;
     int BUTTON_HEIGHT = 100;
 
-
-
-
-
-
     //we create a renderer for the menu 
     SDL_Renderer* renderer_menu = NULL;
     //we create a window for the menu
     SDL_Window* window_menu = NULL;
 
     //we define the size of the window
-    int WINDOW_WIDTH = 800;
-    int WINDOW_HEIGHT = 600;
+    int WINDOW_WIDTH = 1920;
+    int WINDOW_HEIGHT = 1080;
 
     private:
     //methods

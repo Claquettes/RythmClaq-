@@ -86,8 +86,8 @@ void Song_selection_menu::song_selection_menuLoop(){
     SDL_Event e;
     // we create a rect that will act as a test button
     SDL_Rect test_rect;
-    test_rect.x = 1000;
-    test_rect.y = 800;
+    test_rect.x = WINDOW_WIDTH / 2 - 50;
+    test_rect.y = WINDOW_HEIGHT / 2 - 50;
     test_rect.w = 100;
     test_rect.h = 100;
     
