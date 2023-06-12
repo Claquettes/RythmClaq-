@@ -246,6 +246,8 @@ void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::ve
     // Print the selected map index (1-indexed) if a map is selected
     if (selectedMapIndex != -1) {
         std::cout << "You chose level " << selectedMapIndex + 1 << std::endl;
+        //we start the game:
+        Game game(mapVector[selectedMapIndex]);
     }
 }
 
