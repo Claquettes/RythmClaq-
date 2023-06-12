@@ -192,10 +192,10 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         SDL_Rect map_rect;
         map_rect.x = 100;
         map_rect.y = 100 + 100 * i;
-        map_rect.w = WINDOW_WIDTH / 10;
+        map_rect.w = WINDOW_WIDTH / 7;
         map_rect.h = WINDOW_HEIGHT / 10;
-        // we draw the rect
-        SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
+        // we draw the rect in a random color
+        SDL_SetRenderDrawColor(renderer_song_selection_menu, rand() % 255, rand() % 255, rand() % 255, 255);
         SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
         std::cout << "Drawing map " << i << std::endl;
         std::cout << "A rect has been drawn at " << map_rect.x << ", " << map_rect.y << std::endl;
