@@ -14,9 +14,8 @@ class Game {
         const int WINDOW_WIDTH = 800; 
         const int WINDOW_HEIGHT = 450;
 
-        // constructor
-        Game();
-
+        // constructor, who takes a map as an argument
+        
         // destructor
         ~Game();
 
