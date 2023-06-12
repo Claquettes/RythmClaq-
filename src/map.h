@@ -19,7 +19,8 @@ class Map {
         Map();
         //destructor
         ~Map();
-        
+
+
 
     private:
         //infos about the difficulty of the map

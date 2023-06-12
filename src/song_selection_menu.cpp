@@ -110,6 +110,18 @@ void Song_selection_menu::song_selection_menuLoop(){
                 //we start the game:
                 Game game;
             }
+
+            //for each of the map_rects, we check if the user clicked on it
+            for (int i = 0; i < map_rects.size(); i++) {
+                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= map_rects[i].x && e.button.x <= map_rects[i].x + map_rects[i].w && e.button.y >= map_rects[i].y && e.button.y <= map_rects[i].y + map_rects[i].h) {
+                    //we start the game:
+                    Game game;
+                }
+            }
+            
+
+
+
             // if the user clicks on the close button, we close the menu
             if (e.type == SDL_QUIT)
             {
@@ -169,6 +181,7 @@ int Song_selection_menu::refreshMapList() {
 }
 
 void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
+    SDL_Color white = {255, 255, 255};
     // for each map in the mapVector vector, we first create a rect, then we draw the name and the creator
     short number_of_maps = mapVector.size();
     std::cout << "Drawing " << number_of_maps << " maps." << std::endl;
@@ -179,13 +192,16 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         SDL_Rect map_rect;
         map_rect.x = 100;
         map_rect.y = 100 + 100 * i;
-        map_rect.w = 100;
-        map_rect.h = 100;
+        map_rect.w = WINDOW_WIDTH / 10;
+        map_rect.h = WINDOW_HEIGHT / 10;
         // we draw the rect
         SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
         SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
         std::cout << "Drawing map " << i << std::endl;
         std::cout << "A rect has been drawn at " << map_rect.x << ", " << map_rect.y << std::endl;
-
+        //we push the rect in the map_rects vector
+        map_rects.push_back(map_rect);
     }
+    //for debugging purposes, we print the length of the map_rects vector
+    std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
 }

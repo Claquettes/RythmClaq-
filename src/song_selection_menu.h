@@ -41,6 +41,9 @@ class Song_selection_menu {
     void song_selection_menuLoop();
     //we create a function to draw the vector of maps, that takes the vector as an argument
     void drawMapList(std::vector<Map> mapVector);
+    //we create a vector of map_rects
+    std::vector<SDL_Rect> map_rects;
+    
 };
 
 #endif // SONG_SELECTION_MENU_H
