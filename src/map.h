@@ -19,11 +19,6 @@ class Map {
         Map();
         //destructor
         ~Map();
-
-
-
-    private:
-        //infos about the difficulty of the map
         short difficulty;
         short bpm;
 
@@ -31,6 +26,11 @@ class Map {
         std::string song_name;
         std::string artist_name;
         std::string song_path;
+
+
+
+    private:
+
 };
        
 #endif // MAP_H

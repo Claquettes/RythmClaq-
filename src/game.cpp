@@ -1,4 +1,5 @@
 #include "game.h"
+#include "map.h"
 #include "note.h"
 #include "judgementLine.h"
 #include <iostream>
@@ -9,9 +10,9 @@
 #include <fstream>
 #include <SDL2/SDL_ttf.h>
 
-Game::Game()
+Game::Game(Map map)
 {
-    std::cout << "Game constructor called!" << std::endl;
+    std::cout << "Game constructor called!, with the map:" << map.name << std::endl;
     // we call the init method
     init();
     // we call the gameLoop method once the game is initialized
@@ -278,7 +279,7 @@ int Game::render(bool hit, short hitValue)
             break;
     }
 
-    for (int i = 0; i < notes.size(); i++) 
+    for (unsigned int i = 0; i < notes.size(); i++) 
     {
         //we use the getNoteRect method to get the SDL_Rect of the note
         SDL_Rect noteRect = notes[i].getNoteRect();
@@ -330,7 +331,7 @@ void Game::update()
     speed = speed + 0.0001;
 
     //we update the notes, by sliding them to the left by 1 pixel
-    for (int i = 0; i < notes.size(); i++)
+    for (unsigned int i = 0; i < notes.size(); i++)
     {   
         //we call the moveNote method on every note
         notes[i].moveNote(speed);
@@ -347,12 +348,6 @@ void Game::highscoreManagement(double score) {
     if (file.is_open()) {
         double highscore;
         file >> highscore; // Read the highscore from the file
-
-        //we check if the file is empty, ie highscore is null
-        if (highscore == NULL)
-        {
-            highscore = 0;
-        }
 
         if (score > highscore) {
             std::ofstream outfile("highscore.txt"); // Open the file for writing

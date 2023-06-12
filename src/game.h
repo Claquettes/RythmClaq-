@@ -2,6 +2,7 @@
 #define GAME_H
 #include "note.h"
 #include "judgementLine.h"
+#include "map.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,8 +15,10 @@ class Game {
         const int WINDOW_WIDTH = 800; 
         const int WINDOW_HEIGHT = 450;
 
-        // constructor, who takes a map as an argument
-        
+        // constructor, who takes a MAP as an argument when called
+        Game(Map map);
+
+
         // destructor
         ~Game();
 

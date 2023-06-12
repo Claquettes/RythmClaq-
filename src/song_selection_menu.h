@@ -42,7 +42,9 @@ class Song_selection_menu {
     //we create a function to draw the vector of maps, that takes the vector as an argument
     void drawMapList(std::vector<Map> mapVector);
     //we create a vector of map_rects
-    std::vector<SDL_Rect> map_rects;
+    std::vector<SDL_Rect> map_rects; 
+    //void that will handle the map selection, and launch the game. 
+    void handleMapSelection(std::vector<Map> mapVector,  std::vector<SDL_Rect> map_rects);
     
 };
 

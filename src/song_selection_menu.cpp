@@ -1,6 +1,9 @@
 #include "song_selection_menu.h"
-#include "game.h"
-#include "map.h"
+
+#include "game.h" //to start games
+#include "map.h" //to interract with maps
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -93,6 +96,7 @@ void Song_selection_menu::song_selection_menuLoop(){
     
     //we call the refreshMapList function
     refreshMapList();
+
     
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
@@ -108,19 +112,11 @@ void Song_selection_menu::song_selection_menuLoop(){
             if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= test_rect.x && e.button.x <= test_rect.x + test_rect.w && e.button.y >= test_rect.y && e.button.y <= test_rect.y + test_rect.h)
             {
                 //we start the game:
-                Game game;
+                Game game(mapVector[0]);
             }
 
-            //for each of the map_rects, we check if the user clicked on it
-            for (int i = 0; i < map_rects.size(); i++) {
-                if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= map_rects[i].x && e.button.x <= map_rects[i].x + map_rects[i].w && e.button.y >= map_rects[i].y && e.button.y <= map_rects[i].y + map_rects[i].h) {
-                    //we start the game:
-                    Game game;
-                }
-            }
-            
 
-
+            //the code above compile, but it makes a segfault when we click on a map_rect.
 
             // if the user clicks on the close button, we close the menu
             if (e.type == SDL_QUIT)
@@ -204,4 +200,53 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     }
     //for debugging purposes, we print the length of the map_rects vector
     std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
+    //we call the handleMapSelection function now that the map_rects vector is filled
+    handleMapSelection(mapVector, map_rects);
+    
 }
+
+void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::vector<SDL_Rect> map_rects) {
+    // Create a variable to store the selected map index
+    int selectedMapIndex = -1;
+
+    // We create a boolean that will be true until the user closes the menu
+    bool quit = false;
+    // We create an event handler
+    SDL_Event e;
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            // If the user clicks on the close button, we close the menu
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+            // If the user clicks on one of the map rects
+            else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                int mouseX = e.button.x;
+                int mouseY = e.button.y;
+
+                // Check if the click is within any of the map rects
+                for (int i = 0; i < map_rects.size(); ++i) {
+                    if (mouseX >= map_rects[i].x && mouseX <= map_rects[i].x + map_rects[i].w &&
+                        mouseY >= map_rects[i].y && mouseY <= map_rects[i].y + map_rects[i].h) {
+                        selectedMapIndex = i;
+                        break;
+                    }
+                }
+
+                // Break out of the event loop if a map is selected
+                if (selectedMapIndex != -1) {
+                    quit = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Print the selected map index (1-indexed) if a map is selected
+    if (selectedMapIndex != -1) {
+        std::cout << "You chose level " << selectedMapIndex + 1 << std::endl;
+    }
+}
+
+
