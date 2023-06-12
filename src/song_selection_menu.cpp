@@ -97,7 +97,6 @@ void Song_selection_menu::song_selection_menuLoop(){
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
     SDL_RenderFillRect(renderer_song_selection_menu, &test_rect);
-    drawMapList(); 
     SDL_RenderPresent(renderer_song_selection_menu);
 
     //we listen to events, and we close the menu if the user clicks on the test button
@@ -160,21 +159,19 @@ int Song_selection_menu::refreshMapList() {
         perror("");
         return EXIT_FAILURE;
     }
-
-    // Process the mapVector vector as needed
-    std::cout << "Number of maps: " << mapVector.size() << std::endl;
-    std::cout << "List of maps loaded:" << std::endl;
-    for (const Map& map : mapVector) {
-        // Do something with each Map object
-        std::cout << "Name: " << map.name << ", Creator: " << map.creator << std::endl;
-    }
+    std::cout << "Map list refreshed." << std::endl;
+    std::cout << "There are " << mapVector.size() << " maps." << std::endl;
+   
+    //We draw the map list
+    drawMapList(mapVector);
 
     return EXIT_SUCCESS;
 }
 
-void Song_selection_menu::drawMapList() {
+void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     // for each map in the mapVector vector, we first create a rect, then we draw the name and the creator
     short number_of_maps = mapVector.size();
+    std::cout << "Drawing " << number_of_maps << " maps." << std::endl;
     short i = 0;
     for (const Map& map : mapVector) {
         i++;
@@ -187,5 +184,8 @@ void Song_selection_menu::drawMapList() {
         // we draw the rect
         SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
         SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
+        std::cout << "Drawing map " << i << std::endl;
+        std::cout << "A rect has been drawn at " << map_rect.x << ", " << map_rect.y << std::endl;
+
     }
 }

@@ -39,8 +39,8 @@ class Song_selection_menu {
     SDL_Texture* background_texture = NULL;
     //we create a function to loop the ssm
     void song_selection_menuLoop();
-    //we create a function to draw the vector of maps
-    void drawMapList();
+    //we create a function to draw the vector of maps, that takes the vector as an argument
+    void drawMapList(std::vector<Map> mapVector);
 };
 
 #endif // SONG_SELECTION_MENU_H
