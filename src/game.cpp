@@ -12,9 +12,9 @@
 
 Game::Game(Map map)
 {
-    std::cout << "Game constructor called!, with the map:" << map.name << std::endl;
+    std::cout << "Game constructor called!, with the map: " << map.name << std::endl;
     // we call the init method
-    init();
+    init(map);
     // we call the gameLoop method once the game is initialized
     while (!readyToStart)
     {
@@ -44,10 +44,12 @@ Game::~Game()
     SDL_Quit();
 }
 
-int Game::init()
+int Game::init(Map map)
 {   //we need to reset the RANDOM SEED
     srand(time(NULL)); 
 
+    //for debugging purposes:
+    std::cout << "Game init called, with the map: " << map.name << std::endl;
     // we initialize the SDL library
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -78,14 +80,12 @@ int Game::init()
     note1Texture = SDL_CreateTextureFromSurface(renderer, note1Surface);
     note2Texture = SDL_CreateTextureFromSurface(renderer, note2Surface);
 
-    
     //we initialize SDL_ttf
     TTF_Init();
     //we load the font
     font = nullptr;
     font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
-
 
     //we init the textures and surfaces for the hits
     hit300Surface = IMG_Load("assets/skin/hit300.png");
@@ -104,7 +104,8 @@ int Game::init()
     std::cout << "Game initialized!, Launching the gameLoop" << std::endl;
     readyToStart = true;
     startTime = SDL_GetTicks();
-    spawnManagementSystem();
+    //we call the spawnManagementSystem method, passing the map as a parameter
+    spawnManagementSystem(map);
     return 0;
 }
 
@@ -135,7 +136,7 @@ int Game::handleInput()
     //the function to remove the first element of the vector is now called when the event is handled
 }
 //this function is called when the game is initialized. It will check every 60/8 frames if a note should be spawned, by reading the .claq file
-void Game::spawnManagementSystem()
+void Game::spawnManagementSystem(Map map)
 {
     //we empty the vector
     notes.clear();

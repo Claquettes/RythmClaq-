@@ -23,7 +23,7 @@ class Game {
         ~Game();
 
         // methods
-        int init();
+        int init(Map map);
         int gameLoop();
         int render(bool hit, short hitValue);
 
@@ -117,7 +117,7 @@ class Game {
         void spawnNotes();
         void checkDelete();
         int handleInput();
-        void spawnManagementSystem();
+        void spawnManagementSystem(Map map);
 
 
         
