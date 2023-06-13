@@ -13,6 +13,7 @@ class Map {
         //infos about the map
         std::string name;
         std::string creator;
+        unsigned int id;
 
         //METHODS
         //constructor

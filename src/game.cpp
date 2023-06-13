@@ -142,9 +142,14 @@ void Game::spawnManagementSystem(Map map)
     notes.clear();
     //we reset the frame counter
     long frameCounter = 0;
-    // we open the file
-    std::ifstream file("assets/songs/1.claq");
+    // we get the map id: 
+    int mapId = map.id;
+    //we open the notes.claq file, located in the folder of the map
+    std::ifstream file("maps/" + std::to_string(mapId) + "/notes.claq");
     std::string line;
+    std::cout << "Reading the file..." << std::endl;
+    std::cout << "Map id: " << mapId << std::endl;
+    std::cout << "Map name: " << map.song_name << std::endl;
     // we read the file line by line and we push the values into the vector
     while (std::getline(file, line))
     {
@@ -202,7 +207,6 @@ int Game::gameLoop()
                     quit = true;
                     SDL_Quit();
                 }
-                std::cout << "removing note from array" << "the length of the array is now" << notes.size() << std::endl;
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

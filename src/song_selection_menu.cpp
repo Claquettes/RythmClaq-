@@ -139,9 +139,14 @@ int Song_selection_menu::refreshMapList() {
                 std::string folderPath = std::string("maps/") + ent->d_name;
                 std::ifstream file((folderPath + "/infos.txt").c_str());
 
+                //the name of the folder is the id of the map
+                std::string id = ent->d_name;
+                //we convert the id to an int
+                int id_int = std::stoi(id);
                 if (file.is_open()) {
                     Map mapObject; // Create a Map object for each directory
                     std::string line;
+                    mapObject.id = id_int;
 
                     // Read the first line as the name
                     if (std::getline(file, line)) {
@@ -152,6 +157,8 @@ int Song_selection_menu::refreshMapList() {
                     if (std::getline(file, line)) {
                         mapObject.creator = line;
                     }
+
+                    
 
                     // Add the map object to the vector
                     mapVector.push_back(mapObject);
