@@ -108,7 +108,7 @@ int Main_menu::menuLoop()
     // we create an event handler
     SDL_Event e;
 
-    const int ANIMATION_DURATION = 500; // Duration of the reveal animation in milliseconds
+    const int ANIMATION_DURATION = 300; // Duration of the reveal animation in milliseconds
     int animationStartTime = 0;         // Start time of the animation
     bool buttonsVisible = false;        // Flag to track whether the buttons should be visible or hidden
 
