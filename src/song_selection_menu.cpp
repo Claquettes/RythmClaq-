@@ -60,7 +60,6 @@ int Song_selection_menu::init(){
     // we render the background
     SDL_RenderCopy(renderer_song_selection_menu, background_texture, NULL, NULL);
     // we update the screen
-    SDL_RenderPresent(renderer_song_selection_menu);
 
     if (background_texture  == nullptr)
     {
@@ -77,6 +76,7 @@ int Song_selection_menu::init(){
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling Song_selection_menuLoop." << std::endl;
     //
+    refreshMapList();
     song_selection_menuLoop();
     return 0;
 }
@@ -93,11 +93,7 @@ void Song_selection_menu::song_selection_menuLoop(){
     test_rect.y = WINDOW_HEIGHT / 2 - 50;
     test_rect.w = 100;
     test_rect.h = 100;
-    
-    //we call the refreshMapList function
-    refreshMapList();
-
-    
+        
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_song_selection_menu, 223, 112, 78, 255);
     SDL_RenderFillRect(renderer_song_selection_menu, &test_rect);
@@ -179,6 +175,7 @@ int Song_selection_menu::refreshMapList() {
    
     //We draw the map list
     drawMapList(mapVector);
+    handleMapSelection(mapVector, map_rects);
 
     return EXIT_SUCCESS;
 }
@@ -208,14 +205,14 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     //for debugging purposes, we print the length of the map_rects vector
     std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
     //we call the handleMapSelection function now that the map_rects vector is filled
-    handleMapSelection(mapVector, map_rects);
-    
+    SDL_RenderPresent(renderer_song_selection_menu);
+
 }
 
 void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::vector<SDL_Rect> map_rects) {
     // Create a variable to store the selected map index
     int selectedMapIndex = -1;
-
+    
     // We create a boolean that will be true until the user closes the menu
     bool quit = false;
     // We create an event handler
