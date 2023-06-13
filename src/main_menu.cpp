@@ -99,9 +99,19 @@ int Main_menu::init()
     open_game_rect.h = BUTTON_HEIGHT;
 
     
-    //we create a pannel with random color and position, and a size of 100x100 (Pannel(int x, int y, int width, int height, SDL_Color color);   )
-    new Pannel(100, 100, 39, 100, {255, 0, 0, 255});
+    //we set the pos and size of the pannel
+    pannel1.setPosition(100, 200);
+    pannel1.setWidth(200);
+    pannel1.setHeight(200);
+    pannel1.render(renderer_menu);
 
+    //we cout for debug
+    std::cout << "pannel1 x: " << pannel1.getX() << std::endl;
+    std::cout << "pannel1 y: " << pannel1.getY() << std::endl;
+    
+    
+    
+    
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling menuLoop." << std::endl;
     menuLoop();
@@ -169,6 +179,7 @@ int Main_menu::menuLoop()
         SDL_RenderClear(renderer_menu);
         // we render the background
         SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
+        
 
         if (buttonsVisible)
         {
@@ -201,6 +212,8 @@ int Main_menu::menuLoop()
         // we render the buttons
         SDL_RenderCopy(renderer_menu, open_editor_texture, NULL, &open_editor_rect);
         SDL_RenderCopy(renderer_menu, open_game_texture, NULL, &open_game_rect);
+
+
         // we update the screen
         SDL_RenderPresent(renderer_menu);
     }

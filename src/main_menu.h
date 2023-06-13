@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+
+#include "pannel.h"
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -33,6 +35,10 @@ public:
     // We define the size of the window
     int WINDOW_WIDTH = 1920;
     int WINDOW_HEIGHT = 1080;
+
+    //we create a pannel
+    Pannel pannel1;
+
 
 private:
     // Constants
