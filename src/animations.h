@@ -9,7 +9,7 @@ class Pannel;
 class Animations {
 public:
     static void movePannel(Pannel& Pannel, int targetX, int targetY, int duration);
-    static void resizePannel(Pannel& Pannel, int targetSide, int duration);
+    static void resizePannel(Pannel& Pannel, int targetWidth, int targetHeight, int duration);
     static void changeColor(Pannel& Pannel, SDL_Color targetColor, int duration);
 };
 

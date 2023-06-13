@@ -1,5 +1,9 @@
 #include "main_menu.h"
 #include "song_selection_menu.h"
+
+#include "pannel.h"
+#include "animations.h"
+
 #include "editor.h"
 #include <iostream>
 #include <string>
@@ -93,6 +97,10 @@ int Main_menu::init()
     open_game_rect.y = WINDOW_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 150;
     open_game_rect.w = 0; // Initially set the width to 0
     open_game_rect.h = BUTTON_HEIGHT;
+
+    
+    //we create a pannel with random color and position, and a size of 100x100 (Pannel(int x, int y, int width, int height, SDL_Color color);   )
+    new Pannel(100, 100, 39, 100, {255, 0, 0, 255});
 
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling menuLoop." << std::endl;

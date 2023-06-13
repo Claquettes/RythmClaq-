@@ -20,20 +20,25 @@ void Animations::movePannel(Pannel& Pannel, int targetX, int targetY, int durati
     Pannel.setPosition(targetX, targetY);
 }
 
-void Animations::resizePannel(Pannel& Pannel, int targetSide, int duration) {
-    int startSide = Pannel.getSide();
+void Animations::resizePannel(Pannel& Pannel, int targetWidth, int targetHeight, int duration) {
+    int startWidth = Pannel.getWidth();
+    int startHeight = Pannel.getHeight();
     int totalFrames = duration / 16; // Assuming 60 FPS (16ms per frame)
     int frameCount = 0;
 
     for (int i = 0; i < totalFrames; i++) {
         float progress = static_cast<float>(i) / totalFrames;
-        int currentSide = startSide + static_cast<int>((targetSide - startSide) * progress);
+        int currentWidth = startWidth + static_cast<int>((targetWidth - startWidth) * progress);
+        int currentHeight = startHeight + static_cast<int>((targetHeight - startHeight) * progress);
 
-        Pannel.setSide(currentSide);
+
+        Pannel.setWidth(currentWidth);
+        Pannel.setHeight(currentHeight);
         SDL_Delay(16); // Delay for 16ms (60 FPS)
     }
 
-    Pannel.setSide(targetSide);
+    Pannel.setWidth(targetWidth);
+    Pannel.setHeight(targetHeight);
 }
 
 void Animations::changeColor(Pannel& Pannel, SDL_Color targetColor, int duration) {

@@ -51,6 +51,7 @@ private:
     // Surfaces
     SDL_Surface* open_editor_surface = NULL;
     SDL_Surface* open_game_surface = NULL;
+
 };
 
 #endif // main_menu_H

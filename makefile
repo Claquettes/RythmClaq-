@@ -21,7 +21,7 @@ $(OBJDIR)/game.o: src/game.cpp  src/note.h src/judgementLine.h src/map.h
 $(OBJDIR)/main.o: main.cpp src/game.h src/main_menu.h
 	$(cc) $(CFLAGS) -c main.cpp -o $(OBJDIR)/main.o $(Include)
 
-$(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/editor.h src/pannel.h src/animations.h
+$(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/editor.h src/pannel.h src/animations.h 
 	$(cc) $(CFLAGS) -c src/main_menu.cpp -o $(OBJDIR)/main_menu.o $(Include)
 
 $(OBJDIR)/editor.o: src/editor.cpp src/editor.h 
