@@ -103,12 +103,13 @@ int Main_menu::init()
     pannel1.setPosition(100, 200);
     pannel1.setWidth(200);
     pannel1.setHeight(200);
-    pannel1.render(renderer_menu);
+    
+
 
     //we cout for debug
     std::cout << "pannel1 x: " << pannel1.getX() << std::endl;
     std::cout << "pannel1 y: " << pannel1.getY() << std::endl;
-    
+
     
     
     
@@ -172,6 +173,9 @@ int Main_menu::menuLoop()
                     buttonsVisible = true;
                     animationStartTime = SDL_GetTicks();
                 }
+                //we use an animation on the pannel
+                std::cout << "Moving the pannel." << std::endl;
+                Animations::movePannel(pannel1, 400, 800, 1000);
             }
         }
 
@@ -179,6 +183,8 @@ int Main_menu::menuLoop()
         SDL_RenderClear(renderer_menu);
         // we render the background
         SDL_RenderCopy(renderer_menu, background_texture, NULL, NULL);
+        //we render the pannel
+        pannel1.render(renderer_menu);
         
 
         if (buttonsVisible)
