@@ -175,7 +175,9 @@ int Main_menu::menuLoop()
                 }
                 //we use an animation on the pannel
                 std::cout << "Moving the pannel." << std::endl;
-                Animations::movePannel(pannel1, 400, 800, 1000);
+                
+                Animations::resizePannel(pannel1, 700, 600, 1000, renderer_menu);
+
             }
         }
 

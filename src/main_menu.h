@@ -39,6 +39,7 @@ public:
 
     //we create a pannel
     Pannel pannel1;
+    
 
 
 private:

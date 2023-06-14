@@ -1,10 +1,10 @@
 #include "animations.h"
 #include "pannel.h" 
+#include "main_menu.h"
 
-void Animations::movePannel(Pannel& Pannel, int targetX, int targetY, int duration) {
-
-    int startX = Pannel.getX();
-    int startY = Pannel.getY();
+void Animations::movePannel(Pannel& pannel, int targetX, int targetY, int duration, SDL_Renderer* renderer) {
+    int startX = pannel.getX();
+    int startY = pannel.getY();
     int totalFrames = duration / 16; 
     int frameCount = 0;
 
@@ -13,16 +13,20 @@ void Animations::movePannel(Pannel& Pannel, int targetX, int targetY, int durati
         int currentX = startX + static_cast<int>((targetX - startX) * progress);
         int currentY = startY + static_cast<int>((targetY - startY) * progress);
 
-        Pannel.setPosition(currentX, currentY);
+        //we render the animation
+        pannel.render(renderer);
+        SDL_RenderPresent(renderer);
+
+        pannel.setPosition(currentX, currentY);
         SDL_Delay(16); // Delay for 16ms (60 FPS)
     }
 
-    Pannel.setPosition(targetX, targetY);
+    pannel.setPosition(targetX, targetY);
 }
 
-void Animations::resizePannel(Pannel& Pannel, int targetWidth, int targetHeight, int duration) {
-    int startWidth = Pannel.getWidth();
-    int startHeight = Pannel.getHeight();
+void Animations::resizePannel(Pannel& pannel, int targetWidth, int targetHeight, int duration, SDL_Renderer* renderer) {
+    int startWidth = pannel.getWidth();
+    int startHeight = pannel.getHeight();
     int totalFrames = duration / 16; // Assuming 60 FPS (16ms per frame)
     int frameCount = 0;
 
@@ -31,18 +35,21 @@ void Animations::resizePannel(Pannel& Pannel, int targetWidth, int targetHeight,
         int currentWidth = startWidth + static_cast<int>((targetWidth - startWidth) * progress);
         int currentHeight = startHeight + static_cast<int>((targetHeight - startHeight) * progress);
 
+        pannel.setWidth(currentWidth);
+        pannel.setHeight(currentHeight);
 
-        Pannel.setWidth(currentWidth);
-        Pannel.setHeight(currentHeight);
+        pannel.render(renderer);
+        SDL_RenderPresent(renderer);
+
         SDL_Delay(16); // Delay for 16ms (60 FPS)
     }
 
-    Pannel.setWidth(targetWidth);
-    Pannel.setHeight(targetHeight);
+    pannel.setWidth(targetWidth);
+    pannel.setHeight(targetHeight);
 }
 
-void Animations::changeColor(Pannel& Pannel, SDL_Color targetColor, int duration) {
-    SDL_Color startColor = Pannel.getColor();
+void Animations::changeColor(Pannel& pannel, SDL_Color targetColor, int duration, SDL_Renderer* renderer) {
+    SDL_Color startColor = pannel.getColor();
     int totalFrames = duration / 16; 
     int frameCount = 0;
 
@@ -52,9 +59,13 @@ void Animations::changeColor(Pannel& Pannel, SDL_Color targetColor, int duration
         Uint8 g = static_cast<Uint8>(startColor.g + (targetColor.g - startColor.g) * progress);
         Uint8 b = static_cast<Uint8>(startColor.b + (targetColor.b - startColor.b) * progress);
 
-        Pannel.setColor({ r, g, b });
+        pannel.setColor({ r, g, b });
+
+        pannel.render(renderer);
+        SDL_RenderPresent(renderer);
+
         SDL_Delay(16); // Delay for 16ms (60 FPS)
     }
 
-    Pannel.setColor(targetColor);
+    pannel.setColor(targetColor);
 }

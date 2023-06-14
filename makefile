@@ -42,7 +42,7 @@ $(OBJDIR)/judgementLine.o: src/judgementLine.cpp src/judgementLine.h
 $(OBJDIR)/pannel.o: src/pannel.cpp src/pannel.h
 	$(cc) $(CFLAGS) -c src/pannel.cpp -o $(OBJDIR)/pannel.o $(Include)
 
-$(OBJDIR)/animations.o: src/animations.cpp src/animations.h src/pannel.h
+$(OBJDIR)/animations.o: src/animations.cpp src/animations.h src/pannel.h src/main_menu.h
 	$(cc) $(CFLAGS) -c src/animations.cpp -o $(OBJDIR)/animations.o $(Include)
 
 
