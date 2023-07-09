@@ -309,6 +309,27 @@ void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_R
         //we draw the creator
         SDL_RenderCopy(renderer_song_selection_menu, creator_texture, NULL, &creator_rect);
         std::cout << "Creator of map " << i << " drawn." << "ie: " << mapVector[i].creator << std::endl;
+
+
+        //We create a string for the difficulty number
+        std::string difficulty_string = "Difficulty: " + std::to_string(mapVector[i].calculateDifficulty());
+        //we convert the string to a char*
+        const char* difficulty_char = difficulty_string.c_str();
+
+        //we create a surface for the difficulty
+        SDL_Surface* difficulty_surface = TTF_RenderText_Solid(font, difficulty_char, white);
+        //we create a texture for the difficulty
+        SDL_Texture* difficulty_texture = SDL_CreateTextureFromSurface(renderer_song_selection_menu, difficulty_surface);
+        //we create a rect for the difficulty, below the name_rect
+        SDL_Rect difficulty_rect;
+        difficulty_rect.x = map_names_rects[i].x + 10;
+        difficulty_rect.y = map_names_rects[i].y + name_rect_to_write.w / 2 - 10;
+        difficulty_rect.w = map_names_rects[i].w / 2;
+        difficulty_rect.h = map_names_rects[i].h / 2;
+        //we draw the difficulty
+        SDL_RenderCopy(renderer_song_selection_menu, difficulty_texture, NULL, &difficulty_rect);
+        std::cout << "Difficulty of map " << i << " drawn." << "ie: " << mapVector[i].calculateDifficulty() << std::endl;
+        
     }
     SDL_RenderPresent(renderer_song_selection_menu);
 }
