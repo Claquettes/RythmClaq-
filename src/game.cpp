@@ -56,8 +56,15 @@ int Game::init(Map map)
         std::cout << "SDL could not be initialized! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+
+    //we create the name of the window
+    std::string nameOfWindow = "RythmClaq - " + map.name + " By " + map.creator; 
+    //we convert the string to a const char*
+    const char* nameOfWindowChar = nameOfWindow.c_str();
+
+
     // we create the window
-    window = SDL_CreateWindow("RythmClaq", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(nameOfWindowChar, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == nullptr)
     {
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
