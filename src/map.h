@@ -20,7 +20,7 @@ class Map {
         Map();
         //destructor
         ~Map();
-        short difficulty;
+        unsigned int difficulty;
         short bpm;
         //infos about the song
         std::string song_name;
@@ -28,7 +28,7 @@ class Map {
         std::string song_path;
 
         int calculateDifficulty();
-        int lastNotePosition;
+        unsigned int lastNotePosition;
     private:
 };
        

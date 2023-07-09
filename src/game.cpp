@@ -139,8 +139,9 @@ int Game::handleInput()
     combo++;
     render(true, hit_value);
     }
+
     
-    //the function to remove the first element of the vector is now called when the event is handled
+    return 1;
 }
 //this function is called when the game is initialized. It will check every 60/8 frames if a note should be spawned, by reading the .claq file
 void Game::spawnManagementSystem(Map map)
