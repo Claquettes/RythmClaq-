@@ -48,7 +48,7 @@ int Map::calculateDifficulty()
     int averageBpm = (lastNotePosition / numberOfNotes) * 2;
 
     //we calculate the difficulty by multiplying the average bpm by the number of notes
-    difficulty = averageBpm * numberOfNotes / 10;
+    difficulty = averageBpm * 2 * numberOfNotes;
 
     std::cout << "Number of notes: " << notes_positions.size() << std::endl;
     std::cout << "Average bpm: " << averageBpm << std::endl;

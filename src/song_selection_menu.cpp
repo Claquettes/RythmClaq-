@@ -214,7 +214,7 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         //we push the name rect in the map_names_rects vector
         map_names_rects.push_back(name_rect);
         //we calculate the difficulty of the map
-        int difficulty = mapVector[i-1].calculateDifficulty();
+        mapVector[i-1].difficulty = mapVector[i-1].calculateDifficulty();
     }
     //for debugging purposes, we print the length of the map_rects vector
     std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
