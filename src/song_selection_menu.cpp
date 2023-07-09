@@ -32,6 +32,7 @@ Song_selection_menu::~Song_selection_menu(){
 }
 
 int Song_selection_menu::init(){
+    srand(time(NULL));
     std::cout << "Song_selection_menu init called!" << std::endl;
     // we initialize the SDL library
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -68,9 +69,17 @@ int Song_selection_menu::init(){
     }
     
     TTF_Init();
-    //we load the font
-    fontssm = nullptr;
-    fontssm = TTF_OpenFont("assets/fonts/1up.ttf", 24);
+
+    //we check if ttfont is loaded
+    if (TTF_Init() < 0)
+    {
+        std::cout << "TTF could not be initialized! SDL_Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+
+
+    font = nullptr;
+    font = TTF_OpenFont("data/font/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
 
     // if everything is ok, we return 0 and we launch the menuLoop
@@ -167,6 +176,8 @@ int Song_selection_menu::refreshMapList() {
    
     //We draw the map list
     drawMapList(mapVector);
+    //we draw the names
+    drawText(mapVector, map_names_rects);
     handleMapSelection(mapVector, map_rects);
 
     return EXIT_SUCCESS;
@@ -198,10 +209,12 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         name_rect.y = map_rect.y;
         name_rect.w = map_rect.w / 2;
         name_rect.h = map_rect.h;
-        //we draw the name
-        drawText(map.name, name_rect, white);
+        std::cout << "Name rect added in the vector." <<std::endl;  
+
         //we push the rect in the map_rects vector
         map_rects.push_back(map_rect);
+        //we push the name rect in the map_names_rects vector
+        map_names_rects.push_back(name_rect);
     }
     //for debugging purposes, we print the length of the map_rects vector
     std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
@@ -256,20 +269,50 @@ void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::ve
         Game game(mapVector[selectedMapIndex]);
     }
 }
-void Song_selection_menu::drawText(std::string text, SDL_Rect rect, SDL_Color color) {
-    // Create a surface
-    SDL_Surface* surface = TTF_RenderText_Solid(this->fontssm, text.c_str(), color);
-    // Create a texture
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(this->renderer_song_selection_menu, surface);
-    // Create a rect for the texture
-    SDL_Rect texture_rect;
-    texture_rect.x = rect.x;
-    texture_rect.y = rect.y;
-    texture_rect.w = rect.w;
-    texture_rect.h = rect.h;
-    // Copy the texture to the renderer
-    SDL_RenderCopy(this->renderer_song_selection_menu, texture, NULL, &texture_rect);
-    // Destroy the texture and the surface
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
+//the drawText function takes a vector of maps and a vector of rects as parameters, and draws the name and the creator of each map in the mapVector
+void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_Rect> map_names_rects) {
+    //we create a color
+    SDL_Color white = {255, 255, 255};
+    
+
+    //WE CHECK IF THE FONT FONT IS LOADED
+    if (font == NULL) {
+        std::cout << "Font font not loaded." << std::endl;
+    } else {
+        std::cout << "Font font loaded." << std::endl;
+    }
+
+
+   //we use the fontssm font.
+   for (unsigned int i = 0; i < mapVector.size(); i++) {
+        //we create a surface for the name
+        SDL_Surface* name_surface = TTF_RenderText_Solid(font, mapVector[i].name.c_str(), white);
+        //we create a texture for the name
+        SDL_Texture* name_texture = SDL_CreateTextureFromSurface(renderer_song_selection_menu, name_surface);
+        //we create a rect for the name
+        SDL_Rect name_rect_to_write;
+        name_rect_to_write.x = map_names_rects[i].x;
+        name_rect_to_write.y = map_names_rects[i].y;
+        name_rect_to_write.w = map_names_rects[i].w;
+        name_rect_to_write.h = map_names_rects[i].h;
+        //we draw the name
+        SDL_RenderCopy(renderer_song_selection_menu, name_texture, NULL, &name_rect_to_write);
+        std::cout << "Name of map " << i << " drawn." << "ie: " << mapVector[i].name << std::endl;
+
+
+        //we create a surface for the creator
+        SDL_Surface* creator_surface = TTF_RenderText_Solid(font, mapVector[i].creator.c_str(), white);
+        //we create a texture for the creator
+        SDL_Texture* creator_texture = SDL_CreateTextureFromSurface(renderer_song_selection_menu, creator_surface);
+        //we create a rect for the creator
+        SDL_Rect creator_rect;
+        creator_rect.x = map_names_rects[i].x + map_names_rects[i].w;
+        creator_rect.y = map_names_rects[i].y;
+        creator_rect.w = map_names_rects[i].w;
+        creator_rect.h = map_names_rects[i].h;
+        //we draw the creator
+        SDL_RenderCopy(renderer_song_selection_menu, creator_texture, NULL, &creator_rect);
+        std::cout << "Creator of map " << i << " drawn." << "ie: " << mapVector[i].creator << std::endl;
+    }
+    SDL_RenderPresent(renderer_song_selection_menu);
 }

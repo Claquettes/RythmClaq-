@@ -29,7 +29,7 @@ class Song_selection_menu {
     std::vector<Map> mapVector; // Store the Map objects
 
     //font
-    TTF_Font* fontssm = NULL;
+    TTF_Font* font;
     private:
     
     //function that scans the maps folder and adds the maps to the vector
@@ -43,7 +43,7 @@ class Song_selection_menu {
     //we create a function to loop the ssm
     void song_selection_menuLoop();
     //we create a function to draw the text
-    void drawText(std::string text, SDL_Rect text_rect, SDL_Color color);
+    void drawText(std::vector<Map> mapVector, std::vector<SDL_Rect> map_names_rects);
     //we create a function to draw the vector of maps, that takes the vector as an argument
     void drawMapList(std::vector<Map> mapVector);
     //we create a vector of map_rects
