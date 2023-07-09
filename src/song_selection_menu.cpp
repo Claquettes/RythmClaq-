@@ -76,10 +76,8 @@ int Song_selection_menu::init(){
         std::cout << "TTF could not be initialized! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-
-
     font = nullptr;
-    font = TTF_OpenFont("data/font/1up.ttf", 24);
+    font = TTF_OpenFont("data/font/akira.otf", 14);
     std::cout << "Font loaded!" << std::endl;
 
     // if everything is ok, we return 0 and we launch the menuLoop
@@ -208,7 +206,7 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         name_rect.x = map_rect.x;
         name_rect.y = map_rect.y;
         name_rect.w = map_rect.w / 2;
-        name_rect.h = map_rect.h;
+        name_rect.h = map_rect.h/2;
         std::cout << "Name rect added in the vector." <<std::endl;  
 
         //we push the rect in the map_rects vector
@@ -291,8 +289,8 @@ void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_R
         SDL_Texture* name_texture = SDL_CreateTextureFromSurface(renderer_song_selection_menu, name_surface);
         //we create a rect for the name
         SDL_Rect name_rect_to_write;
-        name_rect_to_write.x = map_names_rects[i].x;
-        name_rect_to_write.y = map_names_rects[i].y;
+        name_rect_to_write.x = map_names_rects[i].x + 10;
+        name_rect_to_write.y = map_names_rects[i].y + 10;
         name_rect_to_write.w = map_names_rects[i].w;
         name_rect_to_write.h = map_names_rects[i].h;
         //we draw the name
@@ -304,10 +302,10 @@ void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_R
         SDL_Surface* creator_surface = TTF_RenderText_Solid(font, mapVector[i].creator.c_str(), white);
         //we create a texture for the creator
         SDL_Texture* creator_texture = SDL_CreateTextureFromSurface(renderer_song_selection_menu, creator_surface);
-        //we create a rect for the creator
+        //we create a rect for the creator, below the name_rect
         SDL_Rect creator_rect;
         creator_rect.x = map_names_rects[i].x + map_names_rects[i].w;
-        creator_rect.y = map_names_rects[i].y;
+        creator_rect.y = map_names_rects[i].y + name_rect_to_write.w / 2 - 10;
         creator_rect.w = map_names_rects[i].w;
         creator_rect.h = map_names_rects[i].h;
         //we draw the creator
