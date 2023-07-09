@@ -28,6 +28,7 @@ class Map {
         std::string song_path;
 
         int calculateDifficulty();
+        int lastNotePosition;
     private:
 };
        
