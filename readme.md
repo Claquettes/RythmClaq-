@@ -1,1 +1,1 @@
-Hello There, this is in no way close to a beta version
+Open Source Rythm Game created by Claquettes in c++ with SDL2
