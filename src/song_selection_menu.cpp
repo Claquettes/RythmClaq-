@@ -69,8 +69,8 @@ int Song_selection_menu::init(){
     
     TTF_Init();
     //we load the font
-    font = nullptr;
-    font = TTF_OpenFont("assets/fonts/1up.ttf", 24);
+    fontssm = nullptr;
+    fontssm = TTF_OpenFont("assets/fonts/1up.ttf", 24);
     std::cout << "Font loaded!" << std::endl;
 
     // if everything is ok, we return 0 and we launch the menuLoop
@@ -110,10 +110,6 @@ void Song_selection_menu::song_selection_menuLoop(){
                 //we start the game:
                 Game game(mapVector[0]);
             }
-
-
-            //the code above compile, but it makes a segfault when we click on a map_rect.
-
             // if the user clicks on the close button, we close the menu
             if (e.type == SDL_QUIT)
             {
@@ -148,14 +144,10 @@ int Song_selection_menu::refreshMapList() {
                     if (std::getline(file, line)) {
                         mapObject.name = line;
                     }
-
                     // Read the second line as the creator
                     if (std::getline(file, line)) {
                         mapObject.creator = line;
                     }
-
-                    
-
                     // Add the map object to the vector
                     mapVector.push_back(mapObject);
 
@@ -199,6 +191,15 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
         std::cout << "Drawing map " << i << std::endl;
         std::cout << "A rect has been drawn at " << map_rect.x << ", " << map_rect.y << std::endl;
+
+        //we create a rect for the name that will take half of the map_rect
+        SDL_Rect name_rect;
+        name_rect.x = map_rect.x;
+        name_rect.y = map_rect.y;
+        name_rect.w = map_rect.w / 2;
+        name_rect.h = map_rect.h;
+        //we draw the name
+        drawText(map.name, name_rect, white);
         //we push the rect in the map_rects vector
         map_rects.push_back(map_rect);
     }
@@ -208,6 +209,7 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     SDL_RenderPresent(renderer_song_selection_menu);
 
 }
+
 
 void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::vector<SDL_Rect> map_rects) {
     // Create a variable to store the selected map index
@@ -254,5 +256,20 @@ void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::ve
         Game game(mapVector[selectedMapIndex]);
     }
 }
-
-
+void Song_selection_menu::drawText(std::string text, SDL_Rect rect, SDL_Color color) {
+    // Create a surface
+    SDL_Surface* surface = TTF_RenderText_Solid(this->fontssm, text.c_str(), color);
+    // Create a texture
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(this->renderer_song_selection_menu, surface);
+    // Create a rect for the texture
+    SDL_Rect texture_rect;
+    texture_rect.x = rect.x;
+    texture_rect.y = rect.y;
+    texture_rect.w = rect.w;
+    texture_rect.h = rect.h;
+    // Copy the texture to the renderer
+    SDL_RenderCopy(this->renderer_song_selection_menu, texture, NULL, &texture_rect);
+    // Destroy the texture and the surface
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
+}

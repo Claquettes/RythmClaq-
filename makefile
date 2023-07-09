@@ -13,7 +13,7 @@ dir:
 	touch highscore.txt
 
 bin/main: $(OBJS)
-	$(cc) $(CFLAGS) $(OBJS) -o main $(LIBS)
+	$(cc) $(CFLAGS) $(OBJS) -o bin/main $(LIBS)
 
 $(OBJDIR)/game.o: src/game.cpp  src/note.h src/judgementLine.h src/map.h
 	$(cc) $(CFLAGS) -c src/game.cpp -o $(OBJDIR)/game.o $(Include)

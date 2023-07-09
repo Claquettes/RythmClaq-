@@ -104,15 +104,9 @@ int Main_menu::init()
     pannel1.setWidth(200);
     pannel1.setHeight(200);
     
-
-
     //we cout for debug
     std::cout << "pannel1 x: " << pannel1.getX() << std::endl;
     std::cout << "pannel1 y: " << pannel1.getY() << std::endl;
-
-    
-    
-    
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling menuLoop." << std::endl;
     menuLoop();
@@ -225,4 +219,5 @@ int Main_menu::menuLoop()
         // we update the screen
         SDL_RenderPresent(renderer_menu);
     }
+    return 1;
 }
