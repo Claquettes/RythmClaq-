@@ -171,9 +171,6 @@ void Game::spawnManagementSystem(Map map)
         //we add the note to the array
         notes.push_back(note);
     }
-
-   
-    
 }
 int Game::gameLoop()
 {

@@ -213,12 +213,14 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         map_rects.push_back(map_rect);
         //we push the name rect in the map_names_rects vector
         map_names_rects.push_back(name_rect);
+
+        //we calculate the difficulty of the map
+        int difficulty = mapVector[i-1].calculateDifficulty();
     }
     //for debugging purposes, we print the length of the map_rects vector
     std::cout << "map_rects vector length: " << map_rects.size() << std::endl;
     //we call the handleMapSelection function now that the map_rects vector is filled
     SDL_RenderPresent(renderer_song_selection_menu);
-
 }
 
 
@@ -272,14 +274,12 @@ void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_R
     //we create a color
     SDL_Color white = {255, 255, 255};
     
-
     //WE CHECK IF THE FONT FONT IS LOADED
     if (font == NULL) {
         std::cout << "Font font not loaded." << std::endl;
     } else {
         std::cout << "Font font loaded." << std::endl;
     }
-
 
    //we use the fontssm font.
    for (unsigned int i = 0; i < mapVector.size(); i++) {
@@ -296,7 +296,6 @@ void Song_selection_menu::drawText(std::vector<Map> mapVector, std::vector<SDL_R
         //we draw the name
         SDL_RenderCopy(renderer_song_selection_menu, name_texture, NULL, &name_rect_to_write);
         std::cout << "Name of map " << i << " drawn." << "ie: " << mapVector[i].name << std::endl;
-
 
         //we create a surface for the creator
         SDL_Surface* creator_surface = TTF_RenderText_Solid(font, mapVector[i].creator.c_str(), white);
