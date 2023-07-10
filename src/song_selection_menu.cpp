@@ -194,12 +194,28 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     short number_of_maps = mapVector.size();
     std::cout << "Drawing " << number_of_maps << " maps." << std::endl;
     short i = 0;
+    int numberOfRows = 7;
+    int numberOfColumns = 1;
     for (const Map& map : mapVector) {
         i++;
         // we create a rect
         SDL_Rect map_rect;
-        map_rect.x = 100;
-        map_rect.y = 100 + 100 * i;
+
+
+        if(i < numberOfRows){
+            map_rect.x = 100;
+            map_rect.y = 100 + 100 * i;
+        }
+        else{
+            map_rect.x = 100 + map_rect.w + WINDOW_WIDTH / 7;
+            map_rect.y = 100 + 100 * (i - numberOfRows + 1);
+            numberOfColumns = 2;
+        }
+
+
+
+
+
         map_rect.w = WINDOW_WIDTH / 7;
         map_rect.h = WINDOW_HEIGHT / 10;
         // we draw the rect in a random color
