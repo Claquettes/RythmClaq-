@@ -41,7 +41,7 @@ int Song_selection_menu::init(){
         return -1;
     }
     // we create the window
-    window_song_selection_menu = SDL_CreateWindow("RythmClaq-Song_selection_menu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    window_song_selection_menu = SDL_CreateWindow("RythmClaq-Song Selection", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (window_song_selection_menu == nullptr)
     {
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -141,6 +141,7 @@ int Song_selection_menu::refreshMapList() {
                 //the name of the folder is the id of the map
                 std::string id = ent->d_name;
                 //we convert the id to an int
+                std::cout << "The bug is not here" << std::endl;
                 int id_int = std::stoi(id);
                 if (file.is_open()) {
                     Map mapObject; // Create a Map object for each directory
@@ -155,10 +156,14 @@ int Song_selection_menu::refreshMapList() {
                     if (std::getline(file, line)) {
                         mapObject.creator = line;
                     }
+                    if (std::getline(file, line)) {
+                        mapObject.artist_name = line;
+                    }
                     // Read the third line as the BPM
                     if (std::getline(file, line)) {
                         mapObject.bpm = std::stoi(line);
                     }
+                    std::cout << "The bug is not here" << std::endl;
                     // Add the map object to the vector
                     mapVector.push_back(mapObject);
 

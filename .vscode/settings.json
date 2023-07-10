@@ -50,5 +50,6 @@
         "ctime": "cpp",
         "fstream": "cpp"
     },
-    "discord.enabled": true
+    "discord.enabled": true,
+    "C_Cpp.errorSquiggles": "disabled"
 }

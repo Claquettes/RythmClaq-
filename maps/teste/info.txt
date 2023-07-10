@@ -1,4 +1,0 @@
-Map Name: teste
-Artist Name: math
-Author Name: fzu
-BPM: 72

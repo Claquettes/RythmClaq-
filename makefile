@@ -1,5 +1,5 @@
 cc = g++
-CFLAGS = -g -Wall -std=c++11
+CFLAGS = -g -Wall -std=c++17
 OBJDIR = obj
 OBJS = $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/note.o $(OBJDIR)/judgementLine.o $(OBJDIR)/main_menu.o $(OBJDIR)/editor.o $(OBJDIR)/song_selection_menu.o $(OBJDIR)/map.o $(OBJDIR)/pannel.o $(OBJDIR)/animations.o 
 LIBS = -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2
