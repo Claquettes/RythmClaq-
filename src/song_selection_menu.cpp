@@ -140,8 +140,6 @@ int Song_selection_menu::refreshMapList() {
 
                 //the name of the folder is the id of the map
                 std::string id = ent->d_name;
-                //we convert the id to an int
-                std::cout << "The bug is not here" << std::endl;
                 int id_int = std::stoi(id);
                 if (file.is_open()) {
                     Map mapObject; // Create a Map object for each directory

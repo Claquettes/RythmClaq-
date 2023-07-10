@@ -170,7 +170,7 @@ void Editor::createMap(std::string map_name, std::string artist_name, std::strin
     system(command.c_str());
 
     // Create or open the info.txt file
-    std::ofstream info_file("maps/" + std::to_string(id) + "/info.txt");
+    std::ofstream info_file("maps/" + std::to_string(id) + "/infos.txt");
     // Check if the file was successfully opened
     if (info_file.is_open())
     {
@@ -184,12 +184,27 @@ void Editor::createMap(std::string map_name, std::string artist_name, std::strin
     }
     else
     {
-        // Failed to open the file
-        // Handle the error accordingly
-        // For example, display an error message or throw an exception
+        std::cout << "Something went wrong while creating the infos.txt file!" << std::endl;
     }
     // we create the .claq file
-    std::ofstream claq_file("maps/" + map_name + "/notes.claq");
-    command = "cd ../";
-    system(command.c_str());
+    std::ofstream claq_file("maps/" + std::to_string(id) + "/notes.claq");
+    std::cout << "Map created!, Now lets place the notes!" << std::endl;
+    unsigned int notepos = 0;
+    std::cout << "Enter the position of the note (in px) (a beat is every 5px)" << std::endl;
+    std::cout << "Enter -1 to stop" << std::endl;
+    while (notepos != -1)
+    {
+        std::cin >> notepos;
+        if (notepos != -1)
+        {
+            //we write the note position in the .claq file
+            std::string note = std::to_string(notepos) + "\n";
+            claq_file << notepos << std::endl;
+        }
+        else
+        {
+           break;
+        }
+    }
+
 }
