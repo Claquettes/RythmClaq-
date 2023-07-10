@@ -152,6 +152,8 @@ void Editor::createMap(std::string map_name, std::string artist_name, std::strin
         // Handle the error accordingly
         // For example, display an error message or throw an exception
     }
+    //we create the .claq file
+    std::ofstream claq_file("maps/" + map_name + "/notes.claq");
     command = "cd ../";
     system(command.c_str());
 }
