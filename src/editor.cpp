@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <fstream> //for file manipulation
 
 //constructor
 Editor::Editor(){
@@ -54,14 +55,11 @@ int Editor::init(){
     SDL_RenderCopy(renderer_editor, background_texture, NULL, NULL);
     // we update the screen
     SDL_RenderPresent(renderer_editor);
-    
-
     if (background_texture  == nullptr)
     {
         std::cout << "Background could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling editorLoop." << std::endl;
     editorLoop();
@@ -80,11 +78,11 @@ void Editor::editorLoop(){
     test_rect.y = 100;
     test_rect.w = 100;
     test_rect.h = 100;
-
     //we draw the test button
     SDL_SetRenderDrawColor(renderer_editor, 223, 12, 78, 255);
     SDL_RenderFillRect(renderer_editor, &test_rect);
     SDL_RenderPresent(renderer_editor);
+    editorCli();
 
     //we listen to events, and we close the menu if the user clicks on the test button
     while (!quit)
@@ -102,7 +100,58 @@ void Editor::editorLoop(){
                 quit = true;
             }
         }
+    }           
+}
+int Editor::editorCli()
+{
+    std::cout << "Welcome to the RythmClaq editor!" << std::endl;
+    std::cout << "Lets create a new map!" << std::endl;
+    std::cout << "What is the name of your map?" << std::endl;
+    std::string map_name;
+    std::cin >> map_name;
+    std::cout << "What is the name of the song's artist?" << std::endl;
+    std::string artist_name;
+    std::cin >> artist_name;
+    std::cout << "What is your name?" << std::endl;
+    std::string author_name;
+    std::cin >> author_name;
+    std::cout << "What is the BPM of the song?" << std::endl;
+    unsigned short bpm;
+    std::cin >> bpm;
+    std::cout << "Nice, creating the map..." << std::endl;
+    //we'll do the path of the map later.
+    std::string path = "path"; //default path for now
+    createMap(map_name, artist_name, author_name, bpm, "path");
+
+}
+
+//we define the createMap function
+
+void Editor::createMap(std::string map_name, std::string artist_name, std::string author_name, unsigned short bpm, std::string path)
+{
+    // Create a folder with the map name
+    std::string command = "cd maps && mkdir " + map_name;
+    system(command.c_str());
+
+    // Create or open the info.txt file
+    std::ofstream info_file("maps/" + map_name + "/info.txt");
+    // Check if the file was successfully opened
+    if (info_file.is_open())
+    {
+        // Write data to the file
+        info_file << "Map Name: " << map_name << std::endl;
+        info_file << "Artist Name: " << artist_name << std::endl;
+        info_file << "Author Name: " << author_name << std::endl;
+        info_file << "BPM: " << bpm << std::endl;
+        // Close the file
+        info_file.close();
     }
-      
-           
+    else
+    {
+        // Failed to open the file
+        // Handle the error accordingly
+        // For example, display an error message or throw an exception
+    }
+    command = "cd ../";
+    system(command.c_str());
 }

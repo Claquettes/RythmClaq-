@@ -1,0 +1,4 @@
+Map Name: doz
+Artist Name: fzu
+Author Name: laa
+BPM: 87

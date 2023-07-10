@@ -155,6 +155,10 @@ int Song_selection_menu::refreshMapList() {
                     if (std::getline(file, line)) {
                         mapObject.creator = line;
                     }
+                    // Read the third line as the BPM
+                    if (std::getline(file, line)) {
+                        mapObject.bpm = std::stoi(line);
+                    }
                     // Add the map object to the vector
                     mapVector.push_back(mapObject);
 
@@ -213,6 +217,8 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
         map_rects.push_back(map_rect);
         //we push the name rect in the map_names_rects vector
         map_names_rects.push_back(name_rect);
+
+            //infos about the map
         //we calculate the difficulty of the map
         mapVector[i-1].difficulty = mapVector[i-1].calculateDifficulty();
     }
@@ -264,6 +270,9 @@ void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::ve
     // Print the selected map index (1-indexed) if a map is selected
     if (selectedMapIndex != -1) {
         std::cout << "You chose level " << selectedMapIndex + 1 << std::endl;
+        std::cout << "The name of the map is " << mapVector[selectedMapIndex].name << std::endl;
+        std::cout << "The creator of the map is " << mapVector[selectedMapIndex].creator << std::endl;
+        std::cout << "The BPM of the map is " << mapVector[selectedMapIndex].bpm << std::endl;
         //we start the game:
         Game game(mapVector[selectedMapIndex]);
     }

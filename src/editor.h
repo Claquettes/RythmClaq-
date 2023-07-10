@@ -28,6 +28,8 @@ class Editor {
     //textures
     SDL_Texture* background_texture = NULL;
     void editorLoop();
+    int editorCli();
+    void createMap(std::string map_name, std::string artist_name, std::string creator_name, unsigned short bpm, std::string song_path);
 
 };
 
