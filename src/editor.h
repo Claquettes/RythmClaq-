@@ -49,6 +49,7 @@ class Editor {
     SDL_Color noteColor = {0, 255, 25, 255};
     //render all of the notes, by passing the array of notes positions and the renderer
     void renderNotes(std::vector<unsigned short> notes, SDL_Renderer* renderer);
+    int snapToGrid(int x);
 
 };
 

@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <fstream> //for file manipulation
 #include "panel.h"
+#include <cmath> //use to round numbers, useful for snapping notes to the grid
 
 // constructor
 Editor::Editor()
@@ -281,8 +282,9 @@ void Editor::handleNotePlacement(SDL_Event event)
         // we get the position of the note
         int note_x = mouse_x - WINDOW_WIDTH * 0.1; // we substract the padding
         int note_y = mouse_y - WINDOW_HEIGHT * 0.1; // we substract the padding 
+
         // we get the position of the note in the temp_notes array
-        int note_pos = note_x / 5;
+        int note_pos = Editor::snapToGrid(note_x) / 5;
         // we check if the note is already placed by going through the temp_notes array
         bool note_already_placed = false;
         for (int i = 0; i < temp_notes.size(); i++)
@@ -336,4 +338,11 @@ void Editor::renderNotes(std::vector<unsigned short> notes, SDL_Renderer* render
         //we render the pannel
         note_pannel->render(renderer);
     }
+}
+
+int Editor::snapToGrid(int x)
+{
+    // We round the number to the nearest multiple of 32
+    int rounded = round(static_cast<double>(x) / 32) * 32 - 15; // Subtract 15 to center the note
+    return rounded;
 }
