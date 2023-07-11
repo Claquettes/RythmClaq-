@@ -17,6 +17,7 @@ public:
     SDL_Color getColor() const;
 
     void setPosition(int x, int y);
+    void setSize(int width, int height);
     void setWidth(int x);
     void setHeight(int y);
     void setColor(SDL_Color color);

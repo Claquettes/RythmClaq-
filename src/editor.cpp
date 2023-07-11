@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <SDL2/SDL_image.h>
 #include <fstream> //for file manipulation
+#include "panel.h"
 
 // constructor
 Editor::Editor()
@@ -72,6 +73,7 @@ int Editor::init()
 
 void Editor::editorLoop()
 {
+
     std::cout << "editorLoop called!" << std::endl;
     // we create a boolean that will be true until the user closes the menu
     bool quit = false;
@@ -86,6 +88,14 @@ void Editor::editorLoop()
     // we draw the test button
     SDL_SetRenderDrawColor(renderer_editor, 223, 12, 78, 255);
     SDL_RenderFillRect(renderer_editor, &test_rect);
+
+    SDL_Color pannel_to_place_notes_color = {255, 55, 25, 255};
+    //we create a pannel, that will be 80% of the screen width and 20% of the screen height
+    pannel_to_place_notes.setPosition(0, 0);
+    pannel_to_place_notes.setSize(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.2);
+    pannel_to_place_notes.setColor(pannel_to_place_notes_color);
+    pannel_to_place_notes.render(renderer_editor);
+
     SDL_RenderPresent(renderer_editor);
     editorCli();
 
@@ -207,4 +217,10 @@ void Editor::createMap(std::string map_name, std::string artist_name, std::strin
         }
     }
 
+}
+
+int Editor::editorGui()
+{
+    std::cout << "editorGui called!" << std::endl;
+    return 0;
 }

@@ -7,6 +7,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "pannel.h"
+#include "animations.h"
+
 class Editor {
     public:
 
@@ -23,12 +26,16 @@ class Editor {
     //we create a window for the editor
     SDL_Window* window_editor = NULL;
 
+    //we create a pannel to place the notes
+    Pannel pannel_to_place_notes;
+
     private:
     int init();
     //textures
     SDL_Texture* background_texture = NULL;
     void editorLoop();
     int editorCli();
+    int editorGui();
     void createMap(std::string map_name, std::string artist_name, std::string creator_name, unsigned short bpm, std::string song_path);
 
 };

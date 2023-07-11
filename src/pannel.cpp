@@ -46,3 +46,8 @@ void Pannel::render(SDL_Renderer* renderer) const {
     SDL_SetRenderDrawColor(renderer, color_.r, color_.g, color_.b, color_.a);
     SDL_RenderFillRect(renderer, &rect);
 }
+
+void Pannel::setSize(int width, int height) {
+    width_ = width;
+    height_ = height;
+}
