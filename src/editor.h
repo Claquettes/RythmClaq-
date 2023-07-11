@@ -6,6 +6,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h> //not used yet
 
 #include "pannel.h"
 #include "animations.h"
@@ -29,6 +30,12 @@ class Editor {
     //we create a pannel to place the notes
     Pannel pannel_to_place_notes;
 
+    //we crate a pannel for the header
+    Pannel pannel_header;
+
+    //we create a pannel to act as a save button
+    Pannel pannel_save;
+
     private:
     //initilization of the editor
     int init();
@@ -50,6 +57,8 @@ class Editor {
     //render all of the notes, by passing the array of notes positions and the renderer
     void renderNotes(std::vector<unsigned short> notes, SDL_Renderer* renderer);
     int snapToGrid(int x);
+
+    TTF_Font* font;
 
 };
 

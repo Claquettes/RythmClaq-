@@ -57,6 +57,7 @@ int Editor::init()
     // we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     
+    
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling editorLoop." << std::endl;
     editorLoop();
@@ -94,6 +95,13 @@ void Editor::editorLoop()
             {
                 quit = true;
             }
+            //if the user clicks on the save button
+            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= 0 && e.button.x <= WINDOW_WIDTH * 0.1 && e.button.y >= 0 && e.button.y <= WINDOW_HEIGHT * 0.1 - 10)
+            {
+                //we cout for debug
+                std::cout << "Save button clicked!" << std::endl;
+                //we'll call the save function TODO:This
+            }
             else
             {
                 // We handle the note placement
@@ -112,6 +120,25 @@ void Editor::editorLoop()
         pannel_to_place_notes.setSize(5000, WINDOW_HEIGHT * 0.2);
         pannel_to_place_notes.setColor(pannel_to_place_notes_color);
         pannel_to_place_notes.render(renderer_editor);
+
+
+        // We draw the Header pannel
+        SDL_Color pannel_header_color = {0, 0, 255, 255};
+        pannel_header.setPosition(0, 0);
+        pannel_header.setSize(WINDOW_WIDTH, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_header.setColor(pannel_header_color);
+        pannel_header.render(renderer_editor);
+
+        // We draw the save button, a pannel that takes 10% of the screen width and 100% of the header height
+        SDL_Color pannel_save_color = {255, 255, 255, 255};
+        pannel_save.setPosition(0, 0);
+        pannel_save.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_save.setColor(pannel_save_color);
+        pannel_save.render(renderer_editor);
+
+
+
+
 
         // Every 32 pixels, we draw a line to symbolize a beat
         SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
