@@ -110,33 +110,9 @@ void Editor::editorLoop()
         SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
         SDL_RenderClear(renderer_editor);
 
-        SDL_Color pannel_to_place_notes_color = {255, 55, 25, 255};
-        // We create a panel, which will be 5000px width of the screen width and 20% of the screen height
-        pannel_to_place_notes.setPosition(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1);
-        pannel_to_place_notes.setSize(5000, WINDOW_HEIGHT * 0.2);
-        pannel_to_place_notes.setColor(pannel_to_place_notes_color);
-        pannel_to_place_notes.render(renderer_editor);
 
-        // We draw the Header pannel
-        SDL_Color pannel_header_color = {0, 0, 255, 255};
-        pannel_header.setPosition(0, 0);
-        pannel_header.setSize(WINDOW_WIDTH, WINDOW_HEIGHT * 0.1 - 10);
-        pannel_header.setColor(pannel_header_color);
-        pannel_header.render(renderer_editor);
-
-        // We draw the save button, a pannel that takes 10% of the screen width and 100% of the header height
-        SDL_Color pannel_save_color = {255, 255, 255, 255};
-        pannel_save.setPosition(0, 0);
-        pannel_save.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
-        pannel_save.setColor(pannel_save_color);
-        pannel_save.render(renderer_editor);
-
-        // We draw the quit button, a pannel that takes 10% of the screen width and 100% of the header height
-        SDL_Color pannel_quit_color = {110, 110, 110, 255};
-        pannel_quit.setPosition(WINDOW_WIDTH * 0.9, 0);
-        pannel_quit.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
-        pannel_quit.setColor(pannel_quit_color);
-        pannel_quit.render(renderer_editor);
+        Editor::managePannels();
+        
 
         // Every 32 pixels, we draw a line to symbolize a beat
         SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
@@ -369,4 +345,36 @@ int Editor::snapToGrid(int x)
     // We round the number to the nearest multiple of 32
     int rounded = round(static_cast<double>(x) / 32) * 32 - 15; // Subtract 15 to center the note
     return rounded;
+}
+
+void Editor::managePannels()
+{
+    SDL_Color pannel_to_place_notes_color = {255, 55, 25, 255};
+        // We create a panel, which will be 5000px width of the screen width and 20% of the screen height
+        pannel_to_place_notes.setPosition(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1);
+        pannel_to_place_notes.setSize(5000, WINDOW_HEIGHT * 0.2);
+        pannel_to_place_notes.setColor(pannel_to_place_notes_color);
+        pannel_to_place_notes.render(renderer_editor);
+
+        // We draw the Header pannel
+        SDL_Color pannel_header_color = {0, 0, 255, 255};
+        pannel_header.setPosition(0, 0);
+        pannel_header.setSize(WINDOW_WIDTH, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_header.setColor(pannel_header_color);
+        pannel_header.render(renderer_editor);
+
+        // We draw the save button, a pannel that takes 10% of the screen width and 100% of the header height
+        SDL_Color pannel_save_color = {255, 255, 255, 255};
+        pannel_save.setPosition(0, 0);
+        pannel_save.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_save.setColor(pannel_save_color);
+        pannel_save.render(renderer_editor);
+
+        // We draw the quit button, a pannel that takes 10% of the screen width and 100% of the header height
+        SDL_Color pannel_quit_color = {110, 110, 110, 255};
+        pannel_quit.setPosition(WINDOW_WIDTH * 0.9, 0);
+        pannel_quit.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_quit.setColor(pannel_quit_color);
+        pannel_quit.render(renderer_editor);
+
 }

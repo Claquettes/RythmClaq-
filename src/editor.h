@@ -63,6 +63,8 @@ class Editor {
 
     TTF_Font* font;
 
+    //we create a method that manage the pannels
+    void managePannels();
 };
 
 #endif // editor_H
