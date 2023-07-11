@@ -72,11 +72,7 @@ void Editor::editorLoop()
     // We create an event handler
     SDL_Event e;
     // We create a rect that will act as a test button
-    SDL_Rect test_rect;
-    test_rect.x = 100;
-    test_rect.y = 100;
-    test_rect.w = 100;
-    test_rect.h = 100;
+
 
     // Create a back buffer for rendering off-screen
     SDL_Texture* backBuffer = SDL_CreateTexture(renderer_editor, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -86,7 +82,7 @@ void Editor::editorLoop()
         while (SDL_PollEvent(&e) != 0)
         {
             // If the user clicks on the test button, we close the menu
-            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= test_rect.x && e.button.x <= test_rect.x + test_rect.w && e.button.y >= test_rect.y && e.button.y <= test_rect.y + test_rect.h)
+            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= pannel_quit.getX() && e.button.x <= pannel_quit.getX() + pannel_quit.getWidth() && e.button.y >= pannel_quit.getY() && e.button.y <= pannel_quit.getY() + pannel_quit.getHeight())
             {
                 quit = true;
             }
@@ -121,7 +117,6 @@ void Editor::editorLoop()
         pannel_to_place_notes.setColor(pannel_to_place_notes_color);
         pannel_to_place_notes.render(renderer_editor);
 
-
         // We draw the Header pannel
         SDL_Color pannel_header_color = {0, 0, 255, 255};
         pannel_header.setPosition(0, 0);
@@ -136,9 +131,12 @@ void Editor::editorLoop()
         pannel_save.setColor(pannel_save_color);
         pannel_save.render(renderer_editor);
 
-
-
-
+        // We draw the quit button, a pannel that takes 10% of the screen width and 100% of the header height
+        SDL_Color pannel_quit_color = {110, 110, 110, 255};
+        pannel_quit.setPosition(WINDOW_WIDTH * 0.9, 0);
+        pannel_quit.setSize(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1 - 10);
+        pannel_quit.setColor(pannel_quit_color);
+        pannel_quit.render(renderer_editor);
 
         // Every 32 pixels, we draw a line to symbolize a beat
         SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
@@ -166,7 +164,6 @@ void Editor::editorLoop()
 
         // We draw the test button
         SDL_SetRenderDrawColor(renderer_editor, 223, 12, 78, 255);
-        SDL_RenderFillRect(renderer_editor, &test_rect);
 
         // Reset the render target to the default window
         SDL_SetRenderTarget(renderer_editor, nullptr);

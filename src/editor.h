@@ -35,6 +35,9 @@ class Editor {
 
     //we create a pannel to act as a save button
     Pannel pannel_save;
+    
+    //we create a pannel to act as the quit button
+    Pannel pannel_quit;
 
     private:
     //initilization of the editor
