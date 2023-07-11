@@ -328,7 +328,7 @@ void Editor::renderNotes(std::vector<unsigned short> notes, SDL_Renderer* render
         Pannel* note_pannel = new Pannel();
         // we set the position of the pannel
         note_pannel->setX(notes[i] * 5 + WINDOW_WIDTH * 0.1);
-        note_pannel->setY(WINDOW_HEIGHT * 0.1);
+        note_pannel->setY(WINDOW_HEIGHT * 0.1 - 10 + pannel_to_place_notes.getHeight() / 2);
         // we set the size of the pannel
         note_pannel->setSize(30, 30);
         // we set the color of the pannel
