@@ -20,6 +20,7 @@ Editor::Editor()
 Editor::~Editor()
 {
     std::cout << "Editor destructor called!" << std::endl;
+    std::cout << "The temp_notes vector contains " << temp_notes.size() << " notes." << std::endl;
     // we free all of the textures and surfaces
     SDL_DestroyTexture(background_texture);
     // we close the editor window
@@ -54,17 +55,7 @@ int Editor::init()
     }
     // we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
-    // we load the background image
-    background_texture = IMG_LoadTexture(renderer_editor, "assets/menu/editor/editor.png");
-    // we render the background
-    SDL_RenderCopy(renderer_editor, background_texture, NULL, NULL);
-    // we update the screen
-    SDL_RenderPresent(renderer_editor);
-    if (background_texture == nullptr)
-    {
-        std::cout << "Background could not be loaded! SDL_Error: " << SDL_GetError() << std::endl;
-        return -1;
-    }
+    
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling editorLoop." << std::endl;
     editorLoop();
@@ -73,50 +64,104 @@ int Editor::init()
 
 void Editor::editorLoop()
 {
-
     std::cout << "editorLoop called!" << std::endl;
-    // we create a boolean that will be true until the user closes the menu
+    // We create a boolean that will be true until the user closes the menu
     bool quit = false;
-    // we create an event handler
+    // We create an event handler
     SDL_Event e;
-    // we create a rect that will act as a test button
+    // We create a rect that will act as a test button
     SDL_Rect test_rect;
     test_rect.x = 100;
     test_rect.y = 100;
     test_rect.w = 100;
     test_rect.h = 100;
-    // we draw the test button
-    SDL_SetRenderDrawColor(renderer_editor, 223, 12, 78, 255);
-    SDL_RenderFillRect(renderer_editor, &test_rect);
 
-    SDL_Color pannel_to_place_notes_color = {255, 55, 25, 255};
-    //we create a pannel, that will be 80% of the screen width and 20% of the screen height
-    pannel_to_place_notes.setPosition(0, 0);
-    pannel_to_place_notes.setSize(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.2);
-    pannel_to_place_notes.setColor(pannel_to_place_notes_color);
-    pannel_to_place_notes.render(renderer_editor);
+    // Create a back buffer for rendering off-screen
+    SDL_Texture* backBuffer = SDL_CreateTexture(renderer_editor, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    SDL_RenderPresent(renderer_editor);
-    editorCli();
-
-    // we listen to events, and we close the menu if the user clicks on the test button
     while (!quit)
     {
         while (SDL_PollEvent(&e) != 0)
         {
-            // if the user clicks on the test button, we close the menu
+            // If the user clicks on the test button, we close the menu
             if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= test_rect.x && e.button.x <= test_rect.x + test_rect.w && e.button.y >= test_rect.y && e.button.y <= test_rect.y + test_rect.h)
             {
                 quit = true;
             }
-            // if the user clicks on the close button, we close the menu
+            // If the user clicks on the close button, we close the menu
             if (e.type == SDL_QUIT)
             {
                 quit = true;
             }
+            else
+            {
+                // We handle the note placement
+                Editor::handleNotePlacement(e);
+            }
         }
+
+        // Render to the back buffer
+        SDL_SetRenderTarget(renderer_editor, backBuffer);
+        SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
+        SDL_RenderClear(renderer_editor);
+
+        SDL_Color pannel_to_place_notes_color = {255, 55, 25, 255};
+        // We create a panel, which will be 5000px width of the screen width and 20% of the screen height
+        pannel_to_place_notes.setPosition(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1);
+        pannel_to_place_notes.setSize(5000, WINDOW_HEIGHT * 0.2);
+        pannel_to_place_notes.setColor(pannel_to_place_notes_color);
+        pannel_to_place_notes.render(renderer_editor);
+
+        // Every 32 pixels, we draw a line to symbolize a beat
+        SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
+        for (int i = 0; i < 5000; i += 32)
+        {
+            // We draw a thick white line every 4 beats, so every 128 pixels
+            if (i % 128 == 0)
+            {
+                SDL_SetRenderDrawColor(renderer_editor, 255, 255, 255, 255);
+                SDL_RenderDrawLine(renderer_editor, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.3);
+                SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
+            }
+            else if (i % 64 == 0)
+            {
+                // We draw a yellow line every 2 beats, so every 64 pixels
+                SDL_SetRenderDrawColor(renderer_editor, 255, 255, 0, 255);
+                SDL_RenderDrawLine(renderer_editor, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.3);
+                SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
+            }
+            else
+            {
+                SDL_RenderDrawLine(renderer_editor, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, i + WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.3);
+            }
+        }
+
+        // We draw the test button
+        SDL_SetRenderDrawColor(renderer_editor, 223, 12, 78, 255);
+        SDL_RenderFillRect(renderer_editor, &test_rect);
+
+        // Reset the render target to the default window
+        SDL_SetRenderTarget(renderer_editor, nullptr);
+
+        // Clear the screen
+        SDL_SetRenderDrawColor(renderer_editor, 0, 0, 0, 255);
+        SDL_RenderClear(renderer_editor);
+
+        // Copy the back buffer to the window for display
+        SDL_RenderCopy(renderer_editor, backBuffer, nullptr, nullptr);
+
+        // Render the notes on top of the scene
+        Editor::renderNotes(temp_notes, renderer_editor);
+
+        // Update the screen
+        SDL_RenderPresent(renderer_editor);
     }
+
+    // Clean up
+    SDL_DestroyTexture(backBuffer);
 }
+
+
 int Editor::editorCli()
 {
     std::cout << "Welcome to the RythmClaq editor!" << std::endl;
@@ -223,4 +268,72 @@ int Editor::editorGui()
 {
     std::cout << "editorGui called!" << std::endl;
     return 0;
+}
+
+void Editor::handleNotePlacement(SDL_Event event)
+{
+    //if the event is a Left click, and that the coordinates are in the pannel_to_place_notes
+    if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT && event.button.x >= WINDOW_WIDTH * 0.1 && event.button.x <= WINDOW_WIDTH * 0.9 && event.button.y >= WINDOW_HEIGHT * 0.1 && event.button.y <= WINDOW_HEIGHT * 0.3)
+    {
+        // we get the position of the mouse
+        int mouse_x = event.button.x;
+        int mouse_y = event.button.y;
+        // we get the position of the note
+        int note_x = mouse_x - WINDOW_WIDTH * 0.1; // we substract the padding
+        int note_y = mouse_y - WINDOW_HEIGHT * 0.1; // we substract the padding 
+        // we get the position of the note in the temp_notes array
+        int note_pos = note_x / 5;
+        // we check if the note is already placed by going through the temp_notes array
+        bool note_already_placed = false;
+        for (int i = 0; i < temp_notes.size(); i++)
+        {
+            if (temp_notes[i] == note_pos)
+            {
+                note_already_placed = true;
+            }
+        }
+        if (note_already_placed == false)
+        {
+            // we add the note to the temp_notes array
+            temp_notes.push_back(note_pos);
+            std::cout << "Note placed at " << note_pos << std::endl;
+            //we place the note on the screen for visual feedback
+
+            //we create a NEW panel using NEW
+            Pannel *note_pannel = new Pannel();
+            // we set the position of the pannel
+            note_pannel->setX(note_pos * 5 + WINDOW_WIDTH * 0.1);
+            note_pannel->setY(WINDOW_HEIGHT * 0.1);
+            // we set the size of the pannel
+            note_pannel->setSize(30, 30);
+            // we set the color of the pannel
+            note_pannel->setColor(noteColor);
+            //we render the pannel
+            note_pannel->render(renderer_editor);
+
+        }
+        else
+        {
+            std::cout << "Note already placed at " << note_pos << std::endl;
+        }
+    }
+}
+
+void Editor::renderNotes(std::vector<unsigned short> notes, SDL_Renderer* renderer)
+{
+    // we go through the notes array
+    for (int i = 0; i < notes.size(); i++)
+    {
+        //we create a NEW panel using NEW
+        Pannel* note_pannel = new Pannel();
+        // we set the position of the pannel
+        note_pannel->setX(notes[i] * 5 + WINDOW_WIDTH * 0.1);
+        note_pannel->setY(WINDOW_HEIGHT * 0.1);
+        // we set the size of the pannel
+        note_pannel->setSize(30, 30);
+        // we set the color of the pannel
+        note_pannel->setColor(noteColor);
+        //we render the pannel
+        note_pannel->render(renderer);
+    }
 }

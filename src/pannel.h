@@ -12,6 +12,8 @@ public:
 
     int getX() const;
     int getY() const;
+    void setX(int x);
+    void setY(int y);
     int getWidth() const;
     int getHeight() const;
     SDL_Color getColor() const;

@@ -51,3 +51,11 @@ void Pannel::setSize(int width, int height) {
     width_ = width;
     height_ = height;
 }
+
+void Pannel::setX(int x) {
+    x_ = x;
+}
+
+void Pannel::setY(int y) {
+    y_ = y;
+}
