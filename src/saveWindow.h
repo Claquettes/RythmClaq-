@@ -25,13 +25,27 @@ class SaveWindow{
     const int SCREEN_HEIGHT = 480;
 
     private:
-    Pannel topPannel;
-    Pannel backgroundPannel;
+    void renderPannels(SDL_Renderer* renderer);
+    void renderText(SDL_Renderer* renderer, TTF_Font* font);
+
     SDL_Renderer* renderer = NULL;
     TTF_Font* font = NULL;
+
+    Pannel topPannel;
+    Pannel backgroundPannel;
+    Pannel namePannelInput;
+    Pannel namePannelText;
+    Pannel creatorPannelInput;
+    Pannel creatorPannelText;
+    Pannel bpmPannelInput;
+    Pannel bpmPannelText;
+
+    
     SDL_Color white = { 255, 255, 255, 255 };
     SDL_Color bg = { 189, 189, 189, 255 };
     SDL_Color black = { 0, 0, 0, 255 };
+    SDL_Color accent = { 92, 91, 90, 255 };
+    SDL_Color accentDark = { 46, 45, 45, 255 };
 };
 
 #endif // saveWindow_h

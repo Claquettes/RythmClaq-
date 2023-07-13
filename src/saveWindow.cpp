@@ -25,12 +25,10 @@ SaveWindow::SaveWindow(std::vector<short unsigned int> positions)
 
     SDL_Window* window = SDL_CreateWindow("Saving your Map", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    TTF_Font* font = TTF_OpenFont("data/font/arial.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("data/font/arial.ttf", 20);
 
     SDL_Event event;
     bool quit = false;
-
-
     //we call the createPannels function
     createPannels();
 
@@ -48,9 +46,13 @@ SaveWindow::SaveWindow(std::vector<short unsigned int> positions)
             }
         }
         SDL_RenderClear(renderer);
-        backgroundPannel.render(renderer);
-        topPannel.render(renderer);
+        
 
+        //we render all of the pannels
+        renderPannels(renderer); 
+
+        //we render all of the text
+        renderText(renderer, font);
 
         SDL_RenderPresent(renderer);
 
@@ -76,25 +78,75 @@ void SaveWindow::createPannels()
     // Top pannel defined in the .h file
     //we set the position of the pannel
     topPannel.setPosition(0, 0);
-    topPannel.setSize(SCREEN_WIDTH, 20);
+    topPannel.setSize(SCREEN_WIDTH, 25);
     
     //we set the color of the pannel
     topPannel.setColor(white);
     //we display a text on the pannel
-    //we create a string
-    std::string text = "Enter Map's Metadata";
-    
 
     std::cout << "topPannel created" << std::endl;
-
 
     //background Pannel defined in the .h file
     //we set the position of the pannel
     backgroundPannel.setPosition(0, 0);
     backgroundPannel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    
     //we set the color of the pannel
     backgroundPannel.setColor(bg);
+    
+    //we set the position of the pannel, just under the top pannel
+    namePannelText.setPosition(0, 25);
+    namePannelText.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    namePannelText.setColor(accent);
 
+    //we set the position of the pannel, just under the top pannel
+    namePannelInput.setPosition(SCREEN_WIDTH/2, 25);
+    namePannelInput.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    namePannelInput.setColor(accentDark);
 
+    creatorPannelText.setPosition(0, 55);
+    creatorPannelText.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    creatorPannelText.setColor(accent);
+
+    creatorPannelInput.setPosition(SCREEN_WIDTH/2, 55);
+    creatorPannelInput.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    creatorPannelInput.setColor(accentDark);
+
+    bpmPannelText.setPosition(0, 85);
+    bpmPannelText.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    bpmPannelText.setColor(accent);
+
+    bpmPannelInput.setPosition(SCREEN_WIDTH/2, 85);
+    bpmPannelInput.setSize(SCREEN_WIDTH/2, 25);
+    //we set the color of the pannel
+    bpmPannelInput.setColor(accentDark);
+
+}
+
+void SaveWindow::renderPannels(SDL_Renderer* renderer)
+{
+    //we render all of the pannels
+    topPannel.render(renderer);
+    backgroundPannel.render(renderer);
+    namePannelText.render(renderer);
+    namePannelInput.render(renderer);
+    creatorPannelText.render(renderer);
+    creatorPannelInput.render(renderer);
+    bpmPannelText.render(renderer);
+    bpmPannelInput.render(renderer);
+
+}
+
+void SaveWindow::renderText(SDL_Renderer* renderer, TTF_Font* font)
+{
+    //we render all of the text
+    displayMessage(renderer, font, "Enter Map's Metadata", 10, 0, black);
+    displayMessage(renderer, font, "Name:", 10, 25, black);
+    displayMessage(renderer, font, "Creator:", 10, 55, black);
+    displayMessage(renderer, font, "BPM:", 10, 85, black);
+    
 }
