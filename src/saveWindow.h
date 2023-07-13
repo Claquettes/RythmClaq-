@@ -23,10 +23,12 @@ class SaveWindow{
     std::vector<Pannel> pannels;
     const int SCREEN_WIDTH = 640;
     const int SCREEN_HEIGHT = 480;
+    SDL_Window* window = NULL;
 
     private:
     void renderPannels(SDL_Renderer* renderer);
     void renderText(SDL_Renderer* renderer, TTF_Font* font);
+    void renderManager(SDL_Renderer* renderer, TTF_Font* font);
 
     SDL_Renderer* renderer = NULL;
     TTF_Font* font = NULL;

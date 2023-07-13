@@ -45,31 +45,11 @@ SaveWindow::SaveWindow(std::vector<short unsigned int> positions)
                 quit = true;
             }
         }
-        SDL_RenderClear(renderer);
-        
 
-        //we render all of the pannels
-        renderPannels(renderer); 
 
-        //we render all of the text
-        renderText(renderer, font);
 
-        SDL_RenderPresent(renderer);
-
+        renderManager(renderer, font);
     }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    TTF_CloseFont(font);
-    TTF_Quit();
-    SDL_Quit();
-
-}
-
-//destructor!
-SaveWindow::~SaveWindow()
-{
-    SDL_Quit();
 }
 
 //we create a function that will place all of the pannels that we need
@@ -157,4 +137,27 @@ void SaveWindow::renderText(SDL_Renderer* renderer, TTF_Font* font)
     displayMessage(renderer, font, "Name:", 10, 25, black);
     displayMessage(renderer, font, "Creator:", 10, 55, black);
     displayMessage(renderer, font, "BPM:", 10, 85, black);  
+}
+
+void SaveWindow::renderManager(SDL_Renderer* renderer, TTF_Font* font)
+{
+    SDL_RenderClear(renderer);
+    //we render all of the pannels
+    renderPannels(renderer); 
+
+    //we render all of the text
+    renderText(renderer, font);
+
+    //we render the window
+    SDL_RenderPresent(renderer);
+}
+
+//we define the destructor
+SaveWindow::~SaveWindow()
+{
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    SDL_Quit();
 }
