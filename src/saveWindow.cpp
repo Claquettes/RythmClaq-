@@ -124,20 +124,29 @@ void SaveWindow::createPannels()
     bpmPannelInput.setSize(SCREEN_WIDTH/2, 25);
     //we set the color of the pannel
     bpmPannelInput.setColor(accentDark);
+    
+
+
+    //we add all of the pannels to the vector of pannels
+    pannels.push_back(topPannel);
+    pannels.push_back(backgroundPannel);
+    pannels.push_back(namePannelText);
+    pannels.push_back(namePannelInput);
+    pannels.push_back(creatorPannelText);
+    pannels.push_back(creatorPannelInput);
+    pannels.push_back(bpmPannelText);
+    pannels.push_back(bpmPannelInput);
+
 
 }
 
 void SaveWindow::renderPannels(SDL_Renderer* renderer)
 {
-    //we render all of the pannels
-    topPannel.render(renderer);
-    backgroundPannel.render(renderer);
-    namePannelText.render(renderer);
-    namePannelInput.render(renderer);
-    creatorPannelText.render(renderer);
-    creatorPannelInput.render(renderer);
-    bpmPannelText.render(renderer);
-    bpmPannelInput.render(renderer);
+    //we render all of the pannels using the pannels vector
+    for (int i = 0; i < pannels.size(); i++)
+    {
+        pannels[i].render(renderer);
+    }
 
 }
 
@@ -147,6 +156,5 @@ void SaveWindow::renderText(SDL_Renderer* renderer, TTF_Font* font)
     displayMessage(renderer, font, "Enter Map's Metadata", 10, 0, black);
     displayMessage(renderer, font, "Name:", 10, 25, black);
     displayMessage(renderer, font, "Creator:", 10, 55, black);
-    displayMessage(renderer, font, "BPM:", 10, 85, black);
-    
+    displayMessage(renderer, font, "BPM:", 10, 85, black);  
 }
