@@ -305,7 +305,10 @@ void SaveWindow::save(std::vector<short unsigned int> positions, std::string nam
     // for that we use the positions vector
     for (int i = 0; i < positions.size(); i++)
     {
-        claq_file << positions[i] << "\n" << std::endl;
+    
+        claq_file << positions[i]<< std::endl;
+        //we go to the next line
+        
     }
     // we close the file
     claq_file.close();
