@@ -27,7 +27,7 @@ $(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/editor.h src/pannel
 $(OBJDIR)/saveWindow.o: src/saveWindow.cpp src/saveWindow.h
 	$(cc) $(CFLAGS) -c src/saveWindow.cpp -o $(OBJDIR)/saveWindow.o $(Include)
 
-$(OBJDIR)/editor.o: src/editor.cpp src/editor.h src/saveWindow.h src/pannel.h src/animations.h
+$(OBJDIR)/editor.o: src/editor.cpp src/editor.h src/saveWindow.h src/pannel.h src/animations.h src/editor.h
 	$(cc) $(CFLAGS) -c src/editor.cpp -o $(OBJDIR)/editor.o $(Include) 
 
 $(OBJDIR)/song_selection_menu.o: src/song_selection_menu.cpp src/song_selection_menu.h src/game.h src/map.h

@@ -25,6 +25,8 @@ class SaveWindow{
     const int SCREEN_HEIGHT = 480;
     SDL_Window* window = NULL;
 
+    void save(std::vector<short unsigned int> positions, std::string name, std::string creator, std::string bpm);
+
     private:
     void renderPannels(SDL_Renderer* renderer);
     void renderText(SDL_Renderer* renderer, TTF_Font* font);
@@ -41,6 +43,7 @@ class SaveWindow{
     Pannel creatorPannelText;
     Pannel bpmPannelInput;
     Pannel bpmPannelText;
+    Pannel savePannel;
 
     
     SDL_Color white = { 255, 255, 255, 255 };
@@ -48,6 +51,13 @@ class SaveWindow{
     SDL_Color black = { 0, 0, 0, 255 };
     SDL_Color accent = { 92, 91, 90, 255 };
     SDL_Color accentDark = { 46, 45, 45, 255 };
+
+    std::string currentPanel = "namePannelInput";
+    std::string name = "";
+    std::string creator = "";
+    std::string bpm = "";
+
+    
 };
 
 #endif // saveWindow_h
