@@ -142,6 +142,9 @@ int Main_menu::menuLoop()
             {
                 // we quit the menu
                 quit = true;
+                //we destroy the menu
+                Main_menu::~Main_menu();
+                
                 // we launch the editor
                 std::cout << "Launching the editor." << std::endl;
                 Editor editor;

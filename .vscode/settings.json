@@ -49,7 +49,11 @@
         "cstring": "cpp",
         "ctime": "cpp",
         "fstream": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "ratio": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp"
     },
     "discord.enabled": true
 }
