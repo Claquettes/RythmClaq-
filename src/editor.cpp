@@ -8,6 +8,7 @@
 #include <fstream> //for file manipulation
 #include "panel.h"
 #include <cmath> //use to round numbers, useful for snapping notes to the grid
+#include "saveWindow.h"
 
 // constructor
 Editor::Editor()
@@ -57,7 +58,6 @@ int Editor::init()
     // we initialize SDL_image
     IMG_Init(IMG_INIT_PNG);
     
-    
     // if everything is ok, we return 0 and we launch the menuLoop
     std::cout << "Menu initialized, calling editorLoop." << std::endl;
     editorLoop();
@@ -96,7 +96,8 @@ void Editor::editorLoop()
             {
                 //we cout for debug
                 std::cout << "Save button clicked!" << std::endl;
-                //we'll call the save function TODO:This
+                //we call the saveWindow
+                SaveWindow saveWindow(temp_notes);
             }
             else
             {

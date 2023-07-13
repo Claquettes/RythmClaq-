@@ -10,6 +10,7 @@
 
 #include "pannel.h"
 #include "animations.h"
+#include "saveWindow.h"
 
 class Editor {
     public:
@@ -62,6 +63,8 @@ class Editor {
     int snapToGrid(int x);
 
     TTF_Font* font;
+    std::string map_name;
+
 
     //we create a method that manage the pannels
     void managePannels();

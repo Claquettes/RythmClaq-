@@ -1,7 +1,7 @@
 cc = g++
 CFLAGS = -g -Wall -std=c++17
 OBJDIR = obj
-OBJS = $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/note.o $(OBJDIR)/judgementLine.o $(OBJDIR)/main_menu.o $(OBJDIR)/editor.o $(OBJDIR)/song_selection_menu.o $(OBJDIR)/map.o $(OBJDIR)/pannel.o $(OBJDIR)/animations.o 
+OBJS = $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/note.o $(OBJDIR)/judgementLine.o $(OBJDIR)/main_menu.o $(OBJDIR)/editor.o $(OBJDIR)/song_selection_menu.o $(OBJDIR)/map.o $(OBJDIR)/pannel.o $(OBJDIR)/animations.o $(OBJDIR)/saveWindow.o 
 LIBS = -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2
 Include = -I/usr/include/SDL2
 
@@ -24,8 +24,11 @@ $(OBJDIR)/main.o: main.cpp src/game.h src/main_menu.h
 $(OBJDIR)/main_menu.o: src/main_menu.cpp src/main_menu.h src/editor.h src/pannel.h src/animations.h 
 	$(cc) $(CFLAGS) -c src/main_menu.cpp -o $(OBJDIR)/main_menu.o $(Include)
 
-$(OBJDIR)/editor.o: src/editor.cpp src/editor.h 
-	$(cc) $(CFLAGS) -c src/editor.cpp -o $(OBJDIR)/editor.o $(Include)
+$(OBJDIR)/saveWindow.o: src/saveWindow.cpp src/saveWindow.h
+	$(cc) $(CFLAGS) -c src/saveWindow.cpp -o $(OBJDIR)/saveWindow.o $(Include)
+
+$(OBJDIR)/editor.o: src/editor.cpp src/editor.h src/saveWindow.h src/pannel.h src/animations.h
+	$(cc) $(CFLAGS) -c src/editor.cpp -o $(OBJDIR)/editor.o $(Include) 
 
 $(OBJDIR)/song_selection_menu.o: src/song_selection_menu.cpp src/song_selection_menu.h src/game.h src/map.h
 	$(cc) $(CFLAGS) -c src/song_selection_menu.cpp -o $(OBJDIR)/song_selection_menu.o $(Include)
@@ -44,7 +47,6 @@ $(OBJDIR)/pannel.o: src/pannel.cpp src/pannel.h
 
 $(OBJDIR)/animations.o: src/animations.cpp src/animations.h src/pannel.h src/main_menu.h
 	$(cc) $(CFLAGS) -c src/animations.cpp -o $(OBJDIR)/animations.o $(Include)
-
 
 
 clean:
