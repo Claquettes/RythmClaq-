@@ -65,7 +65,7 @@ int Main_menu::init()
     
     //we initialize the pannels
     pannelInit();
-    
+
     //we cout for debug
     std::cout << "pannel1 x: " << pannel1.getX() << std::endl;
     std::cout << "pannel1 y: " << pannel1.getY() << std::endl;
@@ -129,6 +129,14 @@ int Main_menu::menuLoop()
                     // we destroy the menu
                     Main_menu::~Main_menu();
                 }
+                //we check if the mouse is inside the quit button
+                else if (pannel_quit_button.isInside(x, y))
+                {
+                    // we quit the menu
+                    quit = true;
+                    // we destroy the menu
+                    Main_menu::~Main_menu();
+                }
             }
         }
         // we clear the renderer
@@ -157,6 +165,11 @@ void Main_menu::pannelInit() {
     pannel_play_button.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     pannel_play_button.applyImage(renderer_menu, "assets/menu/PLAYTEXTURE.png");
 
+    //we place the pannel to close the game
+    pannel_quit_button.setPosition(WINDOW_WIDTH / 2 - BUTTON_WIDTH / 2, WINDOW_HEIGHT / 2 - BUTTON_HEIGHT / 2 + 300);
+    pannel_quit_button.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+
+
     
     //we set the pos and size of the pannel
     pannel1.setPosition(100, 200);
@@ -168,4 +181,5 @@ void Main_menu::pannelInit() {
     pannelVector.push_back(pannel_editor_button);
     pannelVector.push_back(pannel_play_button);
     pannelVector.push_back(pannel1);
+    pannelVector.push_back(pannel_quit_button);
 }
