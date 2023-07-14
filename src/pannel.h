@@ -2,6 +2,8 @@
 #define Pannel_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <string>
 
 class Pannel {
 public:
@@ -35,9 +37,20 @@ public:
     void setHeight(int y);
     //define the color of the pannel, by passing a SDL_Color as parameter
     void setColor(SDL_Color color);
-
     //render an instance of Pannel, with the renderer passed as parameter
     void render(SDL_Renderer* renderer) const;
+    //load the texture of the pannel
+    void loadTexture(SDL_Renderer* renderer);
+    //destroy the texture of the pannel
+    void destroyTexture();
+    //apply the texture of the pannel
+    void applyTexture(SDL_Renderer* renderer);
+    //apply an image to the pannel
+    void applyImage(SDL_Renderer* renderer, std::string path);
+    //bool that is true if the coordinates passed as parameters are inside the pannel
+    bool isInside(int x, int y) const;
+
+
 
 private:
     int x_;
@@ -45,6 +58,8 @@ private:
     int width_;
     int height_;
     SDL_Color color_;
+    SDL_Texture* texture_ = NULL; //initialized to NULL to check if the texture is loaded
+    SDL_Surface* surface_ = NULL; //initialized to NULL to check if the surface is loaded
 };
 
 #endif // Pannel_H

@@ -169,11 +169,15 @@ void SaveWindow::createPannels()
     //we set the color of the pannel
     backgroundPannel.setColor(bg);
     
+    std::cout << "backgroundPannel created" << std::endl;
+
     //we set the position of the pannel, just under the top pannel
     namePannelText.setPosition(0, 25);
     namePannelText.setSize(SCREEN_WIDTH/2, 25);
     //we set the color of the pannel
     namePannelText.setColor(accent);
+
+    std::cout << "namePannelText created" << std::endl;
 
     //we set the position of the pannel, just under the top pannel
     namePannelInput.setPosition(SCREEN_WIDTH/2, 25);
@@ -181,6 +185,7 @@ void SaveWindow::createPannels()
     //we set the color of the pannel
     namePannelInput.setColor(accentDark);
 
+    std:: cout << "namePannelInput created" << std::endl;
     creatorPannelText.setPosition(0, 55);
     creatorPannelText.setSize(SCREEN_WIDTH/2, 25);
     //we set the color of the pannel
