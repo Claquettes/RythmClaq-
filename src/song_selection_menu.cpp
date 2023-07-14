@@ -2,6 +2,8 @@
 
 #include "game.h" //to start games
 #include "map.h" //to interract with maps
+#include "pannel.h" //to draw pannels
+#include "animations.h" //to draw animations
 
 
 #include <iostream>
@@ -199,42 +201,38 @@ void Song_selection_menu::drawMapList(std::vector<Map> mapVector) {
     int numberOfColumns = 1;
     for (const Map& map : mapVector) {
         i++;
-        // we create a rect
-        SDL_Rect map_rect;
+        // we create a Pannel for the map
+        Pannel map_pannel;
 
 
         if(i < numberOfRows){
-            map_rect.x = 100;
-            map_rect.y = 100 + 100 * i;
+            map_pannel.setX(100);
+            map_pannel.setY(100 + 100 * i);
         }
         else{
-            map_rect.x = 100 + map_rect.w + WINDOW_WIDTH / 7;
-            map_rect.y = 100 + 100 * (i - numberOfRows + 1);
+            map_pannel.setX(100 + map_pannel.getWidth() + WINDOW_WIDTH / 7);
+            map_pannel.setY(100 + 100 * (i - numberOfRows + 1));
             numberOfColumns = 2;
         }
+        map_pannel.setWidth(WINDOW_WIDTH / 7);
+        map_pannel.setHeight(WINDOW_HEIGHT / 10);
 
 
+        //we add the pannel to the vector
+        pannelVector.push_back(map_pannel);
+
+        //we draw the pannel
+        map_pannel.render(renderer_song_selection_menu);
 
 
-
-        map_rect.w = WINDOW_WIDTH / 7;
-        map_rect.h = WINDOW_HEIGHT / 10;
-        // we draw the rect in a random color
-        SDL_SetRenderDrawColor(renderer_song_selection_menu, rand() % 255, rand() % 255, rand() % 255, 255);
-        SDL_RenderFillRect(renderer_song_selection_menu, &map_rect);   
-        std::cout << "Drawing map " << i << std::endl;
-        std::cout << "A rect has been drawn at " << map_rect.x << ", " << map_rect.y << std::endl;
 
         //we create a rect for the name that will take half of the map_rect
         SDL_Rect name_rect;
-        name_rect.x = map_rect.x;
-        name_rect.y = map_rect.y;
-        name_rect.w = map_rect.w / 2;
-        name_rect.h = map_rect.h/2;
+        name_rect.x = map_pannel.getX();
+        name_rect.y = map_pannel.getY();
+        name_rect.w = map_pannel.getWidth() / 2;
+        name_rect.h = map_pannel.getHeight() / 2;
         std::cout << "Name rect added in the vector." <<std::endl;  
-
-        //we push the rect in the map_rects vector
-        map_rects.push_back(map_rect);
         //we push the name rect in the map_names_rects vector
         map_names_rects.push_back(name_rect);
 
@@ -269,10 +267,9 @@ void Song_selection_menu::handleMapSelection(std::vector<Map> mapVector, std::ve
                 int mouseX = e.button.x;
                 int mouseY = e.button.y;
 
-                // Check if the click is within any of the map rects
-                for (int i = 0; i < map_rects.size(); ++i) {
-                    if (mouseX >= map_rects[i].x && mouseX <= map_rects[i].x + map_rects[i].w &&
-                        mouseY >= map_rects[i].y && mouseY <= map_rects[i].y + map_rects[i].h) {
+                // Check if the click is within any of the PannelVector 
+                for (int i = 0; i < pannelVector.size(); i++) {
+                    if (mouseX >= pannelVector[i].getX() && mouseX <= pannelVector[i].getX() + pannelVector[i].getWidth() && mouseY >= pannelVector[i].getY() && mouseY <= pannelVector[i].getY() + pannelVector[i].getHeight()) {
                         selectedMapIndex = i;
                         break;
                     }
