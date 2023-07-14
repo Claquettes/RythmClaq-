@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include "pannel.h"
 
 class Song_selection_menu {
 
@@ -19,6 +20,9 @@ class Song_selection_menu {
     //we define the size of the window
     int WINDOW_WIDTH = 1920;
     int WINDOW_HEIGHT = 1080;
+
+    //we create a vector of Pannel objects
+    std::vector<Pannel> pannelVector; // Store the Pannel objects
 
     //we create a renderer for the ssm
     SDL_Renderer* renderer_song_selection_menu = NULL;

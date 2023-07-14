@@ -30,7 +30,7 @@ $(OBJDIR)/saveWindow.o: src/saveWindow.cpp src/saveWindow.h
 $(OBJDIR)/editor.o: src/editor.cpp src/editor.h src/saveWindow.h src/pannel.h src/animations.h src/editor.h
 	$(cc) $(CFLAGS) -c src/editor.cpp -o $(OBJDIR)/editor.o $(Include) 
 
-$(OBJDIR)/song_selection_menu.o: src/song_selection_menu.cpp src/song_selection_menu.h src/game.h src/map.h
+$(OBJDIR)/song_selection_menu.o: src/song_selection_menu.cpp src/song_selection_menu.h src/game.h src/map.h src/pannel.h src/animations.h
 	$(cc) $(CFLAGS) -c src/song_selection_menu.cpp -o $(OBJDIR)/song_selection_menu.o $(Include)
 
 $(OBJDIR)/note.o: src/note.cpp src/note.h
