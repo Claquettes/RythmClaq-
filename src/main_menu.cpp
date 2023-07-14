@@ -173,8 +173,10 @@ int Main_menu::menuLoop()
                 //we use an animation on the pannel
                 std::cout << "Moving the pannel." << std::endl;
                 
-                Animations::resizePannel(pannel1, 700, 600, 1000, renderer_menu);
-
+                //Animations::resizePannel(pannel1, 700, 600, 1000, renderer_menu);
+                //we apply an image to the pannel
+                pannel1.applyImage(renderer_menu, "assets/menu/chatsalade.jpg");
+    
             }
         }
 

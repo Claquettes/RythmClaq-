@@ -42,9 +42,23 @@ void Pannel::setColor(SDL_Color color) {
 
 //the render function
 void Pannel::render(SDL_Renderer* renderer) const {
-    SDL_Rect rect = { x_, y_, width_, height_ };
-    SDL_SetRenderDrawColor(renderer, color_.r, color_.g, color_.b, color_.a);
-    SDL_RenderFillRect(renderer, &rect);
+
+
+    //we check if the pannel has a texture
+    if (texture_ != NULL) {
+        //we render the image of the pannel, by creating a rect
+        SDL_Rect rect = { x_, y_, width_, height_ };
+        SDL_RenderCopy(renderer, texture_, NULL, &rect);
+        
+    }
+    else {
+        SDL_Rect rect = { x_, y_, width_, height_ };
+        SDL_SetRenderDrawColor(renderer, color_.r, color_.g, color_.b, color_.a);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+
+
+    
 }
 
 void Pannel::setSize(int width, int height) {
@@ -58,4 +72,28 @@ void Pannel::setX(int x) {
 
 void Pannel::setY(int y) {
     y_ = y;
+}
+
+void Pannel::loadTexture(SDL_Renderer* renderer) {
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, width_, height_, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, color_.r, color_.g, color_.b, color_.a));
+    texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+}
+
+void Pannel::destroyTexture() {
+    SDL_DestroyTexture(texture_);
+}
+
+void Pannel::applyTexture(SDL_Renderer* renderer) {
+    SDL_Rect rect = { x_, y_, width_, height_ };
+    SDL_RenderCopy(renderer, texture_, NULL, &rect);
+}
+
+void Pannel::applyImage(SDL_Renderer* renderer, std::string path) {
+    SDL_Surface* surface = IMG_Load(path.c_str());
+    texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    SDL_Rect rect = { x_, y_, width_, height_ };
+    SDL_RenderCopy(renderer, texture_, NULL, &rect);
 }
