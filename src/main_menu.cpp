@@ -175,6 +175,7 @@ void Main_menu::pannelInit() {
     pannel1.setPosition(100, 200);
     pannel1.setWidth(200);
     pannel1.setHeight(200);
+    
 
 
     //we add these pannels to the vector
@@ -182,4 +183,8 @@ void Main_menu::pannelInit() {
     pannelVector.push_back(pannel_play_button);
     pannelVector.push_back(pannel1);
     pannelVector.push_back(pannel_quit_button);
+
+    //for debug, we make the play button invisible
+    
 }
+

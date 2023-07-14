@@ -49,7 +49,14 @@ public:
     void applyImage(SDL_Renderer* renderer, std::string path);
     //bool that is true if the coordinates passed as parameters are inside the pannel
     bool isInside(int x, int y) const;
+    //bool that is true if the pannel is visible
+    bool isVisible() const;
+    //void that set the pannel visible
+    void setVisible(bool visible);
+    //void that set the pannel invisible
+    void setInvisible();
 
+    
 
 
 private:
@@ -60,6 +67,8 @@ private:
     SDL_Color color_;
     SDL_Texture* texture_ = NULL; //initialized to NULL to check if the texture is loaded
     SDL_Surface* surface_ = NULL; //initialized to NULL to check if the surface is loaded
+    //is the pannel visible
+    bool visible_ = true;
 };
 
 #endif // Pannel_H

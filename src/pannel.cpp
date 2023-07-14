@@ -1,5 +1,6 @@
 #include "pannel.h"
 
+
 Pannel::Pannel(int x, int y, int width, int height, SDL_Color color)
     : x_(x), y_(y), width_(width), height_(height), color_(color) {}
 
@@ -43,7 +44,11 @@ void Pannel::setColor(SDL_Color color) {
 //the render function
 void Pannel::render(SDL_Renderer* renderer) const {
 
+    //we check if the pannel is visible
+    if (!isVisible()) {
+        return;
 
+    }
     //we check if the pannel has a texture
     if (texture_ != NULL) {
         //we render the image of the pannel, by creating a rect
@@ -100,4 +105,16 @@ void Pannel::applyImage(SDL_Renderer* renderer, std::string path) {
 
 bool Pannel::isInside(int x, int y) const {
     return x >= x_ && x <= x_ + width_ && y >= y_ && y <= y_ + height_; //true if the coordinates are inside the pannel
+}
+
+bool Pannel::isVisible() const {
+    return visible_;
+}
+
+void Pannel::setVisible(bool visible) {
+    visible_ = visible;
+}
+
+void Pannel::setInvisible() {
+    visible_ = false;
 }
