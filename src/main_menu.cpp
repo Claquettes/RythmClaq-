@@ -63,12 +63,8 @@ int Main_menu::init()
     // we load the background image
     background_texture = IMG_LoadTexture(renderer_menu, "assets/menu/howl.png"); // static for now, will be dynamic later
 
-    // we create the surface for the buttons
-    open_editor_surface = IMG_Load("assets/menu/EDITORTEXTURE.png");
-    open_game_surface = IMG_Load("assets/menu/PLAYTEXTURE.png");
-    // we create the texture for the buttons
-    open_editor_texture = SDL_CreateTextureFromSurface(renderer_menu, open_editor_surface);
-    open_game_texture = SDL_CreateTextureFromSurface(renderer_menu, open_game_surface);
+
+    
 
     if (background_texture == nullptr)
     {
