@@ -47,6 +47,9 @@ public:
     void applyTexture(SDL_Renderer* renderer);
     //apply an image to the pannel
     void applyImage(SDL_Renderer* renderer, std::string path);
+    //bool that is true if the coordinates passed as parameters are inside the pannel
+    bool isInside(int x, int y) const;
+
 
 
 private:

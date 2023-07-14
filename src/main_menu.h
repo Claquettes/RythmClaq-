@@ -41,7 +41,6 @@ public:
     Pannel pannel1;
     
 
-
 private:
     // Constants
     static const int WHITE_SQUARE_SIZE = 100; // Add this constant declaration
@@ -59,6 +58,18 @@ private:
     // Surfaces
     SDL_Surface* open_editor_surface = NULL;
     SDL_Surface* open_game_surface = NULL;
+
+    //we create a vector of Pannel objects (for easier rendering)
+    std::vector<Pannel> pannelVector; // Store the Pannel objects
+
+    //we create a pannel for the editor button
+    Pannel pannel_editor_button;
+    //we create a pannel for the play button
+    Pannel pannel_play_button;
+    //we create a pannel for the quit button
+    Pannel pannel_quit_button;
+
+    void pannelInit();
 
 };
 

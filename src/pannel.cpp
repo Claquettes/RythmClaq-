@@ -49,7 +49,7 @@ void Pannel::render(SDL_Renderer* renderer) const {
         //we render the image of the pannel, by creating a rect
         SDL_Rect rect = { x_, y_, width_, height_ };
         SDL_RenderCopy(renderer, texture_, NULL, &rect);
-        
+
     }
     else {
         SDL_Rect rect = { x_, y_, width_, height_ };
@@ -96,4 +96,8 @@ void Pannel::applyImage(SDL_Renderer* renderer, std::string path) {
     SDL_FreeSurface(surface);
     SDL_Rect rect = { x_, y_, width_, height_ };
     SDL_RenderCopy(renderer, texture_, NULL, &rect);
+}
+
+bool Pannel::isInside(int x, int y) const {
+    return x >= x_ && x <= x_ + width_ && y >= y_ && y <= y_ + height_; //true if the coordinates are inside the pannel
 }
