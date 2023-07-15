@@ -9,6 +9,7 @@
 #include "panel.h"
 #include <cmath> //use to round numbers, useful for snapping notes to the grid
 #include "saveWindow.h"
+#include "main_menu.h"
 
 // constructor
 Editor::Editor()
@@ -81,8 +82,8 @@ void Editor::editorLoop()
     {
         while (SDL_PollEvent(&e) != 0)
         {
-            // If the user clicks on the test button, we close the menu
-            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && e.button.x >= pannel_quit.getX() && e.button.x <= pannel_quit.getX() + pannel_quit.getWidth() && e.button.y >= pannel_quit.getY() && e.button.y <= pannel_quit.getY() + pannel_quit.getHeight())
+            // If the user clicks on the test button, we close the menu . We use the isInside method of the Pannel class
+            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && pannel_quit.isInside(e.button.x, e.button.y))
             {
                 quit = true;
             }
@@ -161,6 +162,15 @@ void Editor::editorLoop()
 
     // Clean up
     SDL_DestroyTexture(backBuffer);
+    //we free all of the textures and surfaces
+    SDL_DestroyTexture(background_texture);
+    // we close the editor window
+    SDL_DestroyRenderer(renderer_editor);
+    SDL_DestroyWindow(window_editor);
+    //we go back to the main menu
+    std::cout << "Going back to the main menu..." << std::endl;
+    //we create a new instance of Main_menu
+    Main_menu main_menu;
 }
 
 
@@ -288,7 +298,7 @@ void Editor::handleNotePlacement(SDL_Event event)
         int note_pos = Editor::snapToGrid(note_x) / 5;
         // we check if the note is already placed by going through the temp_notes array
         bool note_already_placed = false;
-        for (int i = 0; i < temp_notes.size(); i++)
+        for (unsigned int i = 0; i < temp_notes.size(); i++)
         {
             if (temp_notes[i] == note_pos)
             {
@@ -325,7 +335,7 @@ void Editor::handleNotePlacement(SDL_Event event)
 void Editor::renderNotes(std::vector<unsigned short> notes, SDL_Renderer* renderer)
 {
     // we go through the notes array
-    for (int i = 0; i < notes.size(); i++)
+    for (unsigned int i = 0; i < notes.size(); i++)
     {
         //we create a NEW panel using NEW
         Pannel* note_pannel = new Pannel();
