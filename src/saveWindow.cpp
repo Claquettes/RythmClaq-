@@ -229,7 +229,7 @@ void SaveWindow::createPannels()
 void SaveWindow::renderPannels(SDL_Renderer* renderer)
 {
     //we render all of the pannels using the pannels vector
-    for (int i = 0; i < pannels.size(); i++)
+    for (unsigned int i = 0; i < pannels.size(); i++)
     {
         pannels[i].render(renderer);
     }
@@ -308,7 +308,7 @@ void SaveWindow::save(std::vector<short unsigned int> positions, std::string nam
     std::ofstream claq_file("maps/" + std::to_string(id) + "/notes.claq");
     std::cout << "Map created!, Now lets place the notes!" << std::endl;
     // for that we use the positions vector
-    for (int i = 0; i < positions.size(); i++)
+    for (unsigned int i = 0; i < positions.size(); i++)
     {
     
         claq_file << positions[i]<< std::endl;
